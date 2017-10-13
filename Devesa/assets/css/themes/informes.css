@@ -1,0 +1,100 @@
+.menuEmergente{
+    position: relative;
+    display: block;
+}
+
+.contenido{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
+
+}
+.contenido select{
+    text-decoration: none;
+    display: block;
+    font-size: medium;
+}
+
+.contenido select:hover{background-color: #f1f1f1}
+
+.areaDeTexto{
+    resize: none;
+
+}
+
+.exhibidores{
+    font-family: "Arial Narrow","Times New Roman";
+    font-size: large;
+    color: black;
+
+}
+
+.fuente{
+    font-family: "Arial Narrow","Times New Roman";
+    color: black;
+
+}
+
+.but{
+    background-color: #97ABF5;
+    width: 100px;
+    height: 30px;
+    color: black;
+}
+
+
+.atras{
+    background-color:#f44336;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    border-radius: 10%;
+    width: 10%;
+    height: 4%;
+}
+
+.buttonBlue{
+    background-color: #008CBA;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    border-radius: 10%;
+    width: 10%;
+    height: 4%;
+}
+
+.buttonObtener{
+    background-color: #008CBA;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    border-radius: 10%;
+    width: 15%;
+    height: 4%;
+}
+
+#tinforme td{
+    padding-left: 6px;
+}
+
+.filaCentrada{
+    text-align: center;
+}
+
+.textInformes{
+
+    text-decoration: none;
+}
+@media (max-width: 400px) {
+    .textInformes {
+        margin-top:-10%;
+    }
+}
+
+.imagenes{
+    width:100px;
+}

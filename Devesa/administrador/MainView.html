@@ -1,0 +1,210 @@
+<html ng-app="adminModule">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>DEVESA</title>
+    
+    <link rel="stylesheet" type="text/css" href="../assets/css/estiloPrevew.css">	
+    <!-- Favicon-->
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <!-- Angular-ui-calendar -->
+    <link rel="stylesheet" href="../bower_components/fullcalendar/dist/fullcalendar.css"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    
+    <!-- Bootstrap Core Css -->
+    <link href="../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="../plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="../plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Preloader Css -->
+    <link href="../plugins/material-design-preloader/md-preloader.css" rel="stylesheet" />
+
+    <!-- Sweet Alert Css -->
+    <link href="../bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="../assets/css/themes/theme-blue.css" rel="stylesheet" />
+    <link href="../assets/css/themes/informes.css" rel="stylesheet">
+</head>
+
+<body class="theme-blue" style="background-image:url('../assets/images/fondoTec.jpg');
+                    background-size:cover;
+                    background-repeat:no-repeat;
+                    background-attachment:fixed;">            
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="md-preloader pl-size-md">
+                <svg viewbox="0 0 75 75">
+                    <circle cx="37.5" cy="37.5" r="33.5" class="pl-red" stroke-width="4" />
+                </svg>
+            </div>
+            <p>Espere un momento...</p>
+        </div>
+    </div>
+    
+    <div class="overlay"></div>      
+     <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header" style="float:right;">
+                <a href="javascript:void(0);" style="float:left;" class="bars"></a>
+                <a class="brand-logo right" style="float:right;"  >
+                   <img src="../assets/images/TEC.130212023_std.png">
+                </a>
+            </div>
+        </div>
+            
+    </nav>
+    
+    <section ng-controller="mainCtrl" id="seccion">        
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="image">
+                    <img src="../assets/images/user.png" width="48" height="48" alt="User" />
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user}}</div>
+                    <div class="email">{{email}}</div>                                     
+                </div>
+            </div>
+            
+            <div class="menu">
+                <ul class="list">
+                    <li class="header">PANEL ADMINISTRATIVO </li>
+                    
+                    <li class="active">
+                        <a href="#/solicitudes" onclick="closeSideBar()">
+                            <i class="material-icons">home</i>
+                            <span>Solicitudes pendientes</span>
+                        </a>
+                    </li>
+                   
+                    <li  class="active">
+                        <a href="#/atendidas" onclick="closeSideBar()">
+                            <i class="material-icons">done</i>
+                            <span>Solicitudes atendidas</span>
+                        </a>
+                    </li> 
+                    <li  class="active">
+                        <a href="#/nuevaSolicitud" onclick="closeSideBar()">
+                            <i class="material-icons">assignment</i>
+                            <span>Nueva solicitud</span>
+                        </a>
+                    </li> 
+                    <li  class="active">
+                        <a href="#/fecha" onclick="closeSideBar()">
+                            <i class="material-icons">today</i>
+                            <span>Configuracion de fechas</span>
+                        </a>                        
+                    </li>
+                    
+                    <li class="active">
+                        <a href="#/informes" onclick="closeSideBar()">
+                            <i class="material-icons"> description</i>
+                            <span> Ver informes </span>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a href="#/descargablesTotalAreas" onclick="closeSideBar()">
+                            <i class="material-icons"> description</i>
+                            <span> Obtener informes en rango de fechas </span>
+                        </a>
+                    </li>
+                    
+                    <li class="active">
+                        <a onclick="signOut()">
+                            <i class="material-icons">power_settings_new</i>
+                            <span>Salir</span>
+                        </a>
+                    </li>  
+                </ul>
+            </div>                    
+            
+        <div class="legal">
+                <img src="../shared/logo.jpg" style="width:100%; height:available;">   
+                <div class="copyright">
+                    &copy; 2017 <a href="javascript:void(0);">DEVESA</a>.
+                </div>
+                <div class="version">                    
+                                     
+                    <b>Powered by: </b>Josua Carranza & Julio Adan Montano
+                </div>
+        </div>
+        </aside>                                  
+    </section>
+    
+    <section class="content" id="contenido"  ng-view="">
+        <!-- Dentro de esta seccion van los codigos que se llaman mediante el menu principal-->
+    </section>
+                
+    
+     <!-- jquery, moment, and angular have to get included before fullcalendar -->
+    <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="../bower_components/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="../bower_components/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="../bower_components/angular-ui-calendar/src/calendar.js"></script>
+    <script type="text/javascript" src="../bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="../bower_components/fullcalendar/dist/gcal.js"></script>    
+    <script type="text/javascript" src="../bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    
+    <!-- app Js -->
+    <script src="app.js"></script>
+    <!-- services -->
+    <script src="services.js"></script>
+    <!-- main controller Js -->
+    <script src="controllers/descargableCtrl.js"></script>
+    <script src="controllers/descargableTotalAreasCtrl.js"></script>
+    <script src="controllers/mainCtrl.js"></script>
+    <script src="controllers/nuevaSolicitudCtrl.js"></script><!--Importar el js-->
+    <script src="controllers/informesCtrl.js"></script>
+    <script src="controllers/imagenesInformeCtrl.js"></script>
+    <script src="controllers/solicitudesPendienteCtrl.js"></script>
+    <script src="controllers/cartaCtrl.js"></script><!--Importar el js-->
+    <script src="controllers/solicitudesAtendidasCtrl.js"></script><!--Importar el js--> 
+    <script src="controllers/fechaCtrl.js"></script><!--Importar el js--> 
+    <!-- Jquery Core Js -->
+    <script src="../plugins/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="../plugins/bootstrap/js/bootstrap.js"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="../plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+      <!-- JQuery Steps Plugin Js -->
+    <script src="../plugins/jquery-steps/jquery.steps.js"></script>
+
+    <script src="../assets/js/pages/forms/form-wizard.js"></script>
+
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="../plugins/node-waves/waves.js"></script>
+
+    <!-- Custom Js -->
+    <script src="../assets/js/admin.js"></script>
+    <script src="../shared/base64.min.js"></script>
+    <script src="../shared/common.js"></script>
+    <script src="../shared/operationHelper.js"></script>
+    <script src="../shared/session.js"></script>  
+  
+</body>
+
+</html>

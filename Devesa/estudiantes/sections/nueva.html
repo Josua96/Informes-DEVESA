@@ -1,0 +1,32 @@
+<div class="modal fade" id="myModal" role="dialog" style="top: 250px;" ng-controller="nuevaCtrl"  >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="border:solid; border-color: black;">
+                <center>
+                    <span style="font-size: medium;">Seleccione el tipo de solicitud a realizar:</span>
+                    <br><br>
+                    <select ng-model="seleccionado"  ng-options="x.model for x in opciones" style="font-size: medium;"  >
+                    </select>
+                </center>
+                <br><br>
+                <center>
+                    <button type="button" class="botones_nueva" style="background-color: #008CBA;" data-dismiss="modal"ng-click="evaluarSolicitud(seleccionado.num)">Realizar solicitud</button>
+                    <button style="background-color:#f44336;" type="button" class="botones_nueva" data-dismiss="modal" >Cancelar</button>
+                </center>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid"  style="height:100%; width: 100%">
+    <center>
+        <button type="button"  style="font-size: large;opacity: 0.89" class="btn btn-block btn-lg btn-info waves-effect nueva_solicitud"
+                data-toggle="modal" data-target="#myModal" >Realizar una nueva solicitud </button>
+    </center>      
+    <script src="controllers/nuevaCtrl.js"></script>
+     
+</div>
+
+            

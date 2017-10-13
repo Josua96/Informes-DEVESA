@@ -1,0 +1,96 @@
+.theme-blue .navbar {
+  background-color: #140e39; }
+.tecBlue{
+  color: #140e39;
+}
+.whiteText{
+  color: #fff;
+}
+.bagTecBlue{
+  background-color: #140e39;
+
+}
+
+.bagTecEliminar{
+  background-color:#E1E5E8;
+}
+
+.bagTecRealizarSolicitud{
+  background-color:#7DE48C;
+}
+
+.bagTecCancel{
+  background-color: #d43f3a;
+}
+.botones_nueva{
+
+  border: none;
+  color: white;
+  padding: 8px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+
+}
+.nueva_solicitud{
+  margin-top: 26%;
+  width: 55%;
+  font-size: large;
+}
+
+@media (max-width: 400px) {
+  .nueva_solicitud {
+    margin-top: 60%;
+    width:80%;
+    font-size: large;
+
+  }
+}
+.tecTitles {
+  color :#c1272d; }
+
+.theme-blue .navbar-brand {
+  color: #fff; }
+  .theme-blue .navbar-brand:hover {
+    color: #fff; }
+  .theme-blue .navbar-brand:active {
+    color: #fff; }
+  .theme-blue .navbar-brand:focus {
+    color: #fff; }
+
+.theme-blue .nav > li > a {
+  color: #fff; }
+  .theme-blue .nav > li > a:hover {
+    background-color: transparent; }
+  .theme-blue .nav > li > a:focus {
+    background-color: transparent; }
+
+.theme-blue .nav .open > a {
+  background-color: transparent; }
+  .theme-blue .nav .open > a:hover {
+    background-color: transparent; }
+  .theme-blue .nav .open > a:focus {
+    background-color: transparent; }
+
+.theme-blue .bars {
+  color: #fff; }
+
+.theme-blue .sidebar .menu .list li.active {
+  background-color: transparent; }
+  .theme-blue .sidebar .menu .list li.active > :first-child i, .theme-blue .sidebar .menu .list li.active > :first-child span {
+    color: #140e39; }
+
+.theme-blue .sidebar .menu .list .toggled {
+  background-color: transparent; }
+
+.theme-blue .sidebar .menu .list .ml-menu {
+  background-color: transparent; }
+
+.theme-blue .sidebar .legal {
+  background-color: #fff; }
+  .theme-blue .sidebar .legal .copyright a {
+    color: #140e39 !important; }
+

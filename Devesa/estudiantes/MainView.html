@@ -1,0 +1,166 @@
+<html ng-app="userModule">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>DEVESA</title>
+    <!-- Favicon-->
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <!-- Angular-ui-calendar -->
+    <link rel="stylesheet" href="../bower_components/fullcalendar/dist/fullcalendar.css"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <!-- Bootstrap Core Css -->
+    <link href="../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Waves Effect Css -->
+    <link href="../plugins/node-waves/waves.css" rel="stylesheet" />
+    <!-- Animation Css -->
+    <link href="../plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="../bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+    <!-- Preloader Css -->
+    <link href="../plugins/material-design-preloader/md-preloader.css" rel="stylesheet" />
+    <!-- Custom Css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="../assets/css/themes/theme-blue.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/mediaQueries.css">      
+</head>
+
+<body class="theme-blue" style="background-image:url('../assets/images/fondoTec.jpg');
+                    background-size:cover;
+                    background-repeat:no-repeat;
+                    background-attachment:fixed;">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="md-preloader pl-size-md">
+                <svg viewbox="0 0 75 75">
+                    <circle cx="37.5" cy="37.5" r="33.5" class="pl-red" stroke-width="4" />
+                </svg>
+            </div>
+            <p>Espere un momento...</p>
+        </div>
+    </div>
+   
+   
+    <div class="overlay"></div>
+   
+    <nav class="navbar">
+
+        <div class="container-fluid">
+            <div class="navbar-header" style="float:right;">               
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand " style="float:right;" >
+                   <img src="../assets/images/TEC.130212023_std.png">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section ng-controller="mainCtrl">
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- Informacion del usuario -->
+            <div class="user-info ">
+                <div class="image ">
+                    <img src="../assets/images/user.png" width="48" height="48" alt="User" />
+                </div>
+                <div class="info-container">
+                    <!-- Menu de cierre de session -->
+                    <div class="name" role="contentinfo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user}}</div>
+                    <div class="email">{{email}}</div>               
+                </div>
+            </div>
+
+            <div class="menu">
+                <ul class="list">
+                    <li class="header ">MENU PRINCIPAL </li>
+                    <li class="active">
+                        <a href="#/students/misSolicitudes" onclick="closeSideBar()">
+                            <i class="material-icons">home</i>
+                            <span>Cartas solicitadas</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#/students/nueva" id="xxx" onclick="closeSideBar()">
+                            <i class="material-icons">assignment</i>
+                            <span>Nueva solicitud</span>
+                        </a>
+                    </li>  
+                    <li class="active">
+                        <a onclick="signOut()">
+                            <i class="material-icons">power_settings_new</i>
+                            <span>Salir</span>
+                        </a>
+                    </li>  
+                </ul>
+            </div> 
+        
+        <div class="legal">
+                <img src="../shared/logo.jpg" style="width:100%; height:available;">   
+                <div class="copyright">
+                    &copy; 2017 <a href="javascript:void(0);">DEVESA</a>.
+                </div>
+                <div class="version">                    
+                                     
+                    <b>Powered by: </b>Josua Carranza & Julio Adan Montano
+                </div>
+        </div>
+        </aside>  
+       
+    </section>
+    <!-- Contenedor en el que se insertaran las vistas del ng-route -->
+    <section class="content" ng-view="">
+        <!--Los templates que se cargan aqui son los que se declaran en el archivo app.js -->
+    </section>
+
+    <!-- Dependencias de angular  -->
+    <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="../bower_components/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="../bower_components/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="../bower_components/ui-listView/src/"></script>
+    <script type="text/javascript" src="../bower_components/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="../plugins/bootstrap/js/bootstrap.js"></script>
+    <!-- Funciones y variables compartidas entre madulos  -->
+    <script src="../shared/common.js"></script>
+    <!-- app Js -->
+    <script src="app.js"></script>
+    <!-- main controller Js -->
+    <script src="controllers/mainCtrl.js"> </script>
+    <!-- dashboard controller Js -->
+    <script src="controllers/solicitudesCtrl.js"> </script>
+    <!-- reservationCreate controller Js -->
+    <script src="controllers/nuevaCtrl.js"> </script>
+    <script src="../shared/base64.min.js"></script>
+    <!-- Jquery Core Js -->
+    <script src="../plugins/jquery/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+      <!-- JQuery Steps Plugin Js -->
+    <script src="../plugins/jquery-steps/jquery.steps.js"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="../plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+    <script src="../assets/js/pages/forms/form-wizard.js"></script>
+    
+    <!-- Waves Effect Plugin Js -->
+    <script src="../plugins/node-waves/waves.js"></script>
+    <!-- Custom Js -->
+    <script src="../assets/js/admin.js"></script>
+    <script src="../shared/operationHelper.js"></script>
+    <script src="../shared/session.js"></script>
+    <!--<script src="../shared/sharedServices.js"></script>-->
+</body>
+
+</html>

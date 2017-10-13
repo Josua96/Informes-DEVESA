@@ -1,0 +1,59 @@
+<h2 style="text-align: center"> Visualización de Informes </h2>
+<div class="container-fluid" id="informe" style=" background-color: #FFFFFF;display: flex;border-radius: 10px;">
+
+    <br>
+
+    <div class="container-fluid justificado" style="order: 1; margin-left: 20px;">
+        <br>
+        <h4 >  Identificación del profesor </h4>
+        <span class="exhibidores">{{informe[0]["v_profesorid"]}}</span>
+
+        <br>
+        <h4 > Actividad </h4>
+
+        <span class="exhibidores">{{informe[0]["v_actividad"]}}</span>
+        <br>
+        <h4 > Objetivo </h4>
+        <span class="exhibidores"> {{informe[0]["v_objetivo"]}}</span>
+        <br>
+        <h4 > Cantidad de estudiantes  </h4>
+        <span class="exhibidores"> {{informe[0]["v_cantestudiantes"]}} </span>
+        <br>
+
+
+    </div>
+
+    <div class="container-fluid justificado" id="main" style="order: 2;background-color: #FFFFFF">
+        <br>
+        <h4 > Area</h4>
+        <span class="exhibidores">{{informe[0]["v_area"]}} </span>
+        <br>
+        <h4 > Fecha </h4>
+        <span class="exhibidores">{{informe[0]["v_fecha"]}}</span>
+        <br>
+        <h4 > Programa  </h4>
+        <span class="exhibidores">{{informe[0]["v_programa"]}}</span>
+        <br>
+
+    </div>
+</div>
+<div>
+    <br> <br>
+    <button type="button" class="buttonBlue"  ng-click="retroceder()"> Atrás </button>
+    <button type="button" class="buttonBlue"  ng-click="cargarImagenes()" > Ver Imágenes </button>
+    <br>
+</div>
+
+<div>
+    <br><br>
+      <ul ng-repeat="imagen in imagenes" style="display: inline-block;">
+        <li>
+            <img src={{imagen}} width="350px" height="auto" style="padding-left: 8px;">
+        </li>
+
+
+    </ul>
+
+</div>
+
+

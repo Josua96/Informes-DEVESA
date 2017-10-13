@@ -1,0 +1,35 @@
+<div class="body">
+    <div class="table-responsive">
+
+        <table class="table table-hover dashboard-task-infos" >
+            <thead style="background-color: #000000 ; color:#ffffff;">
+            <th>Número de Carnet</th>
+            <th>Tipo de solicitud</th>
+            <th> Acción </th>
+            </thead>
+            <tbody>
+            <tr editable-td row="{{$index}}" ng-repeat="solicitud in solicitudes"  
+                style="background-color:#3B4A95;color:#ffffff;"               
+                onmouseover='this.style.backgroundColor="#B4C7E6"'
+                onmouseout='this.style.backgroundColor="#3B4A95"'>
+                
+                <td>{{solicitud["v_carne"]}}</td>
+                <td>{{solicitud["v_tramite"]}}</td>
+                <!--cuando se presiona el boton, la funcion eliminar recibe la fila que está siendo editada -->
+                <td > 
+                    <button type="button" 
+                            class="btn"
+                            onmouseout=this.style.backgroundColor="#E1E5E8" 
+                            style="color:black;"                                                          
+                            onmouseover=this.style.backgroundColor="#2F9EE2"
+                            ng-click="imprimir($index)">
+                            Imprimir Solicitud
+                    </button> 
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    

@@ -1,0 +1,35 @@
+form{
+    width: 50%;
+    margin: 0 auto;
+}
+
+#LoginDiv{
+    width: 40%;
+    height: 60%;
+    margin: 0 auto;
+    background-color:rgb(242, 243, 244);
+    border-radius: 2px;
+    border-color:#140e39 ;
+    border-style: initial;
+    margin-top: 8em;
+}
+.btn-login{
+    margin-bottom: 10%;
+}
+@media (max-width: 800px) {
+    #LoginDiv{
+        width: 80%;
+        height: 60%;
+    }
+    form{
+        width: 80%;
+        margin: 0 auto;
+    }
+    .btn-login{
+        margin-bottom: 30%;
+   }
+}
+
+#loginBody{
+    background-color: #ffffff;
+}

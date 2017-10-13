@@ -1,0 +1,20 @@
+.menu2 li   
+{
+    margin-top: 10px;
+    margin-bottom:10px;
+}
+
+@media only screen and (min-width: 768px) 
+{    
+    [class*="formInputs"] {
+        width: 50%;
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 768px) 
+{    
+    [class*="formInputs"] {
+        width: 80%;
+    }
+}

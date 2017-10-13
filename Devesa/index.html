@@ -1,0 +1,68 @@
+<html ng-app="loginModule">
+<head>
+    <meta charset="UTF-8">
+    <title>DEVESA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Angular-ui-calendar -->
+    <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="plugins/node-waves/waves.css" rel="stylesheet" />
+    <!-- Custom Css -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="assets/css/themes/theme-blue.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/mediaQueries.css">
+    
+</head>
+
+<body id="loginBody" class="loginBody" ng-controller="loginController">    
+    <nav class="navbar bagTecBlue">            
+        <a class="navbar-brand" style="float:right;" >
+        <img src="assets/images/TEC.130212023_std.png">
+        </a>                                            
+    </nav>        
+    <br><br>
+    <br><br>    
+    <div id="LoginDiv" class="center">  
+        <br>
+        <center>
+            <h5 style="width:70%">Departamento de vida estudiantil y servicios academicos</h5>
+        </center>
+        <br><br>
+        <form>
+            <label style="display:flex; justify-content:left; font-size: 18px">Usuario</label>
+            <input style="font-size:16px" type="text" ng-model="username"  id="inputUsuario">
+            <label style="display:flex; justify-content:left; font-size: 18px">Contraseña</label>
+            <input style="font-size:16px" type="password" ng-model="password" id="inputContraseña">
+            <button class="btn bagTecBlue center btn-login" type="submit" name="action" id="botonSubmit" ng-click="doLogin()">Entrar
+                <i class="material-icons right"></i>
+            </button>
+        </form>                  
+    </div>     
+    <br><br>         
+ 
+    <script src="shared/base64.min.js"></script>
+    <script src="shared/common.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="loginController.js"></script>
+
+</body>   
+</html>
