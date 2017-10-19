@@ -1,5 +1,11 @@
 angular.module('userModule')
-    .controller('nuevaCtrl', function($scope,$location,$http) {        
+    .controller('nuevaCtrl', function($scope,$location,$http) {
+
+    /* OBTENCION DE CREDENCIALES */
+    $scope.codigo=localStorage.getItem("sessionToken");
+    $scope.id=localStorage.getItem("userId");
+    $scope.tipoUsuario=localStorage.getItem("userType");
+    $scope.sede=localStorage.getItem("sede");
 
    // variables globales
     $scope.carnet="2016254066";
@@ -32,7 +38,8 @@ angular.module('userModule')
 
         $http({   
             method : "GET",
-            url :"http://localhost:8081/ObtenerSolicitudesCarnet?carnet="+$scope.carnet
+            url :"http://localhost:8081/ObtenerSolicitudesCarnet?carnet="+$scope.carnet+"&iden="
+            +$scope.id+"&codigo="+$scope.codigo
             })
             .then(function mySucces(response)
             {
@@ -62,6 +69,7 @@ angular.module('userModule')
     //Realiza la solicitud de la carta que desea el usuario. 
     $scope.evaluarSolicitud=function (indice) 
     {
+        
         $scope.indice = indice;
         if ($scope.indice !== undefined) 
         {
@@ -79,7 +87,8 @@ angular.module('userModule')
         $http(
         {
             method: "POST",
-            url: "http://localhost:8081/CrearSolicitud?carnet=" + $scope.carnet + "&tramite=" + $scope.solicitudes[$scope.indice]
+            url: "http://localhost:8081/CrearSolicitud?carnet=" + $scope.carnet + "&tramite=" + $scope.solicitudes[$scope.indice]+
+            "&iden="+$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede+"&tipo="+$scope.tipoUsuario
         })
         .then(function mySucces(response) 
         {

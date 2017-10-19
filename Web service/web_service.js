@@ -59,7 +59,9 @@ app.delete('/eliminarToken',function(req,res){
 })
 
 app.post('/registrarToken',function(req,res){
-
+    console.log(req.query.iden);
+    console.log(req.query.tipo);
+    console.log(req.query.codigo);
 	db.proc('sp_almacenarToken',[req.query.iden,req.query.tipo,req.query.codigo])
 	.then(data => {
 	
@@ -68,7 +70,7 @@ app.post('/registrarToken',function(req,res){
 
 	.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify(false));
+      		res.status(400).send({message:"Eror en registro"});
     	})
 })
 
@@ -81,7 +83,7 @@ app.post('/registrarToken',function(req,res){
 //Lista!
 app.post('/CrearSolicitud', function(req, res) {
 	//validacion de token
-	db.proc('sp_TokenValido',[req.query.iden,"E",req.query.codigo])
+	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
 	.then(data => {
 	  if(data.sp_tokenvalido==true) {
 		 db.proc('sp_crearSolicitud',[req.query.carnet,req.query.tramite,req.query.sede])
@@ -193,6 +195,7 @@ app.get('/ObtenerSolicitudesCarnet', function(req, res) {
 
 //Lista!
 app.delete('/EliminarSolicitud', function(req, res) {
+	console.log(req.query.iden);
 	db.proc('sp_TokenValido',[req.query.iden,"E",req.query.codigo])
 	.then(data => {
 		if(data.sp_tokenvalido==true){
@@ -304,7 +307,6 @@ app.post('/CrearInforme', function(req, res) {
 
 //Lista!
 app.get('/ObtenerInformesProfesor', function(req, res) {
-  
   db.proc('sp_TokenValido',[req.query.iden,"P",req.query.codigo])
 	.then(data => {
 			if(data.sp_tokenvalido==true){
@@ -327,7 +329,7 @@ app.get('/ObtenerInformesProfesor', function(req, res) {
 	.catch(error => {
       		console.log("ERROR: ",error);
       		res.end(JSON.stringify("Invalid_Token"));
-    } 
+    }) 
 })
 
 app.get('/obtenerInformesRango',function(req, res){

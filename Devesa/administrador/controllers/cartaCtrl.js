@@ -2,7 +2,12 @@ angular.module('adminModule').controller('cartaCtrl', function($scope,$location,
     
     numeroInforme=-1;
     departamento="";
-    
+
+    $scope.codigo=localStorage.getItem("sessionToken");
+    $scope.id=localStorage.getItem("userId");
+    $scope.tipoUsuario=localStorage.getItem("userType");
+    $scope.sede=localStorage.getItem("sede");
+
     $scope.fechas;
     $scope.mesInicio;
     $scope.mesFin;

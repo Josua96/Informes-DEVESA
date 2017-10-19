@@ -53,10 +53,11 @@ CREATE TABLE imagenes
 --tabla para el almacenamiento de token, y verificacion del usuario
 --Tipo de usuario A= administrador , E=estudiante, P=profesor, 
 */
+
 CREATE TABLE autorizacion(
 	idUsuario cedulas,
-	TipoUsuario char(1),
-	token char(5),
+	TipoUsuario char(1) UNIQUE,
+	token char(5)UNIQUE,
 	CONSTRAINT PK_idUsuario_autorizacion PRIMARY KEY(idUsuario)
 );
 
@@ -81,6 +82,7 @@ END
 $BODY$
 LANGUAGE plpgsql;
 
+delete from autorizacion;
 select * from solicitudes;
 select * from autorizacion;
 select sp_eliminarToken('wer33');
@@ -152,10 +154,10 @@ select sp_crearSolicitud('2016254066','CCSS','SC');
 
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 (
-    IN v_sede VARCHAR(2)		
+    IN v_sede VARCHAR(2),		
     OUT v_idSolicitud INT,
     OUT v_carne VARCHAR(10),
-    OUT v_tramite VARCHAR(50),
+    OUT v_tramite VARCHAR(50)
    
 ) RETURNS SETOF record AS
 $BODY$
@@ -174,12 +176,12 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesAtendidas
     IN v_sede VARCHAR(2),	
     OUT v_idSolicitud INT,
     OUT v_carne VARCHAR(10),
-    OUT v_tramite VARCHAR(50),
+    OUT v_tramite VARCHAR(50)
     
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT idSolicitud, carne, tramite, FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede;
+	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede;
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION 'Error en la consulta';
 END;
@@ -288,7 +290,7 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION sp_obtenerinformesfechas(
 IN fecha_uno date, 
 IN fecha_dos date, 
-IN v_sede VARCHAR(2)
+IN v_sede VARCHAR(2),
 OUT v_idinforme INTEGER, 
 OUT v_profesorid character varying, 
 OUT v_area character varying, 
@@ -297,7 +299,7 @@ OUT v_fechaInicio date,
 OUT v_fechaFinal date, 
 OUT v_objetivo character varying, 
 OUT v_programa character varying, 
-OUT v_cantestudiantes INTEGER,
+OUT v_cantestudiantes INTEGER
 
 )
   RETURNS SETOF record AS
@@ -441,8 +443,8 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION sp_obtenerImagenes_area
 (
     IN v_area VARCHAR(3),
-    IN v_sede VARCHAR(2)
-    OUT v_nombre VARCHAR(12),
+    IN v_sede VARCHAR(2),
+    OUT v_nombre VARCHAR(12)
     
 ) RETURNS SETOF VARCHAR(12) AS
 $BODY$
