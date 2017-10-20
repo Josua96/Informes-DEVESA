@@ -6,7 +6,11 @@
  */
 angular.module('adminModule').controller('descargableTotalAreasCtrl', function($scope,$location,$http,areaInforme,$timeout,Excel){
 
-    //vareas a recorrer
+    $scope.codigo=localStorage.getItem("sessionToken");
+    $scope.id=localStorage.getItem("userId");
+    $scope.sede=localStorage.getItem("sede");
+    
+    //areas a recorrer
     $scope.areas=["DI","SE","AYR","TS","PS","BI","SOD","SME","SEN","CU","DE"];
     //lista de profesores encargados de las actividades del area
     $scope.encargados=[];
@@ -14,7 +18,7 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
     $scope.actividades=[];
     $scope.desde=""; //fecha de inidcio para busqueda de los informes
     $scope.hasta=""; //fecha final para busqueda de los informes
-
+    
     $scope.revertir=function (cadena) {
         return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
     }
@@ -53,7 +57,8 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
         if ($scope.desde != "" && $scope.hasta != ""){
             $http({
                 method: "GET",
-                url: "http://localhost:8081/ObtenerInformesRango?fecha_uno=" + $scope.desde + "&fecha_dos=" + $scope.hasta
+                url: "http://localhost:8081/ObtenerInformesRango?fecha_uno=" + $scope.desde + "&fecha_dos=" + $scope.hasta+"&iden="
+                +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
             }).then(function mySucces(response) {
                 $scope.actividades = response.data;  
                 console.log($scope.actividades);
@@ -72,7 +77,7 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
         else{
             mostrarNotificacion("Debe seleccionar el rango de fechas para buscar los informes", 1);
         }
-    }
+    };
 
     //obtener el texto de area correctamente
     $scope.textoArea=function (texto) {

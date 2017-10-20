@@ -36,7 +36,8 @@ angular.module('adminModule')
                 {
                     $http({
                         method: "GET",
-                        url: "http://localhost:8081/ObtenerInformesArea?area=" + $scope.tipoInformes[indice]
+                        url: "http://localhost:8081/ObtenerInformesArea?area=" + $scope.tipoInformes[indice]+"&iden="
+                        +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
                     }).then(function mySucces(response) {
                         $scope.informesArea = response.data;  //it does not need a conversion to json
 
@@ -54,7 +55,9 @@ angular.module('adminModule')
                 {
                     $http({
                         method: "GET",
-                        url: "http://localhost:8081/ObtenerInformesArea?area=" +departamento
+                        url: "http://localhost:8081/ObtenerInformesArea?area=" +departamento+"&iden="
+                        +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
+                            
                     }).then(function mySucces(response) {
                         $scope.informesArea = response.data;  //it does not need a conversion to json
 

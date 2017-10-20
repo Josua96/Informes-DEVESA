@@ -430,7 +430,7 @@ app.get('/ObtenerInformes', function(req, res) {
 //Lista!
 app.get('/ObtenerInformeId', function(req, res) {
   	
-  	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
+  	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
 		.then(data => {
 			if(data.sp_tokenvalido==true){
 
@@ -546,7 +546,7 @@ app.post('/CrearImagen', function(req, res) {
 //Lista!
 app.get('/ObtenerImagenesInforme', function(req, res) {
   
-	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
+	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
 		.then(data => {
 			if(data.sp_tokenvalido==true){
 

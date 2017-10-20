@@ -5,8 +5,7 @@ angular.module('adminModule').controller('cartaCtrl', function($scope,$location,
 
     $scope.codigo=localStorage.getItem("sessionToken");
     $scope.id=localStorage.getItem("userId");
-    $scope.tipoUsuario=localStorage.getItem("userType");
-    $scope.sede=localStorage.getItem("sede");
+
 
     $scope.fechas;
     $scope.mesInicio;
@@ -23,7 +22,8 @@ angular.module('adminModule').controller('cartaCtrl', function($scope,$location,
     $scope.tipoSolicitud = datosEstudiante.tipoTramite;
     $scope.carrera = datosEstudiante.carrera;    
     $scope.textoResidencia = datosEstudiante.textoResidencia;
-    
+
+    //funcion para verificar que en las cookies exita la fecha de inicio y final de semestre
     $scope.verificar_fechas= function(){
         $scope.fechas =readCookie();
 
@@ -52,19 +52,20 @@ angular.module('adminModule').controller('cartaCtrl', function($scope,$location,
         //Aqui se cambia el estado de las solicitudes            
        $http({   
                 method : "POST",
-                url :"http://localhost:8081/ActualizarEstado?id=" + datosEstudiante.idConsulta
+                url :"http://localhost:8081/ActualizarEstado?id=" + datosEstudiante.idConsulta+"&iden="
+                +$scope.id+"&codigo="+$scope.codigo
             }).then(function mySucces(response) {
                 window.location.href =('#/solicitudes');  
             }, function myError(response) {                    
                 mostrarNotificacion("Ocurrio un error",1);
                 $scope.myWelcome = response.statusText;
             });
-        }
+        };
 
     $scope.cancelar = function()
     {
         window.location.href =('#/solicitudes');  
-    }            
+    };
     $scope.imprimir = function(divName)
     {           
         cambiarEstado();        
@@ -75,6 +76,6 @@ angular.module('adminModule').controller('cartaCtrl', function($scope,$location,
         popupWin.document.open();
         popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');                
         popupWin.document.close();                              
-    }     
+    };
     $scope.verificar_fechas();
 });

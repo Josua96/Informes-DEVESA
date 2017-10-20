@@ -20,6 +20,7 @@
             <th>Actividad</th>
             <th>Área</th>
             <th>Fecha de Realización</th>
+            <th>Fecha de Finalización</th>
             <th>Acción</th>
             </thead>
 
@@ -30,7 +31,8 @@
                 onmouseout=this.style.backgroundColor="#3B4A95" >
                 <td>{{informes["v_actividad"]}}</td>
                 <td> {{texto(informes["v_area"])}}</td>
-                <td>{{revertir(informes["v_fecha"].slice(0,10))}}</td>
+                <td>{{revertir(informes["v_fechaInicio"].slice(0,10))}}</td>
+                <td>{{revertir(informes["v_fechaFinal"].slice(0,10))}}</td>
                 <td>
                     <button
                             type="button"

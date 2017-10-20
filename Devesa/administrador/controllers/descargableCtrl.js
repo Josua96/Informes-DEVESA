@@ -3,6 +3,10 @@
  */
 angular.module('adminModule').controller('descargableCtrl', function($scope,$location,$http,areaInforme,$timeout,Excel){
 
+    $scope.codigo=localStorage.getItem("sessionToken");
+    $scope.id=localStorage.getItem("userId");
+    $scope.sede=localStorage.getItem("sede");
+
     //variable para almacenar el area de la actividad
     $scope.area="Area "+ textoInforme(areaInforme.informeArea);
     //lista de profesores encargados de las actividades del area
@@ -30,7 +34,7 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
             }
         }
         console.log($scope.encargados);
-    }
+    };
     
     //funcion para obtener el nombre de los encargados de las actividades atraves de endpoint
     $scope.obtenerEncargados=function () {
@@ -41,7 +45,8 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
     $scope.obtenerInformesArea=function () {
         $http({
             method: "GET",
-            url: "http://localhost:8081/ObtenerInformesArea?area=" +areaInforme.informeArea
+            url: "http://localhost:8081/ObtenerInformesArea?area=" +areaInforme.informeArea+"&iden="
+            +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
         }).then(function mySucces(response) {
             $scope.actividades = response.data;  //it does not need a conversion to json
             if($scope.actividades.length > 0){
