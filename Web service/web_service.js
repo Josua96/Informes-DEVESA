@@ -112,7 +112,7 @@ app.post('/CrearSolicitud', function(req, res) {
 
 //Lista!
 app.get('/ObtenerSolicitudesNoAtendidas', function(req, res) {
-  db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
+  db.proc('sp_TokenValido',[req.query.iden,"S",req.query.codigo])
 	.then(data => {
 	if(data.sp_tokenvalido==true) {
 			db.func('sp_obtenerSolicitudesNoAtendidas',[req.query.sede])
@@ -138,7 +138,7 @@ app.get('/ObtenerSolicitudesNoAtendidas', function(req, res) {
 
 //----------------------------------------------------------
 app.get('/ObtenerSolicitudesAtendidas', function(req, res) {
-	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
+	db.proc('sp_TokenValido',[req.query.iden,"S",req.query.codigo])
 	.then(data => {
 
 	if(data.sp_tokenvalido==true){
@@ -223,7 +223,7 @@ app.delete('/EliminarSolicitud', function(req, res) {
 
 //Lista!
 app.post('/ActualizarEstado', (req, res, next) =>{
-  	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
+  	db.proc('sp_TokenValido',[req.query.iden,"S",req.query.codigo])
 		.then(data => {
 		if(data.sp_tokenvalido==true){
 

@@ -56,7 +56,7 @@ CREATE TABLE imagenes
 
 CREATE TABLE autorizacion(
 	idUsuario cedulas,
-	TipoUsuario char(1) UNIQUE,
+	TipoUsuario char(1),
 	token char(5)UNIQUE,
 	CONSTRAINT PK_idUsuario_autorizacion PRIMARY KEY(idUsuario)
 );

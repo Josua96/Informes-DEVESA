@@ -1,6 +1,10 @@
 angular.module('adminModule')
-    .controller('atendidasCtrl', function($scope,$location,$http, datosEstudiante) {                
-        
+    .controller('atendidasCtrl', function($scope,$location,$http, datosEstudiante) {
+
+        $scope.codigo=localStorage.getItem("sessionToken");
+        $scope.id=localStorage.getItem("userId");
+        $scope.sede=localStorage.getItem("sede");
+
     	numeroInforme=-1;
     	departamento="";
         $scope.carnet;
@@ -13,7 +17,8 @@ angular.module('adminModule')
             {
                 $http({
                 method : "GET",
-                url :"http://localhost:8081/ObtenerSolicitudesAtendidas"
+                url :"http://localhost:8081/ObtenerSolicitudesAtendidas?"+"&iden="+$scope.id+"&codigo="+$scope.codigo
+                    +"&sede="+$scope.sede
                 }).then(function mySucces(response) 
                 {
                         $scope.solicitudes=response.data;  //it does not need a conversion to json

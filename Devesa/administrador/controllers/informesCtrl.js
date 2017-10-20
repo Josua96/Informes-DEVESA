@@ -1,6 +1,10 @@
 angular.module('adminModule')
     .controller('informesCtrl', function($scope,$location,$http,idInformeEnCurso,areaInforme,Excel,$timeout)
     {
+        $scope.codigo=localStorage.getItem("sessionToken");
+        $scope.id=localStorage.getItem("userId");
+        $scope.sede=localStorage.getItem("sede");
+        
         $scope.seleccionado;
         $scope.tipoInformes=["DI","SE","AYR","TS","PS","BI","SOD","SME","SEN","CU","DE"];
         $scope.informesArea=[];

@@ -1,12 +1,18 @@
 angular.module('adminModule')
 .controller('nuevaSolicitudCtrl', function($scope,$location, datosEstudiante)
 { 
-
+    
 	numeroInforme=-1;
     departamento="";
 
     $scope.tipoSolicitud;
     $scope.carnetEstudiante;
+    
+    //conexion con el endpoint que provee 
+    //los datos universitarios del estudiante
+    $scope.informacionEstudiante=function () {
+        
+    }
     
     $scope.cargarDatos = function()
     {           
@@ -14,8 +20,10 @@ angular.module('adminModule')
         var datos =getTextoEspecial(document.getElementById("sel1").selectedIndex);
         datosEstudiante.tipoTramite= datos[0];
         datosEstudiante.textoResidencia= datos[1];
+        
+        
         // aqui se debe llenar los datos del estudiante con la base de datos de 
-        // cartago. la funcion se llama aqui                        
+        //la funcion se llama aqui                        
         window.location.href =('#/carta');
     } ;
     
