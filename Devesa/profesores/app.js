@@ -7,5 +7,6 @@ angular.module('profesorModule',["ngRoute","ngResource"])
             .when("/profesores/nuevoInforme",{templateUrl:'sections/nuevo.html',controller: 'nuevoCtrl'})
             .when("/profesores/Ver-Editar",{templateUrl:'sections/editar.html',controller: 'edicionCtrl'})
     }
+
     ]);
 
