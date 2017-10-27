@@ -456,3 +456,20 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $BODY$
 LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION sp_eliminarimagen
+(
+IN v_idinforme integer,
+IN v_nombre character varying
+)
+  RETURNS boolean AS
+$BODY$
+
+BEGIN
+	DELETE FROM imagenes WHERE  placa= v_nombre and idinforme= v_idInforme;
+	RETURN TRUE;
+EXCEPTION WHEN OTHERS THEN
+	RETURN FALSE;
+END;
+$BODY$
+  LANGUAGE plpgsql;
