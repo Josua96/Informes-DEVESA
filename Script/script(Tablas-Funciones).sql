@@ -9,8 +9,10 @@ C -> CARTAGO
 L -> LIMON
 IA -> INTERUNIVERSITARIA DE ALAJUELA
 S -> San Jose
-
 */
+
+
+
 CREATE DOMAIN DOMAIN_SEDE VARCHAR(2) NOT NULL CONSTRAINT CHK_sede CHECK
 (VALUE IN('SC','C','L','IA','S'));
 
@@ -255,7 +257,7 @@ CREATE OR REPLACE FUNCTION sp_crearInforme
 ) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-	INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes)
+    INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes)
     VALUES (v_profesorID,v_area,v_actividad,v_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
     RETURN TRUE;
 EXCEPTION WHEN OTHERS THEN
@@ -472,3 +474,21 @@ $BODY$
 LANGUAGE plpgsql;
 
 
+
+
+CREATE OR REPLACE FUNCTION sp_eliminarimagen
+(
+IN v_idinforme integer,
+IN v_nombre character varying
+)
+  RETURNS boolean AS
+$BODY$
+
+BEGIN
+	DELETE FROM imagenes WHERE  placa= v_nombre and idinforme= v_idInforme;
+	RETURN TRUE;
+EXCEPTION WHEN OTHERS THEN
+	RETURN FALSE;
+END;
+$BODY$
+  LANGUAGE plpgsql;

@@ -12,19 +12,18 @@
 var pg = require('pg'); //postgres controller
 
 //formato del string: "postgres://nombreUsuario:contraseña@ip:puerto/baseDeDatos"
-var conString = "postgres://postgres:12345@localhost:5432/devesa_app"; //connection link
+var conString = "postgres://postgres:postgresql2017@localhost:5432/devesa_app"; //connection link
 var client;
 var express = require('express');
 var app = express(); //restful api
 var pgp = require('pg-promise')();
-var base64=require('base-64');
 
 var cn = {
     host: 'localhost',
     port: 5432,
     database: 'devesa_app',
     user: 'postgres',
-    password: '12345'
+    password: 'postgresql2017'
 };
 
 var db = pgp(cn);
@@ -44,35 +43,28 @@ app.use(function(req, res, next) {
 //===============================================================================================
 //		SEGURIDAD
 //===============================================================================================
-app.delete('/eliminarToken',function(req,res){
-
+app.delete('/eliminarToken',function(req,res)
+{
 	db.proc('sp_eliminarToken',[req.query.codigo])
-	.then(data => {
-	
-		res.end(JSON.stringify(true));
-	})
-
+	.then(data => {res.end(JSON.stringify(true));})
 	.catch(error => {
       		console.log("ERROR: ",error);
       		res.end(JSON.stringify("Invalid_token"));
-    	})
-})
+    	});
+});
 
 app.post('/registrarToken',function(req,res){
     console.log(req.query.iden);
     console.log(req.query.tipo);
     console.log(req.query.codigo);
 	db.proc('sp_almacenarToken',[req.query.iden,req.query.tipo,req.query.codigo])
-	.then(data => {
-	
-		res.end(JSON.stringify(true));
-	})
+	.then(data => {res.end(JSON.stringify(true));})
 
 	.catch(error => {
       		console.log("ERROR: ",error);
       		res.status(400).send({message:"Eror en registro"});
     	})
-})
+});
 
 
 //================================================================================================
@@ -108,7 +100,7 @@ app.post('/CrearSolicitud', function(req, res) {
       		res.end(JSON.stringify("Invalid_Token"));
     	})
 	
-})
+});
 
 //Lista!
 app.get('/ObtenerSolicitudesNoAtendidas', function(req, res) {
@@ -134,7 +126,7 @@ app.get('/ObtenerSolicitudesNoAtendidas', function(req, res) {
       		console.log("ERROR: ",error);
       		res.end(JSON.stringify("Invalid_Token"));
     	})
-})
+});
 
 //----------------------------------------------------------
 app.get('/ObtenerSolicitudesAtendidas', function(req, res) {
@@ -163,7 +155,7 @@ app.get('/ObtenerSolicitudesAtendidas', function(req, res) {
       		res.end(JSON.stringify("Invalid_Token"));
     	})
 
-})
+});
 
 
 
@@ -191,7 +183,7 @@ app.get('/ObtenerSolicitudesCarnet', function(req, res) {
       		console.log("ERROR: ",error);
       		res.end(JSON.stringify("Invalid_Token"));
     	})
-})
+});
 
 //Lista!
 app.delete('/EliminarSolicitud', function(req, res) {
@@ -219,7 +211,7 @@ app.delete('/EliminarSolicitud', function(req, res) {
       		console.log("ERROR: ",error);
       	  res.end(JSON.stringify("Invalid_Token"));
     	})	  
-})
+});
 
 //Lista!
 app.post('/ActualizarEstado', (req, res, next) =>{
@@ -250,7 +242,6 @@ app.post('/ActualizarEstado', (req, res, next) =>{
       		console.log("ERROR: ",error);
       		res.end(JSON.stringify("Invalid_Token"));
     		})
-  
 })
 
 
@@ -262,7 +253,6 @@ app.post('/ActualizarEstado', (req, res, next) =>{
 //Lista! 
 
 app.post('/CrearInforme', function(req, res) {
-  
 	db.proc('sp_TokenValido',[req.query.iden,"P",req.query.codigo])
 			.then(data => {
 			if(data.sp_tokenvalido==true){
@@ -321,8 +311,8 @@ app.get('/ObtenerInformesProfesor', function(req, res) {
       			res.end(JSON.stringify(false));
     			})
 			}
-
-			else{
+			else
+				{
     			res.end(JSON.stringify("Invalid_Token"));
     			}
 	})
@@ -443,9 +433,7 @@ app.get('/ObtenerInformeId', function(req, res) {
       					console.log("ERROR: ",error);
       					res.end(JSON.stringify(false));
     					})
-
 				}
-
 			else{
     			res.end(JSON.stringify("Invalid_Token"));
     			}
@@ -462,7 +450,8 @@ app.get('/ObtenerInformeId', function(req, res) {
 //Lista!
 app.post('/ModificarInforme', (req, res, next) => {
   
-	db.proc('sp_TokenValido',[req.query.iden,"P",req.query.codigo])
+	db.proc('sp_TokenValido',
+    [req.query.iden,"P",req.query.codigo])
 		.then(data => {
 			if(data.sp_tokenvalido==true){
 
@@ -559,9 +548,7 @@ app.get('/ObtenerImagenesInforme', function(req, res) {
       					console.log("ERROR: ",error);
       					res.end(JSON.stringify(false));
     				})
-
 				}
-
 			else{
     				res.end(JSON.stringify("Invalid_Token"));
     		}
@@ -575,33 +562,31 @@ app.get('/ObtenerImagenesInforme', function(req, res) {
 })
 
 //Lista!
-app.get('/ObtenerImagenesArea', function(req, res) {
+app.get('/EliminarImagen', function(req, res) {
 
 	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
 		.then(data => {
-			if(data.sp_tokenvalido==true){
-
-				db.func('sp_obtenerImagenes_area',[req.query.area,req.query.sede])
-    				.then(data => {
-     					 console.log(data);
-      					res.end(JSON.stringify(data));
-    				})
-    				.catch(error => {
-      					console.log("ERROR: ",error);
-                res.end(JSON.stringify(false));
-   					 })
-
-					}
-
-			else{
+			if(data.sp_tokenvalido==true)
+			{
+                db.proc('sp_eliminarImagen',[req.query.idInforme, req.query.nombre])
+                    .then(data => {
+                    console.log(data.sp_eliminarImagen);
+                res.end(JSON.stringify(data.sp_eliminarImagen));
+            })
+            .catch(error => {
+                console.log("ERROR: ",error);
+            });
+			}
+			else
+				{
     				res.end(JSON.stringify("Invalid_Token"));
-    		}
+				}
 					})
 		.catch(error => {
       			console.log("ERROR: ",error);
       			res.end(JSON.stringify("Invalid_Token"));
-    		})  
-})
+    		});
+});
 
 
 
@@ -610,46 +595,10 @@ app.get('/ObtenerImagenesArea', function(req, res) {
 //================================================================================================
 
 
-var server = app.listen(8081, function () {
-
-  var host = server.address().address
-  var port = server.address().port
-
+var server = app.listen(8081, function ()
+{
+	var host = server.address().address;
+	var port = server.address().port;
   console.log("Example app listening at http://%s:%s", host, port)
+});
 
-})
-
-
-
-
-
-
-// solicitudes
-// 	**AgregarSolicitud (datos)
-// 	**ObtenerSolicitud (identificador)
-//  **eliminarSolicitud (identificador)
-// 	**ObtenerSolicitudesNoAtendidas
-// 	ObtenerSolicitudesAtendidas ?
-// 	**ActualizarEstado (identificador)
-
-
-// informes
-// 	**AgregarInforme (datos)
-// 	**ObtenerInforme (profesor | area | identificador) [obtenerlo para modificarlo, por lo que requiere el idInforme]
-// 	**ObtenerInformes () [sin parámetros]
-//  **ActualizarInforme (idInforme)
-
-
-//[Comentario***] puede requerirse el endpoint obtenerInforme y obtenerSolicitud (por id)
-
-//Las funciones ObtenerInforme y ObtenerInformes son básicamente la misma con diferentes parámetros y con diferentes nombres
-//(debido a que el parámetro es del mismo tipo para la mayoría de los casos)
-
-//Asumiendo que sólo se mantendrán registrados los informes de un semestres el procedimiento para obtener todos será un 'select *'
-
-// 	**ObtenerImagenes (idInforme | area)
-// 	**ModificarInforme
-// 	*EliminarInforme
-
-
-//Procedimientos almacenados realizados (faltan pruebas con datos)

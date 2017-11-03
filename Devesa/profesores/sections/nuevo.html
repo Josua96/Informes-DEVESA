@@ -1,73 +1,86 @@
-<div onload="document.getElementById('sel1').selectedIndex=1;" class="container-fluid" style="background-color: #BDBDBD">    
+<!--
+Este apartado permite crear un informe, las fotos se deben subir en la parte de
+edicion.
+-->
+<div onload="document.getElementById('sel1').selectedIndex=1;" class="container-fluid">
     <FORM>
-        <ul class="menu2" style="justify-content:center; list-style: none;">                 	
-            
+        <ul class="menu2" style="justify-content:center; list-style: none;">
+
             <li>
                 <h3>Nuevo informe</h3>
             </li>
-            
+
             <li class="formInputs">
                 <div class="form-group">
                     <label for="sel1">Seleccione el area</label>
-                    <select id= "sel1" class="form-control" ng-model="area" ng-options="opcion.area for opcion in opciones" >           
+                    <select id= "sel1" class="form-control" ng-model="area" ng-options="opcion.area for opcion in opciones" >
                         <option value="">Seleccione</option>
                     </select>
                 </div>
             </li>
-            
-            <li class="formInputs" > 
+
+            <li class="formInputs" >
                 <div class="form-group">
                     <label for="i1">Nombre de la actividad</label>
                     <input  id="i1" class="form-control" ng-model="actividad">
-                </div>                
-            </li>            
-            
+                </div>
+            </li>
+
             <li class="formInputs" >
-                <div class="input-group">                        
+                <div class="input-group">
                     <div class="input-group-addon" style="padding: 0px 0px;">
                         <i class="fa fa-calendar"></i>
                     </div>
-                     <div class="form-group">
-                        <label for="date2">Fecha de la actividad</label>
+                    <div class="form-group">
+                        <label for="date2">Fecha inicio de la actividad</label>
                         <input class="form-control" id="date2"  name="date2" type="date"/>
-                    </div>                    
-                </div>   
+                    </div>
+                </div>
             </li>
-            
-            
-            <li class="formInputs" > 
+            <li class="formInputs" >
+                <div class="input-group">
+                    <div class="input-group-addon" style="padding: 0px 0px;">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="date3">Fecha fin de la actividad</label>
+                        <input class="form-control" id="date3"  name="date3" type="date"/>
+                    </div>
+                </div>
+            </li>
+
+            <li class="formInputs" >
                 <div class="form-group">
-                    <label for="comment1">Objetivo de la activida</label>
-                    <textarea class="form-control" rows="5" ng-model="objetivoActividad" id="comment1"></textarea>
-                </div>                
-            </li>            
-                      
-             <li class="formInputs" > 
+                    <label for="comment2">Objetivo de la activida</label>
+                    <textarea class="form-control" rows="5" ng-model="objetivoActividad" id="comment2"></textarea>
+                </div>
+            </li>
+
+            <li class="formInputs" >
                 <div class="form-group">
                     <label for="comment1">Programa</label>
                     <textarea class="form-control" rows="5" ng-model="programa" id="comment1"></textarea>
-                </div>                
-            </li>            
-                     
-            
-             <li class="formInputs" > 
+                </div>
+            </li>
+
+            <li class="formInputs" >
                 <div class="form-group">
-                    <label for="comment1">Cantidad personas</label>
+                    <label for="numeroEstudiantes">Cantidad personas</label>
                     <input id="numeroEstudiantes" ng-model='cantidadEstudiantes' onkeypress="return event.charCode >= 48 && event.charCode<= 57"  class="form-control" placeholder="Cantidad de estudiantes">
-                </div>                
-            </li>           
+                </div>
+            </li>
 
             <li style="justify-content:center;">
-                <button 
-                    ng-click="enviarInforme()"
-                    type="button" 
-                    class="btn" 
-                    onmouseover='this.style.backgroundColor="#E1E5E8"' 
-                    onmouseout='this.style.backgroundColor="#2F9EE2"'
-                    style="background-color:#2F9EE2;color:black;" >
+                <button
+                        ng-click="enviarInforme()"
+                        type="button"
+                        class="btn"
+                        onmouseover='this.style.backgroundColor="#E1E5E8"'
+                        onmouseout='this.style.backgroundColor="#2F9EE2"'
+                        style="background-color:#2F9EE2;color:black;" >
                     Enviar
-                </button>                  
-            </li>	        		
+                </button>
+            </li>
         </ul>
-    </FORM>        
+    </FORM>
 </div>

@@ -17,7 +17,10 @@ app.controller('loginController', function($scope, $http)
     $scope.sol="CCSS";
     localStorage.setItem("sessionToken", $scope.codigo);
     localStorage.setItem("userId",$scope.id);
+
     localStorage.setItem("userType","A");
+
+
     localStorage.setItem("sede","SC");
     
     $scope.tipoUsuario=localStorage.getItem("userType");
@@ -92,8 +95,6 @@ app.controller('loginController', function($scope, $http)
             });
 
     };
-
-    
     function saveSession(json) 
     {
         localStorage.setItem("session.token", json.session.token);
