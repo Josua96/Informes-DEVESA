@@ -12,19 +12,18 @@
 var pg = require('pg'); //postgres controller
 
 //formato del string: "postgres://nombreUsuario:contraseña@ip:puerto/baseDeDatos"
-var conString = "postgres://postgres:12345@localhost:5432/devesa_app"; //connection link
+var conString = "postgres://postgres:postgresql2017@localhost:5432/devesa_app"; //connection link
 var client;
 var express = require('express');
 var app = express(); //restful api
 var pgp = require('pg-promise')();
-var base64=require('base-64');
 
 var cn = {
     host: 'localhost',
     port: 5432,
     database: 'devesa_app',
     user: 'postgres',
-    password: '12345'
+    password: 'postgresql2017'
 };
 
 var db = pgp(cn);
@@ -312,8 +311,8 @@ app.get('/ObtenerInformesProfesor', function(req, res) {
       			res.end(JSON.stringify(false));
     			})
 			}
-
-			else{
+			else
+				{
     			res.end(JSON.stringify("Invalid_Token"));
     			}
 	})
@@ -434,9 +433,7 @@ app.get('/ObtenerInformeId', function(req, res) {
       					console.log("ERROR: ",error);
       					res.end(JSON.stringify(false));
     					})
-
 				}
-
 			else{
     			res.end(JSON.stringify("Invalid_Token"));
     			}
@@ -453,7 +450,8 @@ app.get('/ObtenerInformeId', function(req, res) {
 //Lista!
 app.post('/ModificarInforme', (req, res, next) => {
   
-	db.proc('sp_TokenValido',[req.query.iden,"P",req.query.codigo])
+	db.proc('sp_TokenValido',
+    [req.query.iden,"P",req.query.codigo])
 		.then(data => {
 			if(data.sp_tokenvalido==true){
 
@@ -550,9 +548,7 @@ app.get('/ObtenerImagenesInforme', function(req, res) {
       					console.log("ERROR: ",error);
       					res.end(JSON.stringify(false));
     				})
-
 				}
-
 			else{
     				res.end(JSON.stringify("Invalid_Token"));
     		}

@@ -17,7 +17,7 @@ app.controller('loginController', function($scope, $http)
     $scope.sol="CCSS";
     localStorage.setItem("sessionToken", $scope.codigo);
     localStorage.setItem("userId",$scope.id);
-    localStorage.setItem("userType","E");
+    localStorage.setItem("userType","P");
     localStorage.setItem("sede","SC");
     
     $scope.tipoUsuario=localStorage.getItem("userType");
@@ -83,19 +83,16 @@ app.controller('loginController', function($scope, $http)
             method : "POST",
             url :"http://localhost:8081/registrarToken?iden="+$scope.id+"&tipo="+$scope.tipoUsuario+
             "&codigo="+$scope.codigo
-        }).then(function (response) {
-                console.log("token_registrado");
-                $scope.redirigirUsuario();
-            }, function (response) {
-                console.log(response.data.message);
-                $scope.status ="Error de conexion";
-            });
-
-
-
+        }).then(function (response)
+        {
+            console.log("token_registrado");
+            $scope.redirigirUsuario();
+        }, function (response)
+        {
+            console.log(response.data.message);
+            $scope.status ="Error de conexion";
+        });
     };
-
-    
     function saveSession(json) 
     {
         localStorage.setItem("session.token", json.session.token);

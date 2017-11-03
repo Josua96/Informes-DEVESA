@@ -2,7 +2,10 @@ angular.module('profesorModule')
     .controller('enviadosCtrl', function($scope,$location,$http, datosInforme)
     {
         $scope.misInformes;
-        $scope.idProfesor = "1234567890";
+        $scope.codigo=localStorage.getItem("sessionToken");
+        $scope.idProfesor=localStorage.getItem("userId");
+        $scope.sede=localStorage.getItem("sede");
+        $scope.tipo="P";
 
         $scope.obtenerInformes = function()
         {
@@ -13,7 +16,8 @@ angular.module('profesorModule')
             })
                 .then(function mySucces(response)
                     {
-                        if(response.data!==0)
+                        console.log(response);
+                        if(response.data!=="false" && response.data!==0)
                         {
                             $scope.misInformes = response.data;
                             console.log($scope.misInformes);
@@ -32,12 +36,13 @@ angular.module('profesorModule')
         $scope.editarInformes = function(indice)
         {
             var informe =$scope.misInformes[indice];
+            console.log(informe);
             datosInforme.idProfesor = informe["v_profesorid"];
             datosInforme.idInforme = informe["v_idinforme"];
             datosInforme.area= informe["v_area"];
             datosInforme.actividad= informe["v_actividad"];
-            datosInforme.fechaInicio = informe["v_fechaInicio"].slice(0, 10);
-            datosInforme.fechaFinal = informe["v_fechaFinal"].slice(0, 10);
+            datosInforme.fechaInicio = informe["v_fechainicio"].slice(0, 10);
+            datosInforme.fechaFinal = informe["v_fechafinal"].slice(0, 10);
             datosInforme.objetivo= informe["v_objetivo"];
             datosInforme.programa= informe["v_programa"];
             datosInforme.numeroEstudiantes= informe["v_cantestudiantes"];

@@ -3,16 +3,15 @@ angular.module('profesorModule')
     {
         $scope.area;
         $scope.actividad;
-        $scope.fechaInicio;
-        $scope.fechaFinal;
         $scope.objetivoActividad;
         $scope.programa;
         $scope.cantidadEstudiantes=0;
 
         // ********** Falta asignarle el valor real *******************
-        $scope.sede = "SC";
-        $scope.idProfesor="1234567890";
-        $scope.codigo;
+        $scope.codigo=localStorage.getItem("sessionToken");
+        $scope.idProfesor=localStorage.getItem("userId");
+        $scope.sede=localStorage.getItem("sede");
+        $scope.tipo="P";
 
 
         $scope.opciones =[
@@ -32,19 +31,21 @@ angular.module('profesorModule')
         $scope.enviarInforme = function ()
         {
             $scope.fechaActividad=document.getElementById("date2").value;
-            var Codigoarea;
             $scope.fechaFinActividad =  document.getElementById("date3").value;
+            var Codigoarea;
 
             if(document.getElementById("sel1").value!=="")
             {
                 Codigoarea = $scope.opciones[document.getElementById("sel1").value].codigo;
+
+                console.log("Probando ");
                 $http(
                     {
                         method: "POST",
                         url:API_ROOT+":8081/CrearInforme?profesorID="+$scope.idProfesor+"&area=" + Codigoarea +
-                        "&actividad="+ $scope.actividad+"&fechaInicio="+ $scope.fechaInicio +
+                        "&actividad="+ $scope.actividad+"&fechaInicio="+ $scope.fechaActividad +
                         "&objetivo="+$scope.objetivoActividad +"&programa="+ $scope.programa+
-                        "&cantidadEstudiantes="+ $scope.cantidadEstudiantes + "&fechaFinal="+ $scope.fechaFinal +
+                        "&cantidadEstudiantes="+ $scope.cantidadEstudiantes + "&fechaFinal="+ $scope.fechaFinActividad +
                         "&sede="+ $scope.sede + "&iden="+ $scope.idProfesor + "&codigo=" + $scope.codigo
                     })
                     .then(function mySucces(response)
@@ -67,7 +68,6 @@ angular.module('profesorModule')
             else
             {
                 mostrarNotificacion("Seleccione un area",1);
-                return ;
             }
         };
     });

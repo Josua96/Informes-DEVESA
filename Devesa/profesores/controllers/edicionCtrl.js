@@ -13,11 +13,10 @@ angular.module('profesorModule')
         $scope.cantidadEstudiantes=datosInforme.numeroEstudiantes;
 
         // *********************** Falta asignarle valor real *************************
-        $scope.tipo="p";
-        $scope.codigo;
-        $scope.idProfesor = datosInforme.idProfesor;
-
-
+        $scope.codigo=localStorage.getItem("sessionToken");
+        $scope.idProfesor=localStorage.getItem("userId");
+        $scope.sede=localStorage.getItem("sede");
+        $scope.tipo="P";
 
         $scope.imagenes=[];
 
@@ -156,17 +155,24 @@ angular.module('profesorModule')
         $scope.guardarInforme = function ()
         {
             $scope.fechaActividad = document.getElementById("date2").value;
+
             if(document.getElementById("sel1").value!=="")
             {
+
                 var Codigoarea = areas[document.getElementById("sel1").value];
+                console.log(API_ROOT+":8081/ModificarInforme?area=" + Codigoarea +
+                    "&actividad="+ $scope.actividad+"&fechaInicio="+ $scope.fechaInicio +
+                    "&fechaFinal="+ $scope.fechaFinal + "&objetivo="+$scope.objetivoActividad
+                    +"&programa="+ $scope.programa+ "&cantidadEstudiantes="+ $scope.cantidadEstudiantes +
+                    "&iden="+ $scope.idProfesor + "&codigo=" + $scope.codigo + "&id="+$scope.idInforme);
                 $http(
                     {
                         method: "POST",
-                        url:API_ROOT+":8081/ModificarInforme?profesorID="+$scope.idProfesor+
-                        "&area=" +Codigoarea+"&actividad="+ $scope.actividad+"&fecha="+
-                        $scope.fechaActividad +"&objetivo="+$scope.objetivoActividad +
-                        "&programa="+ $scope.programa+ "&cantidadEstudiantes="+ $scope.cantidadEstudiantes+
-                        "&id="+$scope.idInforme + "&iden="+ $scope.idProfesor + "codigo=" + $scope.codigo
+                        url:API_ROOT+":8081/ModificarInforme?area=" + Codigoarea +
+                        "&actividad="+ $scope.actividad+"&fechaInicio="+ $scope.fechaInicio +
+                        "&fechaFinal="+ $scope.fechaFinal + "&objetivo="+$scope.objetivoActividad
+                        +"&programa="+ $scope.programa+ "&cantidadEstudiantes="+ $scope.cantidadEstudiantes +
+                         "&iden="+ $scope.idProfesor + "&codigo=" + $scope.codigo + "&id="+$scope.idInforme
                     })
                     .then(
                         function mySucces(response)
