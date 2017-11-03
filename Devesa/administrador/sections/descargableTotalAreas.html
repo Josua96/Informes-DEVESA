@@ -36,6 +36,7 @@
                 <td style="text-align: center;"> <h2>{{dep}}</h2> </td>
                 <td > </td>
                 <td > </td>
+                <td> </td>
 
             </tr>
             <tr ng-repeat="encargado in encargados |filter:{area: dep }:true" style="background-color: #7B7FB3;
@@ -47,12 +48,15 @@
                 <td > </td>
                 <td > </td>
                 <td > </td>
+                <td>  </td>
+
             </tr >
 
             <tr style="background-color: #83829A; border-color: black; border: solid; border-collapse:collapse;">
                 <td style="text-align: center;"><h3>Área</h3></td>
                 <td style="text-align: center;"><h3>Actividad</h3></td>
-                <td style="text-align: center;"><h3>Fecha</h3></td>
+                <td style="text-align: center;"><h3>Fecha de Inicio</h3></td>
+                <td style="text-align: center;"><h3>Fecha de Finalización</h3></td>
                 <td style="text-align: center;"><h3>Objetivo</h3></td>
                 <td style="text-align: center;"><h3>Poblacion Atendida</h3></td>
                 <td style="text-align: center;"><h3>Cantidad de Estudiantes</h3></td>
@@ -64,7 +68,8 @@
 
                 <td style="text-align:left;padding-left: 10px;">{{textoArea(actividad["v_area"])}}</td>
                 <td style="text-align:left;padding-left: 10px;">{{actividad["v_actividad"]}}</td>
-                <td style="text-align:left;padding-left: 10px;"> {{revertir(actividad["v_fecha"])}}</td>
+                <td style="text-align:left;padding-left: 10px;"> {{revertir(actividad["v_fechainicio"])}}</td>
+                <td style="text-align:left;padding-left: 10px;"> {{revertir(actividad["v_fechafinal"])}}</td>
                 <td style="text-align:left;padding-left: 10px;"> {{actividad["v_objetivo"]}}</td>
                 <td style="text-align:left;padding-left: 10px;"> {{actividad["v_programa"]}}</td>
                 <td style="text-align:left;padding-left: 10px;"> {{actividad["v_cantestudiantes"]}}</td>

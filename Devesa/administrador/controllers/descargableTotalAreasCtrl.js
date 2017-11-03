@@ -21,9 +21,8 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
     
     $scope.revertir=function (cadena) {
         return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
-    }
-
-
+    };
+    
     /* agregar la fecha final para */
 
     //funcion para agregar id's  de quien realiza los informes a diccionarios de la forma {idFuncionario: area}
@@ -42,12 +41,12 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
             }
         }
         console.log($scope.encargados);
-    }
+    };
 
     //funcion para obtener el nombre de un encargado por medio de su id
     $scope.obtenerInformacioEncargado=function (idFuncionario) {
         
-    }
+    };
 
     //obtener las actividades realizadas de un area en especifico
     $scope.obtenerInformesPorFechas=function () {
@@ -61,8 +60,11 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
                 +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
             }).then(function mySucces(response) {
                 $scope.actividades = response.data;  
+                console.log('actividades');
                 console.log($scope.actividades);
+                console.log('largo de ativivdades '+$scope.actividades.length);
                 if ($scope.actividades.length > 0) { // validacion de que existan informes a mostrar
+                    console.log('entre con legnth');
                     $scope.asignarEncargados(); //ir a asignar encargados a la lista de diccionarios de id's de encargados
                     $scope.confirmacion(); //solicitar confirmación para generar el descargable
                 }
@@ -82,7 +84,7 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
     //obtener el texto de area correctamente
     $scope.textoArea=function (texto) {
         return textoInforme(texto);
-    }
+    };
 
 
     $scope.descargar=function (idTabla) {

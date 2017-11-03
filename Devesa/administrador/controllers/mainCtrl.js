@@ -8,12 +8,24 @@ function($scope,$location)
         $scope.fechaInicio;
         $scope.fechaFin;   
         window.location.href = ('#/solicitudes');
-    
-    
-    $scope.guardarFecha = function()
-    {
-        console.log("Hola mundo");
-    }
+        /*
+         obtener token utilizado por el usuario
+         */
+        $scope.codigo=localStorage.getItem("sessionToken");
+
+        $scope.borrarToken=function () {
+            $http({
+                method : "DELETE",
+                url :"http://localhost:8081/eliminarToken?codigo="+$scope.codigo
+            }).then(function (response) {
+                console.log("token_registrado");
+                $scope.redirigirUsuario();
+            }, function (response) {
+                console.log(response.data.message);
+                $scope.status ="Error de conexion";
+            });
+        }
+
     }
          
 

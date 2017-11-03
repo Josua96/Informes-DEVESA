@@ -6,8 +6,16 @@ angular.module('adminModule')
             $scope.id=localStorage.getItem("userId");
 
 
+
             $scope.informe;
             $scope.imagenes=[];
+
+
+            /*se carga el nombre de quienes realizaron el informe */
+            $scope.cargarInformacionPropietario=function () {
+
+            };
+
             //obtener informacion de un inform;e en especifico
             $scope.cargarInforme=function () {
 
@@ -17,8 +25,8 @@ angular.module('adminModule')
                     +$scope.id+"&codigo="+$scope.codigo
                 }).then(function mySucces(response) {
                     $scope.informe=response.data;
-                    $scope.informe[0]["v_fechaInicio"]=revertirCadena($scope.informe[0]["v_fechaInicio"].slice(0,10));
-                    $scope.informe[0]["v_fechaFinal"]=revertirCadena($scope.informe[0]["v_fechaFinal"].slice(0,10));
+                    $scope.informe[0]["v_fechainicio"]=revertirCadena($scope.informe[0]["v_fechainicio"].slice(0,10));
+                    $scope.informe[0]["v_fechafinal"]=revertirCadena($scope.informe[0]["v_fechafinal"].slice(0,10));
                     $scope.informe[0]["v_area"]=textoInforme($scope.informe[0]["v_area"]);
                 }, function myError(response) {
                     mostrarNotificacion("Ocurrio un error", 1);
@@ -39,12 +47,14 @@ angular.module('adminModule')
                 });
                 */
                 $scope.imagenes=["../assets/images/25d.jpg","../assets/images/A1D.jpg","../assets/images/antiopadas.jpg","../assets/images/paisaje-epuyen.jpg","../assets/images/dos.jpg"];
-            }
+            };
+
+            
 
             $scope.retroceder=function () {
                 
                 window.location.href="#/informes";
-            }
+            };
             
             $scope.cargarInforme();
     
