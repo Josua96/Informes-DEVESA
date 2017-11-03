@@ -149,8 +149,7 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
-select * from solicitudes
-select sp_crearSolicitud('2016254066','CCSS','SC');
+
 
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 (
@@ -168,6 +167,7 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $BODY$
 LANGUAGE plpgsql;
+
 
 
 
@@ -205,6 +205,8 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $BODY$
 LANGUAGE plpgsql;
+
+
 
 CREATE OR REPLACE FUNCTION sp_eliminarSolicitud
 (
@@ -307,7 +309,8 @@ $BODY$
  
 BEGIN
 
-  RETURN query SELECT * FROM informes WHERE ((fechaInicio BETWEEN fecha_uno AND fecha_dos)OR
+  RETURN query SELECT idInforme,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
+   FROM informes WHERE ((fechaInicio BETWEEN fecha_uno AND fecha_dos)OR
   (fechaFinal BETWEEN fecha_uno AND fecha_dos)) AND sede LIKE v_sede;
   EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION 'Error en la consulta';
@@ -315,10 +318,13 @@ END;
 $BODY$
   LANGUAGE plpgsql;
 
+select * from informes
+
+drop function sp_obtenerinformes_area(character varying,character varying)
 CREATE OR REPLACE FUNCTION sp_obtenerInformes_area
 (
     IN ve_area VARCHAR(3),
-    IN v_sede VARCHAR(2),
+    IN ve_sede VARCHAR(2),
     OUT v_idInforme INT,
     OUT v_profesorID VARCHAR(10),
     OUT v_area VARCHAR(3),
@@ -327,16 +333,21 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes_area
     OUT v_fechaFinal DATE,
     OUT v_objetivo VARCHAR(200),
     OUT v_programa VARCHAR(50),
-    OUT v_cantEstudiantes INT    
+    OUT v_cantEstudiantes INT  
 ) RETURNS SETOF record AS
 $BODY$
+
 BEGIN
-	RETURN query SELECT * FROM informes WHERE area = ve_area AND sede LIKE v_sede;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	raise notice 'area %',ve_area;
+	raise notice  'sede %',ve_sede;
+	RETURN query SELECT idInforme,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
+	FROM informes WHERE area = ve_area AND sede LIKE ve_sede;
+        
 END;
 $BODY$
 LANGUAGE plpgsql;
+
+
 
 CREATE OR REPLACE FUNCTION sp_obtenerInforme_porId(
 IN ve_idinforme INTEGER, 
@@ -352,7 +363,8 @@ OUT v_cantestudiantes INTEGER)
   RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT * FROM informes WHERE idInforme = ve_idInforme;
+	RETURN query SELECT idInforme,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
+	FROM informes WHERE idInforme = ve_idInforme;
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION 'Error en la consulta';
 END;
@@ -384,6 +396,8 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $BODY$
 LANGUAGE plpgsql;
+
+select * from sp_obtenerInformes('SC');
 
 CREATE OR REPLACE FUNCTION sp_modificarInforme
 (
@@ -456,3 +470,5 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $BODY$
 LANGUAGE plpgsql;
+
+

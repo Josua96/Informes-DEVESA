@@ -39,6 +39,10 @@ angular.module('adminModule')
                         url: "http://localhost:8081/ObtenerInformesArea?area=" + $scope.tipoInformes[indice]+"&iden="
                         +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
                     }).then(function mySucces(response) {
+                        console.log("sede");
+                        console.log($scope.sede);
+                        console.log("informes");
+                        console.log(response.data);
                         $scope.informesArea = response.data;  //it does not need a conversion to json
 
                     }, function myError(response) {

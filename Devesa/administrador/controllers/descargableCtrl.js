@@ -15,7 +15,7 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
     $scope.actividades=[];
     $scope.revertir=function (cadena) {
         return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
-    }
+    };
 
 
     /* agregar la fecha final*/
@@ -39,7 +39,7 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
     //funcion para obtener el nombre de los encargados de las actividades atraves de endpoint
     $scope.obtenerEncargados=function () {
         
-    }
+    };
     
     //obtener las actividades realizadas de un area en especifico
     $scope.obtenerInformesArea=function () {

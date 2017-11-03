@@ -17,10 +17,15 @@ angular.module('adminModule')
             method : "GET",
             url :"http://localhost:8081/ObtenerSolicitudesNoAtendidas?"+"&iden="+$scope.id+"&codigo="+$scope.codigo
                 +"&sede="+$scope.sede
-            }).then(function mySucces(response) 
+            }).then(function mySucces(response)
             {
+                    console.log("sede");
+                    console.log($scope.sede);
+                    console.log("solicitudes");
+                    console.log(response.data);
                     $scope.solicitudes=response.data;  //it does not need a conversion to json
-                    $scope.solicitudes=setTextSolicitudes($scope.solicitudes);                    
+                    $scope.solicitudes=setTextSolicitudes($scope.solicitudes); 
+
             }, function myError(response)
             {              
                     mostrarNotificacion("Ocurrio un error",1);
