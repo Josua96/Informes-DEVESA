@@ -7,7 +7,7 @@ app.controller('loginController', function($scope, $http)
     localStorage.removeItem("userType");
     localStorage.removeItem("sede");
     /* PARA PRUEBAS USAMOS ESE USUARIO,CON ESE ID Y ESE TOKEN*/
-    $scope.username = "alguien";
+    $scope.username = "p";
     $scope.password = "";
     $scope.id="2-1122-1222";
     $scope.codigo="wer33";
@@ -18,7 +18,7 @@ app.controller('loginController', function($scope, $http)
     localStorage.setItem("sessionToken", $scope.codigo);
     localStorage.setItem("userId",$scope.id);
 
-    localStorage.setItem("userType","A");
+    localStorage.setItem("userType","P");
 
 
     localStorage.setItem("sede","SC");

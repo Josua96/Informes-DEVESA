@@ -1,12 +1,12 @@
 <?php
-    $ruta = './files/';           //Ruta en donde almacenaremos los archivos
+    $ruta = 'files/';           //Ruta en donde almacenaremos los archivos
     $mensage="";                  //esultado de las operaciones.
+    $NombreOriginal  = "";
     foreach ($_FILES as $key)
     {
         if($key['error'] == UPLOAD_ERR_OK ) //Si el archivo se paso correctamente Continuamos
-        {
-            $NombreOriginal1 = gettimeofday(true).$key['name'];//Obtenemos el nombre original del archivo
-            $NombreOriginal  = gettimeofday(true).".".pathinfo($key['name'], PATHINFO_EXTENSION );
+        {    
+            $NombreOriginal  = gettimeofday(true).".".pathinfo($key['name'], PATHINFO_EXTENSION );// Se le saca la extención 
             $temporal = $key['tmp_name']; //Obtenemos la ruta Original del archivo
             $Destino = $ruta.$NombreOriginal;	//Creamos una ruta de destino con la variable ruta y el nombre original del archivo
             move_uploaded_file($temporal, $Destino); //Movemos el archivo temporal a la ruta especificada

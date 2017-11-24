@@ -44,7 +44,7 @@
                 <div class="input-group">
                     <div class="form-group">
                         <label for="date2">Inicio de la actividad</label>
-                        <input class="form-control" id="date2" ng-model ="fechaActividad" name="date2"/>
+                        <input class="form-control" id="date2" ng-model ="fechaInicio" name="date2"/>
                     </div>
                 </div>
             </li>
@@ -53,7 +53,7 @@
                 <div class="input-group">
                     <div class="form-group">
                         <label for="date3">Fin de la actividad</label>
-                        <input class="form-control" id="date3" ng-model ="fechaFinActividad" name="date2"/>
+                        <input class="form-control" id="date3" ng-model ="fechaFinal" name="date2"/>
                     </div>
                 </div>
             </li>
@@ -83,7 +83,7 @@
             <li>
                 <ul  style="display=inline-block;list-style: none; padding:0;">
                     <!--El ng-repeat se pone en el elemento que se desea repetir, en este caso en el <li>-->
-                    <li ng-repeat="imagen in imagenes">
+                    <li ng-repeat="imagen in imagenes track by $index">
                         <button type="button" class="btn btn-default btn-sm" ng-click= "eliminarFoto(imagen)">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>

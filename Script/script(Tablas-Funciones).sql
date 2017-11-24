@@ -1,23 +1,15 @@
 ﻿--dominio de cedula para el identificador
-CREATE DOMAIN cedulas CHAR(11) NOT NULL CONSTRAINT CHK_cedulas CHECK
-(VALUE SIMILAR TO '[1-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]');
+CREATE DOMAIN cedulas
+    CHAR(11) NOT NULL
+    CONSTRAINT CHK_cedulas CHECK (VALUE SIMILAR TO '[1-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]');
 
---dominio de sedes:
-/**
-SC-> SAN CARLOS
-C -> CARTAGO
-L -> LIMON
-IA -> INTERUNIVERSITARIA DE ALAJUELA
-S -> San Jose
-*/
+CREATE DOMAIN DOMAIN_SEDE
+    VARCHAR(2) NOT NULL
+    CONSTRAINT CHK_sede CHECK (VALUE IN('SC','C','L','IA','S'));
 
 
 
-CREATE DOMAIN DOMAIN_SEDE VARCHAR(2) NOT NULL CONSTRAINT CHK_sede CHECK
-(VALUE IN('SC','C','L','IA','S'));
-
--- Solicitudes de cartas 
-
+--------------------------------------------------- CARTAS --------------------------------------------------------
 CREATE TABLE solicitudes
 (
     idSolicitud SERIAL NOT NULL PRIMARY KEY,
@@ -28,7 +20,9 @@ CREATE TABLE solicitudes
 );
 
 
--- Informes de las actividades de las diferentes areas.
+
+------------------------------------------------- INFORMES ---------------------------------------------------------
+
 CREATE TABLE informes
 (
     idInforme SERIAL NOT NULL PRIMARY KEY,
@@ -44,17 +38,15 @@ CREATE TABLE informes
 );
 
 
--- Esta es la tabla que almacena las direcciones en donde se guardan las imagenes.
+
 CREATE TABLE imagenes
 (
-    placa VARCHAR(12) PRIMARY KEY NOT NULL,
+    placa VARCHAR PRIMARY KEY NOT NULL,
     idInforme INT NOT NULL,
     CONSTRAINT FK_idInforme_imagenes FOREIGN KEY (idInforme) REFERENCES informes ON UPDATE CASCADE ON DELETE CASCADE
 );
-/**
---tabla para el almacenamiento de token, y verificacion del usuario
---Tipo de usuario A= administrador , E=estudiante, P=profesor, 
-*/
+
+------------------------------------------------ SEGURIDAD ---------------------------------------------------------
 
 CREATE TABLE autorizacion(
 	idUsuario cedulas,
@@ -63,7 +55,20 @@ CREATE TABLE autorizacion(
 	CONSTRAINT PK_idUsuario_autorizacion PRIMARY KEY(idUsuario)
 );
 
+
+
+
+
+
+
+
+
+
+
+
 --Estas son las funciones de la base de datos se dividen en :
+
+
 
 --Seccion para seguridad:
 
@@ -242,53 +247,48 @@ LANGUAGE plpgsql;
 
 
 
--- Seccion de los informes 
-CREATE OR REPLACE FUNCTION sp_crearInforme
-(
-    IN v_profesorID VARCHAR(10),
-    IN v_area VARCHAR(25),
-    IN v_actividad VARCHAR(100),
-    IN v_fechaInicio DATE,
-    IN v_fechaFinal DATE,
-    IN v_objetivo VARCHAR(200),
-    IN v_programa VARCHAR(50),
-    IN v_cantEstudiantes INT,
-    IN v_sede VARCHAR(2)
-) RETURNS BOOLEAN AS
+-- Funciona bien 
+
+CREATE OR REPLACE FUNCTION sp_crearinforme(v_profesorid character varying, v_area character varying, v_actividad character varying, v_fechainicio date, v_fechafinal date, v_objetivo character varying, v_programa character varying, v_cantestudiantes integer, v_sede character varying)
+  RETURNS boolean AS
 $BODY$
 BEGIN
-    INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes)
+    INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes, sede)
     VALUES (v_profesorID,v_area,v_actividad,v_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
     RETURN TRUE;
-EXCEPTION WHEN OTHERS THEN
+	EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;
 END;
 $BODY$
-LANGUAGE plpgsql;
+  LANGUAGE plpgsql
 
-CREATE OR REPLACE FUNCTION sp_obtenerInformes_profesor
-(
-    IN ve_profesorID VARCHAR(10),
-    IN v_sede VARCHAR(2),
-    OUT v_idInforme INT,
-    OUT v_profesorID VARCHAR(10),
-    OUT v_area VARCHAR(3),
-    OUT v_actividad VARCHAR(100),
-    OUT v_fechaInicio DATE,
-    OUT v_fechaFinal DATE,
-    OUT v_objetivo VARCHAR(200),
-    OUT v_programa VARCHAR(50),
-    OUT v_cantEstudiantes INT
-    
-) RETURNS SETOF record AS
+
+
+  
+-- Funciona bien  
+
+CREATE OR REPLACE FUNCTION sp_obtenerinformes_profesor(IN ve_profesorid character, IN v_sede character varying, OUT v_idinforme integer, OUT v_profesorid cedulas, OUT v_area character varying, OUT v_actividad character varying, OUT v_fechainicio date, OUT v_fechafinal date, OUT v_objetivo character varying, OUT v_programa character varying, OUT v_cantestudiantes integer)
+  RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT * FROM informes WHERE profesorID = ve_profesorID AND sede LIKE v_sede;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	RETURN query SELECT idinforme, profesorId, area, actividad, fechainicio, fechafinal, objetivo, programa, cantestudiantes 
+    FROM informes WHERE profesorid like ve_profesorID AND sede like v_sede;
 END;
 $BODY$
-LANGUAGE plpgsql;
+  LANGUAGE plpgsql
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 CREATE OR REPLACE FUNCTION sp_obtenerinformesfechas(
@@ -378,9 +378,9 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION sp_obtenerInformes
 (
-    IN v_sede VARCHAR(2),	
+    IN v_sede ,
     OUT v_idInforme INT,
-    OUT v_profesorID VARCHAR(10),
+    OUT v_profesorID t_cedula,
     OUT v_area VARCHAR(3),
     OUT v_actividad VARCHAR(100),
     OUT v_fechaInicio DATE,

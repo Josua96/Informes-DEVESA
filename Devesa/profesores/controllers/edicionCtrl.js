@@ -51,6 +51,7 @@ angular.module('profesorModule')
                     },
                     function myError(response)
                     {
+                        console.log(response);
                         mostrarNotificacion("Error de conexion",1);
                     });
         };
@@ -76,6 +77,7 @@ angular.module('profesorModule')
 
         $scope.cargarFotos = function ()
         {
+            console.log("Cargando fotos");
             $http(
                 {
                     method : "GET",
@@ -84,7 +86,10 @@ angular.module('profesorModule')
                 })
                 .then(function mySucces(response)
                     {
+                        console.log("Exito obteniendo fotos");
+                        console.log(response);
                         $scope.imagenes = [];
+
                         if(response.data!==0)
                         {
                             var lista = response.data;
@@ -93,6 +98,7 @@ angular.module('profesorModule')
                             {
                                 $scope.imagenes.push(response.data[i].v_nombre);
                             }
+                            console.log("Imagenes:"+$scope.imagenes);
                         }
                         else
                         {
@@ -124,7 +130,7 @@ angular.module('profesorModule')
             }
             /*Ejecutamos la función ajax de jQuery*/
             $.ajax({
-                url:API_ROOT+':80/DEVESA/profesores/subir.php', //Url a donde la enviaremos
+                url:API_ROOT+':80/Informes-DEVESA/Devesa/profesores/subir.php',
                 type:'POST', //Metodo que usaremos
                 contentType:false, //Debe estar en false para que pase el objeto sin procesar
                 data:archivos, //Le pasamos el objeto que creamos con los archivos
@@ -134,16 +140,38 @@ angular.module('profesorModule')
             {
                 if(msg !== "ERROR")
                 {
+                    console.log("Esta es una prueba");
+                    console.log(msg);
                     var listaNombres = msg.split(",");
                     var longitud = listaNombres.length-1;
+
+                    console.log(listaNombres);
+
                     for(i=0; i<longitud; i++)
                     {
-                        $http({method: "POST",url:API_ROOT+":8081/CrearImagen?idInforme="+$scope.idInforme+"&placa="+listaNombres[i]+
-                        "&iden="+ $scope.idProfesor + "&codigo="+ $scope.codigo+"&tipo="+ $scope.tipo})
-                            .then(function mySucces(response){},function myError(response){mostrarNotificacion("Ocurrio un error verifique la conexion",1);});
+                        if(listaNombres[i] != "")
+                        {
+                            console.log(listaNombres[i]);
+                            $http({
+                                method: "POST",
+                                url:API_ROOT+":8081/CrearImagen?idInforme="+$scope.idInforme+"&placa="+listaNombres[i]+ "&iden="+ $scope.idProfesor + "&codigo="+ $scope.codigo+"&tipo="+ $scope.tipo
+                            })
+                                .then(function mySucces(response){
+                                        console.log("SE escribio la vara");
+                                        console.log(response);
+                                    },
+                                    function myError(response)
+                                    {
+                                        console.log("SE escribio la vara con error"+response);
+                                        mostrarNotificacion("Ocurrio un error verifique la conexion",1);
+                                    });
+                        }
                     }
                 }
-                else{mostrarNotificacion(msg, 1);}
+                else
+                {
+                        mostrarNotificacion(msg, 1);
+                }
             });
             mostrarNotificacion("Guardado",2);
             window.location.href =('#/profesores/informesEnviados');

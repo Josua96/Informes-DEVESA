@@ -533,9 +533,9 @@ app.post('/CrearImagen', function(req, res) {
 })
 
 //Lista!
-app.get('/ObtenerImagenesInforme', function(req, res) {
-  
-	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
+app.get('/ObtenerImagenesInforme', function(req, res)
+{
+	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
 		.then(data => {
 			if(data.sp_tokenvalido==true){
 
@@ -564,15 +564,15 @@ app.get('/ObtenerImagenesInforme', function(req, res) {
 //Lista!
 app.get('/EliminarImagen', function(req, res) {
 
-	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
+	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
 		.then(data => {
 			if(data.sp_tokenvalido==true)
 			{
-                db.proc('sp_eliminarImagen',[req.query.idInforme, req.query.nombre])
-                    .then(data => {
-                    console.log(data.sp_eliminarImagen);
-                res.end(JSON.stringify(data.sp_eliminarImagen));
-            })
+                db.proc('sp_eliminarImagen',[req.query.idInforme, req.query.nombre]).then(data =>
+				{
+					console.log(data.sp_eliminarImagen);
+					res.end(JSON.stringify(data.sp_eliminarImagen));
+            	})
             .catch(error => {
                 console.log("ERROR: ",error);
             });
