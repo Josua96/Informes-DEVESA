@@ -34,7 +34,10 @@ angular.module('profesorModule')
             $scope.fechaFinActividad =  document.getElementById("date3").value;
             var Codigoarea;
 
-            if(document.getElementById("sel1").value!=="")
+            //verificar que ninguna entrada tenga un valor nulo
+            if  ( noNulos([document.getElementById("sel1").value,$scope.fechaActividad,$scope.fechaFinActividad,
+                $scope.area,$scope.actividad,$scope.objetivoActividad,$scope.programa,$scope.cantidadEstudiantes]
+                    )==true)
             {
                 Codigoarea = $scope.opciones[document.getElementById("sel1").value].codigo;
 
@@ -54,7 +57,6 @@ angular.module('profesorModule')
                         if(response["data"]==="true")
                         {
                             mostrarNotificacion("El informe a sido enviado con exito",2);
-                            window.location.href =('#/profesores/informesEnviados');
                         }
                         else
                         {
@@ -67,7 +69,7 @@ angular.module('profesorModule')
             }
             else
             {
-                mostrarNotificacion("Seleccione un area",1);
+                mostrarNotificacion("Asegurése de ingresar datos en cada uno de los campos requeridos",1);
             }
         };
     });

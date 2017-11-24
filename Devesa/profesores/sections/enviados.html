@@ -22,7 +22,7 @@ Permite ver una tabla con los diferentes informes, tambien permite su
                 onmouseover='this.style.backgroundColor="#B4C7E6"'
                 onmouseout='this.style.backgroundColor="#3B4A95"'>
                 <td>{{informe["v_actividad"]}}</td>
-                <td>{{informe["v_fecha"].slice(0, 10)}}</td>
+                <td>{{revertirCadena(informe["v_fechainicio"])}}</td>
                 <td>
                     <button
                             type="button"

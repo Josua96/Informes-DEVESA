@@ -12,10 +12,12 @@ angular.module('adminModule')
     //los datos universitarios del estudiante
     $scope.informacionEstudiante=function () {
         
-    }
+    };
     
     $scope.cargarDatos = function()
-    {           
+    {    
+        if (noNulos([$scope.tipoSolicitud,$scope.carnetEstudiante]) ==true){
+        
         datosEstudiante.carnet=$scope.carnetEstudiante;
         var datos =getTextoEspecial(document.getElementById("sel1").selectedIndex);
         datosEstudiante.tipoTramite= datos[0];
@@ -25,7 +27,11 @@ angular.module('adminModule')
         // aqui se debe llenar los datos del estudiante con la base de datos de 
         //la funcion se llama aqui                        
         window.location.href =('#/carta');
-    } ;
+        }
+        else{
+            mostrarNotificacion("Ocurrió un error en la indicacion de los datos, asegurése de ingresar la información requerida", 1); 
+        }
+    };
     
     function mostrar(id)
     {

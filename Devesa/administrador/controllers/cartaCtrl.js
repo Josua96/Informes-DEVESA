@@ -52,7 +52,7 @@ angular.module('adminModule').controller('cartaCtrl', function($scope,$location,
         //Aqui se cambia el estado de las solicitudes            
        $http({   
                 method : "POST",
-                url :"http://localhost:8081/ActualizarEstado?id=" + datosEstudiante.idConsulta+"&iden="
+                url :API_ROOT+":8081/ActualizarEstado?id=" + datosEstudiante.idConsulta+"&iden="
                 +$scope.id+"&codigo="+$scope.codigo
             }).then(function mySucces(response) {
                 window.location.href =('#/solicitudes');  

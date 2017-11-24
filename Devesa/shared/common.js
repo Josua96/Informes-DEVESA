@@ -234,6 +234,7 @@ function getTextoEspecial(dato, datosEstudiante)
 }
 //function para dar formato a la fecha que recibe por parametro
 function revertirCadena(cadena){
+    console.log("cadena revertida");
     return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
 }
 
@@ -286,3 +287,14 @@ function estaEnLista(lista,id) {
      return false; //no está en lista
 }
 
+// para validacion de datos no nulos, retorna false si algun elemento de la lista tiene un valor nulo
+function noNulos(listaValores) {
+    var limite= listaValores.length;
+    var i;
+    for (i=0; i <limite;i++){
+        if (listaValores[i]==undefined){ //valor nulo encontrado
+            return false;
+        }
+    }
+    return true; //no hay valores nulos
+}

@@ -17,7 +17,7 @@ angular.module('userModule')
         $scope.borrarToken=function () {
             $http({
                 method : "DELETE",
-                url :"http://localhost:8081/eliminarToken?codigo="+$scope.codigo
+                url :API_ROOT+":8081/eliminarToken?codigo="+$scope.codigo
             }).then(function (response) {
                 console.log("token_registrado");
                 $scope.redirigirUsuario();

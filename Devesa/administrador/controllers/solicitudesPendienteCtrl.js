@@ -15,7 +15,7 @@ angular.module('adminModule')
         {
             $http({
             method : "GET",
-            url :"http://localhost:8081/ObtenerSolicitudesNoAtendidas?"+"&iden="+$scope.id+"&codigo="+$scope.codigo
+            url : API_ROOT+":8081/ObtenerSolicitudesNoAtendidas?"+"&iden="+$scope.id+"&codigo="+$scope.codigo
                 +"&sede="+$scope.sede
             }).then(function mySucces(response)
             {

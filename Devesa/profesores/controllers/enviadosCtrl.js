@@ -7,6 +7,10 @@ angular.module('profesorModule')
         $scope.sede=localStorage.getItem("sede");
         $scope.tipo="P";
 
+        
+        
+        
+        
         $scope.obtenerInformes = function()
         {
             $http({
@@ -36,13 +40,14 @@ angular.module('profesorModule')
         $scope.editarInformes = function(indice)
         {
             var informe =$scope.misInformes[indice];
-            console.log(informe);
+            
             datosInforme.idProfesor = informe["v_profesorid"];
             datosInforme.idInforme = informe["v_idinforme"];
             datosInforme.area= informe["v_area"];
             datosInforme.actividad= informe["v_actividad"];
-            datosInforme.fechaInicio = informe["v_fechainicio"].slice(0, 10);
-            datosInforme.fechaFinal = informe["v_fechafinal"].slice(0, 10);
+            
+            datosInforme.fechaInicio =informe["v_fechainicio"];  //.slice(0, 10);
+            datosInforme.fechaFinal = informe["v_fechafinal"];   //.slice(0, 10);
             datosInforme.objetivo= informe["v_objetivo"];
             datosInforme.programa= informe["v_programa"];
             datosInforme.numeroEstudiantes= informe["v_cantestudiantes"];

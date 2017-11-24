@@ -6,8 +6,8 @@ angular.module('profesorModule')
         $scope.area= datosInforme.area;
         $scope.idInforme=datosInforme.idInforme;
         $scope.actividad= datosInforme.actividad;
-        $scope.fechaInicio= datosInforme.fechaInicio;
-        $scope.fechaFinal = datosInforme.fechaFinal;
+        $scope.fechaInicio= document.getElementById('date2').value=datosInforme.fechaInicio;
+        $scope.fechaFinal = document.getElementById('date3').value=datosInforme.fechaFinal;
         $scope.objetivoActividad=datosInforme.objetivo;
         $scope.programa=datosInforme.programa;
         $scope.cantidadEstudiantes=datosInforme.numeroEstudiantes;
@@ -85,7 +85,7 @@ angular.module('profesorModule')
                 .then(function mySucces(response)
                     {
                         $scope.imagenes = [];
-                        if(response.data!==0)
+                        if(response.data.length > 0)
                         {
                             var lista = response.data;
                             var tam = lista.length;
@@ -151,12 +151,14 @@ angular.module('profesorModule')
 
 
         // Toma todos los datos y los sobreescribe en la BD
-
+        //si no existen valores nulos en los campos de texto
         $scope.guardarInforme = function ()
         {
             $scope.fechaActividad = document.getElementById("date2").value;
 
-            if(document.getElementById("sel1").value!=="")
+            if(noNulos([document.getElementById("sel1").value,$scope.area,$scope.idInforme,
+                $scope.actividad,$scope.fechaFinActividad,$scope.fechaInicio,$scope.objetivoActividad,
+                $scope.programa,$scope.cantidadEstudiantes])==true)
             {
 
                 var Codigoarea = areas[document.getElementById("sel1").value];
@@ -165,7 +167,7 @@ angular.module('profesorModule')
                     "&fechaFinal="+ $scope.fechaFinal + "&objetivo="+$scope.objetivoActividad
                     +"&programa="+ $scope.programa+ "&cantidadEstudiantes="+ $scope.cantidadEstudiantes +
                     "&iden="+ $scope.idProfesor + "&codigo=" + $scope.codigo + "&id="+$scope.idInforme);
-                $http(
+                     $http(
                     {
                         method: "POST",
                         url:API_ROOT+":8081/ModificarInforme?area=" + Codigoarea +
@@ -188,7 +190,7 @@ angular.module('profesorModule')
             }
             else
             {
-                mostrarNotificacion("Seleccione un area",1);
+                mostrarNotificacion("Asegurése de ingresar datos en cada uno de los campos requeridos",1);
             }
         };
         $scope.cargarFotos();

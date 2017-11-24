@@ -32,7 +32,7 @@ CREATE TABLE solicitudes
 CREATE TABLE informes
 (
     idInforme SERIAL NOT NULL PRIMARY KEY,
-    profesorID VARCHAR(10) CHECK (profesorID SIMILAR TO ('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')) NOT NULL,
+    profesorID cedulas NOT NULL,
     area VARCHAR(3) CHECK (area IN ('DI','SE','AYR','TSR', 'TSB','PS','BI','SOD','SME','SEN','CU','DE')) NOT NULL,
     actividad VARCHAR(100) NULL,
     fechaInicio DATE NOT NULL,
@@ -101,6 +101,11 @@ CREATE OR REPLACE FUNCTION sp_almacenarToken
 RETURNS VOID AS
 $BODY$
 BEGIN 
+
+	IF (SELECT COUNT(*) FROM autorizacion WHERE codigo SIMILAR TO '%'||codigo||'%')> 0 THEN
+		DELETE FROM autorizacion WHERE codigo SIMILAR TO '%'||codigo||'%';
+	END IF;
+
 	INSERT INTO autorizacion VALUES(id,tipoU,codigo);
 	EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION 'Error en la consulta';
@@ -239,13 +244,10 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
-
-
-
 -- Seccion de los informes 
 CREATE OR REPLACE FUNCTION sp_crearInforme
 (
-    IN v_profesorID VARCHAR(10),
+    IN v_profesorID CHAR(11),
     IN v_area VARCHAR(25),
     IN v_actividad VARCHAR(100),
     IN v_fechaInicio DATE,
@@ -257,46 +259,47 @@ CREATE OR REPLACE FUNCTION sp_crearInforme
 ) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-    INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes)
+    INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede)
     VALUES (v_profesorID,v_area,v_actividad,v_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
     RETURN TRUE;
-EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
 END;
 $BODY$
 LANGUAGE plpgsql;
 
+
 CREATE OR REPLACE FUNCTION sp_obtenerInformes_profesor
 (
-    IN ve_profesorID VARCHAR(10),
+    IN ve_profesorID CHAR(11),
     IN v_sede VARCHAR(2),
     OUT v_idInforme INT,
-    OUT v_profesorID VARCHAR(10),
+    OUT v_profesorID cedulas,
     OUT v_area VARCHAR(3),
     OUT v_actividad VARCHAR(100),
     OUT v_fechaInicio DATE,
     OUT v_fechaFinal DATE,
     OUT v_objetivo VARCHAR(200),
-    OUT v_programa VARCHAR(50),
+    OUT v_programa VARCHAR(100),
     OUT v_cantEstudiantes INT
     
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT * FROM informes WHERE profesorID = ve_profesorID AND sede LIKE v_sede;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	RETURN query SELECT idInforme,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
+	 FROM informes WHERE profesorID = ve_profesorID AND sede LIKE v_sede;
+
 END;
 $BODY$
 LANGUAGE plpgsql;
 
+select sp_obtenerInformes_profesor('2-1122-1222','SC')
+select * from informes
 
 CREATE OR REPLACE FUNCTION sp_obtenerinformesfechas(
 IN fecha_uno date, 
 IN fecha_dos date, 
 IN v_sede VARCHAR(2),
 OUT v_idinforme INTEGER, 
-OUT v_profesorid character varying, 
+OUT v_profesorid cedulas, 
 OUT v_area character varying, 
 OUT v_actividad character varying, 
 OUT v_fechaInicio date,
@@ -320,15 +323,13 @@ END;
 $BODY$
   LANGUAGE plpgsql;
 
-select * from informes
 
-drop function sp_obtenerinformes_area(character varying,character varying)
 CREATE OR REPLACE FUNCTION sp_obtenerInformes_area
 (
     IN ve_area VARCHAR(3),
     IN ve_sede VARCHAR(2),
     OUT v_idInforme INT,
-    OUT v_profesorID VARCHAR(10),
+    OUT v_profesorID cedulas,
     OUT v_area VARCHAR(3),
     OUT v_actividad VARCHAR(100),
     OUT v_fechaInicio DATE,
@@ -340,8 +341,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes_area
 $BODY$
 
 BEGIN
-	raise notice 'area %',ve_area;
-	raise notice  'sede %',ve_sede;
+	
 	RETURN query SELECT idInforme,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
 	FROM informes WHERE area = ve_area AND sede LIKE ve_sede;
         
@@ -351,10 +351,11 @@ LANGUAGE plpgsql;
 
 
 
+
 CREATE OR REPLACE FUNCTION sp_obtenerInforme_porId(
 IN ve_idinforme INTEGER, 
 OUT v_idinforme INTEGER, 
-OUT v_profesorid character varying, 
+OUT v_profesorid cedulas, 
 OUT v_area character varying, 
 OUT v_actividad character varying, 
 OUT v_fechaInicio DATE,
@@ -374,13 +375,11 @@ $BODY$
 LANGUAGE plpgsql;
 
 
-
-
 CREATE OR REPLACE FUNCTION sp_obtenerInformes
 (
     IN v_sede VARCHAR(2),	
     OUT v_idInforme INT,
-    OUT v_profesorID VARCHAR(10),
+    OUT v_profesorID cedulas,
     OUT v_area VARCHAR(3),
     OUT v_actividad VARCHAR(100),
     OUT v_fechaInicio DATE,
@@ -393,13 +392,11 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes
 $BODY$
 BEGIN
 	RETURN query SELECT * FROM informes WHERE sede LIKE v_sede;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+
 END;
 $BODY$
 LANGUAGE plpgsql;
 
-select * from sp_obtenerInformes('SC');
 
 CREATE OR REPLACE FUNCTION sp_modificarInforme
 (

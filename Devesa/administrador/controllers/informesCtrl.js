@@ -22,21 +22,22 @@ angular.module('adminModule')
             {model: "Deportivas",num:10}
         ];
 
+        //funcion para retornar a partir de la aberviatura del area, el texto correspondiente para la misma
         $scope.texto=function (text) {
             return textoInforme(text);
-        }
+        };
 
+        //funcion que da formato a una fecha;
         $scope.revertir=function (cadena) {
-
             return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
-        }
+        };
 
         $scope.mostrarInformes= function(indice) {
             if (indice != undefined) {
                 {
                     $http({
                         method: "GET",
-                        url: "http://localhost:8081/ObtenerInformesArea?area=" + $scope.tipoInformes[indice]+"&iden="
+                        url: API_ROOT+":8081/ObtenerInformesArea?area=" + $scope.tipoInformes[indice]+"&iden="
                         +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
                     }).then(function mySucces(response) {
                         console.log("sede");
@@ -52,14 +53,14 @@ angular.module('adminModule')
                     areaInforme.informeArea=$scope.tipoInformes[indice];
                 }
             }
-        }
+        };
 
         $scope.recargarPagina=function () {
             if (numeroInforme != -1) { //si un informe fué seleccionado previamente
                 {
                     $http({
                         method: "GET",
-                        url: "http://localhost:8081/ObtenerInformesArea?area=" +departamento+"&iden="
+                        url: API_ROOT+":8081/ObtenerInformesArea?area=" +departamento+"&iden="
                         +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
                             
                     }).then(function mySucces(response) {
@@ -70,7 +71,7 @@ angular.module('adminModule')
                     });
                 }
             }
-        }
+        };
 
         $scope.verMas=function (indice) {
             numeroInforme=$scope.informesArea[indice]["v_idinforme"];
@@ -90,7 +91,7 @@ angular.module('adminModule')
                 mostrarNotificacion("Asegúrese de seleccionar un área y que esta contenga al menos un informe",1);
             }
             
-        }
+        };
         
         $scope.recargarPagina();
         

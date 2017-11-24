@@ -19,8 +19,7 @@ app.controller('loginController', function($scope, $http)
     localStorage.setItem("userId",$scope.id);
 
     localStorage.setItem("userType","A");
-
-
+    
     localStorage.setItem("sede","SC");
     
     $scope.tipoUsuario=localStorage.getItem("userType");

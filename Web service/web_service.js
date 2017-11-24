@@ -12,7 +12,7 @@
 var pg = require('pg'); //postgres controller
 
 //formato del string: "postgres://nombreUsuario:contraseña@ip:puerto/baseDeDatos"
-var conString = "postgres://postgres:postgresql2017@localhost:5432/devesa_app"; //connection link
+var conString = "postgres://postgres:12345@localhost:5432/devesa_app"; //connection link
 var client;
 var express = require('express');
 var app = express(); //restful api
@@ -23,7 +23,7 @@ var cn = {
     port: 5432,
     database: 'devesa_app',
     user: 'postgres',
-    password: 'postgresql2017'
+    password: '12345'
 };
 
 var db = pgp(cn);
@@ -535,7 +535,7 @@ app.post('/CrearImagen', function(req, res) {
 //Lista!
 app.get('/ObtenerImagenesInforme', function(req, res) {
   
-	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
+	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
 		.then(data => {
 			if(data.sp_tokenvalido==true){
 

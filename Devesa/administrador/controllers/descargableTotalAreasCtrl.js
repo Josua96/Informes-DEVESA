@@ -44,7 +44,7 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
     };
 
     //funcion para obtener el nombre de un encargado por medio de su id
-    $scope.obtenerInformacioEncargado=function (idFuncionario) {
+    $scope.obtenerInformacionEncargado=function (idFuncionario) {
         
     };
 
@@ -53,10 +53,13 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
         //verificar que se hayan seleccionado las dos fechas
         $scope.desde=document.getElementById("date1").value; //obtener fechas seleccionadas
         $scope.hasta=document.getElementById("date2").value;
-        if ($scope.desde != "" && $scope.hasta != ""){
+        
+        //verificar que no existan datos nulos
+        if (noNulos([$scope.desde,$scope.hasta]) == true)
+        {
             $http({
                 method: "GET",
-                url: "http://localhost:8081/ObtenerInformesRango?fecha_uno=" + $scope.desde + "&fecha_dos=" + $scope.hasta+"&iden="
+                url: API_ROOT+":8081/ObtenerInformesRango?fecha_uno=" + $scope.desde + "&fecha_dos=" + $scope.hasta+"&iden="
                 +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
             }).then(function mySucces(response) {
                 $scope.actividades = response.data;  
