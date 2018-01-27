@@ -18,7 +18,7 @@ app.controller('loginController', function($scope, $http)
     localStorage.setItem("sessionToken", $scope.codigo);
     localStorage.setItem("userId",$scope.id);
 
-    localStorage.setItem("userType","A");
+    localStorage.setItem("userType","E");
     
     localStorage.setItem("sede","SC");
     

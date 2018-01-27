@@ -12,27 +12,9 @@ angular.module('userModule')
     $scope.tramite;
     $scope.indice;
     $scope.datos;  
-    $scope.solicitudes=["CCSS","regular","visa","pension", "CCSSResidencia"];
-    $scope.opciones= [
-                        {model : "Carnet de la CCSS", num:0},
-                        {model : "Estudiante Regular", num: 1},
-                        {model : "Trámite de Visa", num: 2},
-                        {model:"Trámite de Pensión",num:3 },
-                        {model:"CCSS con Residencia",num:4}
-                     ];
+    $scope.solicitudes=solicitudesDisponibles
+    $scope.opciones= sedes;
 
-    // Muestra un mensaje si ocurre algun error. 
-    $scope.mostrarError=function (texto) {
-        swal({ 
-            title: texto,
-            type: "error",
-            confirmButtonColor: "#EE2049",
-            timer: 3000,
-            showConfirmButton: false
-        });
-    };
-
-    
     //  verifica que no se haya realizado una solicitud del tipo que se esta pidiendo 
     $scope.verificar=function () {
 

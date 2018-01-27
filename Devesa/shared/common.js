@@ -50,6 +50,27 @@ const LS_REMEMBER_SESSION = "rememberSession";
 const API_ROOT = "http://localhost";//"http://transportec-api.azurewebsites.net";
 
 /**
+ * CONSTANTE DE SEDES EN EL SISTEMA
+ */
+
+const sedes=[{nombre:"Sede Regional San Carlos",Abreviatura:"SC"},
+    {nombre:"Sede Central Cartago",Abreviatura:"SCC"},
+    {nombre:"Centro académico de Limón",Abreviatura:"CAL"},
+    {nombre:"Centro académico de Alajuela",Abreviatura:"CAA"},
+    {nombre:"Centro acádemico de San José",Abreviatura:"CAS"}];
+
+/**
+ * CONSTANTE DE tpos de solicitudes en el sistema
+ */
+
+const solicitudesDisponibles= [
+    {tipo: "Carnet de la CCSS", abreviatura:"CCSS"},
+    {tipo: "Estudiante Regular", abreviatura: "regular"},
+    {tipo : "Trámite de Visa", abreviatura: "visa"},
+    {tipo :"Trámite de Pensión",abreviatura: "pension"},
+    {tipo :"CCSS con Residencia",abreviatura:"CCSSResidencia"}
+];
+/**
  * Formatea una cadena de texto en base a los parámetros proporcionados.
  * Tomado de: http://stackoverflow.com/a/4256130/3288599
  * @returns {String} Cadena de texto con formato aplicado.
@@ -232,6 +253,21 @@ function getTextoEspecial(dato, datosEstudiante)
       return "";
     }
 }
+
+//funcion que recibe el nombre de ka imagen y retorna su formato "JPG","JPEG"
+function retornaFormato(nombreImagen){
+    var contador=nombreImagen.length-1;
+    var caracter;
+    var formato;
+    while(nombreImagen[contador]!=".") //recorrer la cadena hasta encontrara un punto
+    {
+        contador-=1;
+
+    }
+    formato=nombreImagen.slice(contador,nombreImagen.length);
+    return formato;
+
+}
 //function para dar formato a la fecha que recibe por parametro
 function revertirCadena(cadena){
     console.log("cadena revertida");
@@ -292,7 +328,7 @@ function noNulos(listaValores) {
     var limite= listaValores.length;
     var i;
     for (i=0; i <limite;i++){
-        if (listaValores[i]==undefined){ //valor nulo encontrado
+        if ((listaValores[i]==undefined)||(String(listaValores[i]).length==0)){ //valor nulo encontrado
             return false;
         }
     }

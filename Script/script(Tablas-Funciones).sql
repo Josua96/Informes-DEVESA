@@ -87,6 +87,7 @@ LANGUAGE plpgsql;
 delete from autorizacion;
 select * from solicitudes;
 select * from autorizacion;
+select * from informes;
 select sp_eliminarToken('wer33');
 select sp_almacenarToken('2-1122-1222','E','wer33');
 select sp_tokenValido('2-1122-1222','E','wer33');
@@ -102,8 +103,8 @@ RETURNS VOID AS
 $BODY$
 BEGIN 
 
-	IF (SELECT COUNT(*) FROM autorizacion WHERE codigo SIMILAR TO '%'||codigo||'%')> 0 THEN
-		DELETE FROM autorizacion WHERE codigo SIMILAR TO '%'||codigo||'%';
+	IF (SELECT COUNT(*) FROM autorizacion WHERE token SIMILAR TO '%'||codigo||'%')> 0 THEN
+		DELETE FROM autorizacion WHERE token SIMILAR TO '%'||codigo||'%';
 	END IF;
 
 	INSERT INTO autorizacion VALUES(id,tipoU,codigo);

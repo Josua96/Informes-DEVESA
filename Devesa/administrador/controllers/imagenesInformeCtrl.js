@@ -1,11 +1,9 @@
 angular.module('adminModule')
-    .controller('imagenesInformeCtrl', function($scope,$location,$http,idInformeEnCurso)
+    .controller('imagenesInformeCtrl', function($q,$scope,$location,$http,idInformeEnCurso)
         {
 
             $scope.codigo=localStorage.getItem("sessionToken");
             $scope.id=localStorage.getItem("userId");
-
-
 
             $scope.informe;
             $scope.imagenes=[];
@@ -49,7 +47,36 @@ angular.module('adminModule')
                 $scope.imagenes=["../assets/images/25d.jpg","../assets/images/A1D.jpg","../assets/images/antiopadas.jpg","../assets/images/paisaje-epuyen.jpg","../assets/images/dos.jpg"];
             };
 
-            
+
+            $scope.descargarImagenes=function () {
+                var zip = new JSZip();
+                var count = 0;
+                var zipFilename = $scope.informe[0]["v_actividad"];
+                var urls=$scope.imagenes;
+                var filename;
+
+                urls.forEach(function(url){
+                    
+                    // loading a file and add it in a zip file
+                    JSZipUtils.getBinaryContent(url, function (err, data) {
+                        if(err) {
+                            throw err; // or handle the error
+                        }
+                        filename="Imagen" + count + retornaFormato(url);
+                        zip.file(filename, data, {binary:true});
+                        count++;
+                        if (count == urls.length) {
+                            console.log("contador " +count);
+                            var zipFile = zip.generateAsync({type: "blob"})
+                                .then(function(content) {
+                                    console.log(content);
+                                    // generar la descarga
+                                    saveAs(content,zipFilename);
+                                });
+                        }
+                    });
+                });  
+            };
 
             $scope.retroceder=function () {
                 
@@ -61,3 +88,30 @@ angular.module('adminModule')
             
         }
     );
+
+/**
+ console.log("indice= "+indice);
+
+
+ //cargar el archivo de imagen y agregarlo al zip
+ JSZipUtils.getBinaryContent(url, function (err, data) {
+                        if (err) {
+                            mostrarNotificacion("Ocurrió un error al cargar las imágenes, la descarga no es posible", 2)
+                            return;
+                        }
+
+                        zip.file(filename, data, {binary: true});
+
+                        if (indice == limit){
+                            console.log("generar zip");
+                            zip.generateAsync({type:"blob"})
+                                .then(function(content) {
+                                    console.log(content);
+                                    // generar la descarga
+                                    saveAs(content,zipFilename);
+                                });
+                        }
+                    });
+
+ });
+ **/
