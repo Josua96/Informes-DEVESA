@@ -21,9 +21,12 @@ CREATE DOMAIN DOMAIN_SEDE VARCHAR(2) NOT NULL CONSTRAINT CHK_sede CHECK
 CREATE TABLE solicitudes
 (
     idSolicitud SERIAL NOT NULL PRIMARY KEY,
+    fecha DATE DEFAULT(CURRENT_DATE),
     carne	VARCHAR(10) CHECK (carne SIMILAR TO ('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')) NOT NULL,
     tramite VARCHAR(20) CHECK (tramite IN ('CCSS','pension','regular','visa', 'CCSSResidencia')) NOT NULL,
     estado BOOLEAN NOT NULL DEFAULT FALSE,
+    fechaImpresion DATE,
+    notificado BOOLEAN DEFAULT (FALSE),
     sede DOMAIN_SEDE  
 );
 
@@ -59,7 +62,7 @@ CREATE TABLE imagenes
 CREATE TABLE autorizacion(
 	idUsuario cedulas,
 	TipoUsuario char(1),
-	token char(5)UNIQUE,
+	token char(32)UNIQUE,
 	CONSTRAINT PK_idUsuario_autorizacion PRIMARY KEY(idUsuario)
 );
 
@@ -149,7 +152,7 @@ CREATE OR REPLACE FUNCTION sp_crearSolicitud
 ) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-	INSERT INTO solicitudes (carne,tramite,estado,sede) VALUES (v_carne,v_tramite,FALSE,v_sede);
+	INSERT INTO solicitudes (carne,fecha,tramite,estado,sede) VALUES (v_carne,CURRENT_DATE,v_tramite,FALSE,v_sede);
 	RETURN TRUE;
 EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;
@@ -157,7 +160,7 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
-
+SELECT CURRENT_DATE
 
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 (
@@ -169,7 +172,8 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede LIKE v_sede;
+	RETURN query SELECT idSolicitud,carne, tramite FROM solicitudes WHERE estado = FALSE AND sede LIKE v_sede
+	ORDER BY fecha ASC;
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION 'Error en la consulta';
 END;
@@ -188,8 +192,10 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesAtendidas
     
 ) RETURNS SETOF record AS
 $BODY$
+DECLARE
+	DATE fechaActual= (SELECT CURRENT_DATE);
 BEGIN
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede;
+	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede AND fechaImpresion=fechaActual;
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION 'Error en la consulta';
 END;
@@ -197,24 +203,37 @@ $BODY$
 LANGUAGE plpgsql;
 
 
+/** NOTA: Si una solicitud no ha sido impresa, el campo notificado de solicitudes es false */
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesCarnet
 (
     IN v_carnet VARCHAR(10), 
     OUT v_idSolicitud INT,
     OUT v_carne VARCHAR(10),
     OUT v_tramite VARCHAR(50)
-) RETURNS SETOF record AS
+) RETURNS SETOF RECORD AS
 $BODY$
-BEGIN  
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND carne LIKE v_carnet;
+DECLARE
+
+	cursorSolicitudes CURSOR FOR 
+	SELECT idSolicitud,carne,tramite FROM solicitudes WHERE notificado=FALSE AND carne LIKE v_carnet;
+BEGIN   
+	OPEN cursorSolicitudes;
+	UPDATE solicitudes SET notificado=TRUE WHERE estado=true;
+	--RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND carne LIKE v_carnet;
 	
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	RETURN query FETCH ALL FROM cursorSolicitudes;
+
 END;
 $BODY$
 LANGUAGE plpgsql;
 
+SELECT idSolicitud,carne,tramite FROM solicitudes WHERE notificado=FALSE AND carne LIKE '2016254066';
+select * from sp_obtenerSolicitudesCarnet('2016254066');
+select * from solicitudes
+DELETE FROM solicitudes
 
+insert into solicitudes(fecha,carne,tramite,estado,fechaImpresion,notificado,sede) values (CURRENT_DATE,'2016254066','CCSS',TRUE,(CURRENT_DATE)+1,FALSE,'SC'),
+										      (CURRENT_DATE,'2016254066','pension',TRUE,(CURRENT_DATE)+1,FALSE,'SC');
 
 CREATE OR REPLACE FUNCTION sp_eliminarSolicitud
 (
@@ -237,7 +256,7 @@ CREATE OR REPLACE FUNCTION sp_actualizarEstado
 ) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-    UPDATE solicitudes SET estado = TRUE WHERE idSolicitud = v_idSolicitud;
+    UPDATE solicitudes SET estado = TRUE,fechaImpresion=CURRENT_DATE WHERE idSolicitud = v_idSolicitud;
     RETURN TRUE;
 EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;

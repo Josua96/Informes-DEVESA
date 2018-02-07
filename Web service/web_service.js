@@ -39,7 +39,6 @@ app.use(function(req, res, next) {
 })
 
 
-
 //===============================================================================================
 //		SEGURIDAD
 //===============================================================================================
@@ -588,6 +587,23 @@ app.get('/EliminarImagen', function(req, res) {
     		});
 });
 
+
+
+//prueba
+
+app.get('/prueba', function(req, res) {
+
+  db.proc('sp_obtenerSolicitudesCarnet',[req.query.carnet])
+    .then(data => {
+
+      res.end(JSON.stringify(data));
+        
+          })
+    .catch(error => {
+            console.log("ERROR: ",error);
+            res.end(JSON.stringify("Error"));
+        });
+});
 
 
 //================================================================================================
