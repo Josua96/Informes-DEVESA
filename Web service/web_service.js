@@ -74,7 +74,7 @@ app.post('/registrarToken',function(req,res){
 //Lista!
 app.post('/CrearSolicitud', function(req, res) {
 	//validacion de token
-	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
+	db.proc('sp_TokenValido',[req.query.iden,"E",req.query.codigo])
 	.then(data => {
 	  if(data.sp_tokenvalido==true) {
 		 db.proc('sp_crearSolicitud',[req.query.carnet,req.query.tramite,req.query.sede])
@@ -85,7 +85,8 @@ app.post('/CrearSolicitud', function(req, res) {
 		})
 		.catch(error=> {
 			console.log("ERROR: ",error);
-			res.end(JSON.stringify(false));
+      res.status(400).send(
+            {message:false});
 		})
 
 		}
@@ -534,7 +535,7 @@ app.post('/CrearImagen', function(req, res) {
 //Lista!
 app.get('/ObtenerImagenesInforme', function(req, res) {
   
-	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
+	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
 		.then(data => {
 			if(data.sp_tokenvalido==true){
 
@@ -593,7 +594,7 @@ app.get('/EliminarImagen', function(req, res) {
 
 app.get('/prueba', function(req, res) {
 
-  db.proc('sp_obtenerSolicitudesCarnet',[req.query.carnet])
+  db.func('sp_obtenerSolicitudesCarnet',[req.query.carnet])
     .then(data => {
 
       res.end(JSON.stringify(data));

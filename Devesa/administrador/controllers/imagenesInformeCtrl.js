@@ -32,7 +32,7 @@ angular.module('adminModule')
             };
             
             $scope.cargarImagenes= function () {
-                /*
+
                 $http({
                     method: "GET",
                     url: "http://localhost:8081/ObtenerImagenesInforme?idInforme="+numeroInforme+"&iden="
@@ -43,8 +43,8 @@ angular.module('adminModule')
                 }, function myError(response) {
                     mostrarNotificacion("Ocurrio un error", 1);
                 });
-                */
-                $scope.imagenes=["../assets/images/25d.jpg","../assets/images/A1D.jpg","../assets/images/antiopadas.jpg","../assets/images/paisaje-epuyen.jpg","../assets/images/dos.jpg"];
+
+                //$scope.imagenes=["../assets/images/25d.jpg","../assets/images/A1D.jpg","../assets/images/antiopadas.jpg","../assets/images/paisaje-epuyen.jpg","../assets/images/dos.jpg"];
             };
 
 

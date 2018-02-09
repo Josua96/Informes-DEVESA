@@ -10,7 +10,7 @@ angular.module('userModule')
     $scope.indiceEliminar = -1;            
     $scope.solicitudes;    
     
-
+    //obtiene las solicitudes realizadas por un estudiante
     $scope.actualizarInfo =function()
     {
         //format(Base64.encode($scope.carnet,true).toString())
@@ -24,11 +24,12 @@ angular.module('userModule')
                 console.log("obteniendo solicitudes");
                 $scope.solicitudes=response.data;
                 console.log($scope.solicitudes);
-                $scope.solicitudes=setTextSolicitudes($scope.solicitudes);
-                if ($scope.solicitudes===0)
+
+                if ($scope.solicitudes.length===0)
                 {
                     mostrarNotificacion("Usted no tiene solicitudes pendientes",3);
                 }
+                $scope.solicitudes=setTextSolicitudes($scope.solicitudes);
             },
             function myError(response)
             {
@@ -36,7 +37,7 @@ angular.module('userModule')
          });
     };
 
-    //Base64.toBase64($scope.username, true).toString()
+    //Eliina una solicitud del sistema
     $scope.completarEliminado = function() //elimina una solicitud
     {
     console.log("indice a elimnar:" + indiceEliminar);
@@ -59,7 +60,7 @@ angular.module('userModule')
     indiceEliminar = -1;
 
     };
-//eliminar una fila segun el indice
+    //Funcion de petición de confirmación al usuario para el proceso de borrado
     $scope.eliminar= function (indice)
     {   console.log("indice ",indice);
     indiceEliminar = indice;

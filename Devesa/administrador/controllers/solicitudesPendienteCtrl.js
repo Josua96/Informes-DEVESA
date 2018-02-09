@@ -9,7 +9,7 @@ angular.module('adminModule')
         departamento="";
         $scope.carnet;
         $scope.tramite;
-        $scope.solicitudes;   
+        $scope.solicitudes=[];
         $scope.idCosulta;                
         $scope.actualizarInfo = function()
         {

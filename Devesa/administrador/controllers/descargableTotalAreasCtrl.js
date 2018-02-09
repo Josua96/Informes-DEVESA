@@ -22,8 +22,6 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
     $scope.revertir=function (cadena) {
         return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
     };
-    
-    /* agregar la fecha final para */
 
     //funcion para agregar id's  de quien realiza los informes a diccionarios de la forma {idFuncionario: area}
     //el id de un funcionario solo se almacenará una vez
@@ -80,7 +78,7 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
             });
          }
         else{
-            mostrarNotificacion("Debe seleccionar el rango de fechas para buscar los informes", 1);
+            mostrarNotificacion("Debe especificar el rango de fechas para buscar los informes", 1);
         }
     };
 

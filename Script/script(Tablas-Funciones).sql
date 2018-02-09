@@ -21,7 +21,7 @@ CREATE DOMAIN DOMAIN_SEDE VARCHAR(2) NOT NULL CONSTRAINT CHK_sede CHECK
 CREATE TABLE solicitudes
 (
     idSolicitud SERIAL NOT NULL PRIMARY KEY,
-    fecha DATE DEFAULT(CURRENT_DATE),
+    fechaSolicitud DATE DEFAULT(CURRENT_DATE),
     carne	VARCHAR(10) CHECK (carne SIMILAR TO ('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')) NOT NULL,
     tramite VARCHAR(20) CHECK (tramite IN ('CCSS','pension','regular','visa', 'CCSSResidencia')) NOT NULL,
     estado BOOLEAN NOT NULL DEFAULT FALSE,
@@ -152,15 +152,23 @@ CREATE OR REPLACE FUNCTION sp_crearSolicitud
 ) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-	INSERT INTO solicitudes (carne,fecha,tramite,estado,sede) VALUES (v_carne,CURRENT_DATE,v_tramite,FALSE,v_sede);
+
+	/** Definir límite de solicitudes del mismo tipo que puede realizar un estudiante */
+	IF ((SELECT COUNT(*) FROM solicitudes WHERE v_carne=carne AND v_tramite=tramite AND v_sede=sede AND estado=true)>4) THEN  
+		RAISE EXCEPTION 'limite';
+	END IF;
+	
+	IF ((SELECT COUNT(*) FROM solicitudes WHERE v_carne=carne AND v_tramite=tramite AND v_sede=sede AND estado=FALSE)) THEN
+		RAISE EXCEPTION 'registrada';
+	END IF; 
+	
+	INSERT INTO solicitudes (carne,fechaSolicitud,tramite,estado,sede) VALUES (v_carne,CURRENT_DATE,v_tramite,FALSE,v_sede);
 	RETURN TRUE;
-EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
+
 END;
 $BODY$
 LANGUAGE plpgsql;
 
-SELECT CURRENT_DATE
 
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 (
@@ -173,7 +181,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 $BODY$
 BEGIN
 	RETURN query SELECT idSolicitud,carne, tramite FROM solicitudes WHERE estado = FALSE AND sede LIKE v_sede
-	ORDER BY fecha ASC;
+	ORDER BY fechaSolicitud ASC;
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION 'Error en la consulta';
 END;
@@ -193,9 +201,12 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesAtendidas
 ) RETURNS SETOF record AS
 $BODY$
 DECLARE
-	DATE fechaActual= (SELECT CURRENT_DATE);
+	fechaActual DATE;
+	
 BEGIN
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede AND fechaImpresion=fechaActual;
+	fechaActual=(SELECT CURRENT_DATE);
+	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede AND fechaImpresion=fechaActual
+	ORDER BY fechaImpresion DESC;
 EXCEPTION WHEN OTHERS THEN
 	RAISE EXCEPTION 'Error en la consulta';
 END;
@@ -209,18 +220,19 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesCarnet
     IN v_carnet VARCHAR(10), 
     OUT v_idSolicitud INT,
     OUT v_carne VARCHAR(10),
-    OUT v_tramite VARCHAR(50)
+    OUT v_tramite VARCHAR(50),
+    OUT v_fechaSolicitud DATE,
+    OUT v_estado BOOLEAN
 ) RETURNS SETOF RECORD AS
 $BODY$
 DECLARE
 
 	cursorSolicitudes CURSOR FOR 
-	SELECT idSolicitud,carne,tramite FROM solicitudes WHERE notificado=FALSE AND carne LIKE v_carnet;
+	SELECT idSolicitud,carne,tramite,fechaSolicitud,estado FROM solicitudes WHERE notificado=FALSE AND carne LIKE v_carnet
+	ORDER BY fechaSolicitud ASC;
 BEGIN   
 	OPEN cursorSolicitudes;
-	UPDATE solicitudes SET notificado=TRUE WHERE estado=true;
-	--RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND carne LIKE v_carnet;
-	
+	UPDATE solicitudes SET notificado=TRUE WHERE estado=true and carne=v_carnet;
 	RETURN query FETCH ALL FROM cursorSolicitudes;
 
 END;
@@ -249,6 +261,7 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+select CURRENT_DATE
 
 CREATE OR REPLACE FUNCTION sp_actualizarEstado
 (
@@ -256,13 +269,14 @@ CREATE OR REPLACE FUNCTION sp_actualizarEstado
 ) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-    UPDATE solicitudes SET estado = TRUE,fechaImpresion=CURRENT_DATE WHERE idSolicitud = v_idSolicitud;
+    UPDATE solicitudes SET estado=TRUE,fechaImpresion=CURRENT_DATE WHERE idSolicitud = v_idSolicitud;
     RETURN TRUE;
 EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;
 END;
 $BODY$
 LANGUAGE plpgsql;
+
 
 -- Seccion de los informes 
 CREATE OR REPLACE FUNCTION sp_crearInforme

@@ -53,22 +53,24 @@ const API_ROOT = "http://localhost";//"http://transportec-api.azurewebsites.net"
  * CONSTANTE DE SEDES EN EL SISTEMA
  */
 
-const sedes=[{nombre:"Sede Regional San Carlos",Abreviatura:"SC"},
-    {nombre:"Sede Central Cartago",Abreviatura:"SCC"},
-    {nombre:"Centro académico de Limón",Abreviatura:"CAL"},
-    {nombre:"Centro académico de Alajuela",Abreviatura:"CAA"},
-    {nombre:"Centro acádemico de San José",Abreviatura:"CAS"}];
+const sedes=[
+    {nombre:"Sede Regional San Carlos",abreviatura:"SC"},
+    {nombre:"Sede Central Cartago",abreviatura:"SCC"},
+    {nombre:"Centro académico de Limón",abreviatura:"CAL"},
+    {nombre:"Centro académico de Alajuela",abreviatura:"CAA"},
+    {nombre:"Centro acádemico de San José",abreviatura:"CAS"}
+];
 
 /**
  * CONSTANTE DE tpos de solicitudes en el sistema
  */
 
 const solicitudesDisponibles= [
-    {tipo: "Carnet de la CCSS", abreviatura:"CCSS"},
-    {tipo: "Estudiante Regular", abreviatura: "regular"},
-    {tipo : "Trámite de Visa", abreviatura: "visa"},
-    {tipo :"Trámite de Pensión",abreviatura: "pension"},
-    {tipo :"CCSS con Residencia",abreviatura:"CCSSResidencia"}
+    {nombre: "Carnet de la CCSS", abreviatura:"CCSS"},
+    {nombre: "Estudiante Regular", abreviatura: "regular"},
+    {nombre: "Trámite de Visa", abreviatura: "visa"},
+    {nombre:"Trámite de Pensión",abreviatura: "pension"},
+    {nombre:"CCSS con Residencia",abreviatura:"CCSSResidencia"}
 ];
 /**
  * Formatea una cadena de texto en base a los parámetros proporcionados.
@@ -130,6 +132,22 @@ function signOut(){
   window.location.href = ('../index.html');
 }
 
+/*  función que busca un elemento en una lista de diccionarios (JSON)
+    array: lista que contiene al elemento a buscar
+    abreviatura: identificador del elemento a buscar
+    clave: la clave a buscar en la lista de diccionarios
+    Retorna el indice donde se encuentra el elmento, -1 si no se encuentra
+*/
+function searchInArray(array,abreviatura,clave){
+    var size= array.length;
+    for (i=0;i<size;i++){
+        if (array[i][abreviatura]===clave){
+            return i;
+        }
+    }
+    return -1
+}
+
 //funcion para mostrar notificaciones al usuario, un uno es error , 2 success, 3 mensaje normal
 function mostrarNotificacion(texto,num)
 {
@@ -139,7 +157,7 @@ function mostrarNotificacion(texto,num)
       title: texto,
       type: "error",
       confirmButtonColor: "#EE2049",
-      timer: 3000,
+      timer: 5000,
       showConfirmButton: false
     });
   }

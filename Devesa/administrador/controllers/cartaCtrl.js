@@ -47,7 +47,11 @@ angular.module('adminModule').controller('cartaCtrl', function($scope,$location,
         }
 
     };
-    
+
+    /*
+    * Objetivo: cambiar el estado de una solicitud de pendiente(false) a realizada(true)
+    *
+     */
     function cambiarEstado(){
         //Aqui se cambia el estado de las solicitudes            
        $http({   
@@ -66,6 +70,11 @@ angular.module('adminModule').controller('cartaCtrl', function($scope,$location,
     {
         window.location.href =('#/solicitudes');  
     };
+
+    /*
+    ** Funcion para envar a impresión el contenido de un DIV
+    ** divName(String): corresponde al id del div que contiene el texto e imagen de la carta
+     */
     $scope.imprimir = function(divName)
     {           
         cambiarEstado();        
