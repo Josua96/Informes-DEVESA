@@ -1,55 +1,64 @@
-﻿--dominio de cedula para el identificador
-CREATE DOMAIN cedulas
-    CHAR(11) NOT NULL
-    CONSTRAINT CHK_cedulas CHECK (VALUE SIMILAR TO '[1-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]');
+﻿-- Dominios
 
-CREATE DOMAIN DOMAIN_SEDE
-    VARCHAR(2) NOT NULL
-    CONSTRAINT CHK_sede CHECK (VALUE IN('SC','C','L','IA','S'));
+create domain t_cedula
+    char(11) not null
+    constraint CHK_cedulas CHECK(VALUE similar to '[1-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]');
+
+create domain t_sede
+    varchar(2)
+    constraint CHK_sede CHECK(value IN ('SC','C','L','IA','S'));
+
+create domain t_carne
+    varchar(10) NOT NULL
+    constraint CHK_carne CHECK (value SIMILAR TO ('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'));
+create domain t_tramite
+    varchar(20) NOT NULL
+    constraint CHK_tramite CHECK (value IN ('CCSS','pension','regular','visa', 'CCSSResidencia'));
+
+create domain t_area
+    varchar(3) NOT NULL
+    constraint CHK_area CHECK (value IN ('DI','SE','AYR','TSR', 'TSB','PS','BI','SOD','SME','SEN','CU','DE'));
 
 
-
---------------------------------------------------- CARTAS --------------------------------------------------------
-CREATE TABLE solicitudes
+--------------------------------------------------- CARTAS DEVESA  -------------------------------------------------
+create table solicitudes
 (
-    idSolicitud SERIAL NOT NULL PRIMARY KEY,
-    carne	VARCHAR(10) CHECK (carne SIMILAR TO ('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')) NOT NULL,
-    tramite VARCHAR(20) CHECK (tramite IN ('CCSS','pension','regular','visa', 'CCSSResidencia')) NOT NULL,
+    id SERIAL NOT NULL PRIMARY KEY,
+    carne t_carne,
+    tramite t_tramite,
     estado BOOLEAN NOT NULL DEFAULT FALSE,
-    sede DOMAIN_SEDE  
+    sede   t_sede
 );
-
-
 
 ------------------------------------------------- INFORMES ---------------------------------------------------------
 
-CREATE TABLE informes
+create table informes
 (
-    idInforme SERIAL NOT NULL PRIMARY KEY,
-    profesorID VARCHAR(10) CHECK (profesorID SIMILAR TO ('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')) NOT NULL,
-    area VARCHAR(3) CHECK (area IN ('DI','SE','AYR','TSR', 'TSB','PS','BI','SOD','SME','SEN','CU','DE')) NOT NULL,
+    id SERIAL NOT NULL PRIMARY KEY,
+    profesorID t_cedula,
+    area t_area,
     actividad VARCHAR(100) NULL,
     fechaInicio DATE NOT NULL,
     fechaFinal DATE NOT NULL,
     objetivo VARCHAR(200),
     programa VARCHAR(100),
     cantEstudiantes INT NOT NULL,
-    sede DOMAIN_SEDE 
+    sede t_sede
 );
 
 
-
-CREATE TABLE imagenes
+create table imagenes
 (
     placa VARCHAR PRIMARY KEY NOT NULL,
-    idInforme INT NOT NULL,
-    CONSTRAINT FK_idInforme_imagenes FOREIGN KEY (idInforme) REFERENCES informes ON UPDATE CASCADE ON DELETE CASCADE
+    id_informe INT NOT NULL,
+    CONSTRAINT FK_idInforme_imagenes FOREIGN KEY (id_informe) REFERENCES informes ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 ------------------------------------------------ SEGURIDAD ---------------------------------------------------------
 
-CREATE TABLE autorizacion(
-	idUsuario cedulas,
+CREATE TABLE autorizacion
+(
+	idUsuario t_cedula,
 	TipoUsuario char(1),
 	token char(5)UNIQUE,
 	CONSTRAINT PK_idUsuario_autorizacion PRIMARY KEY(idUsuario)
@@ -58,139 +67,103 @@ CREATE TABLE autorizacion(
 
 
 
+--- ===========================================================
+--- SEGURIDAD
+--- ===========================================================
 
 
-
-
-
-
-
-
---Estas son las funciones de la base de datos se dividen en :
-
-
-
---Seccion para seguridad:
-
---eliminar token de la tabla de autorizacion;
-CREATE OR REPLACE FUNCTION sp_eliminarToken
-(
-	
-	IN codigo CHAR(5)  --el token de acceso
-)
-RETURNS VOID AS
-$BODY$
-BEGIN 
-	DELETE FROM autorizacion WHERE codigo LIKE token;
-	EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
-
-END
-$BODY$
-LANGUAGE plpgsql;
-
-delete from autorizacion;
-select * from solicitudes;
-select * from autorizacion;
-select sp_eliminarToken('wer33');
-select sp_almacenarToken('2-1122-1222','E','wer33');
-select sp_tokenValido('2-1122-1222','E','wer33');
-
---almacenamiento de un token para el usuario
-CREATE OR REPLACE FUNCTION sp_almacenarToken
-(
-	IN id CHAR(11),
-	IN tipoU CHAR(1), --tipo de usuario
-	IN codigo CHAR(5)  --el token de acceso
-)
-RETURNS VOID AS
-$BODY$
-BEGIN 
-	INSERT INTO autorizacion VALUES(id,tipoU,codigo);
-	EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
-
-END
-$BODY$
-LANGUAGE plpgsql;
-
---validacion de un token para un usuario, junto con el tipo de usuario
-CREATE OR REPLACE FUNCTION sp_tokenValido
-(
-	IN id CHAR(11),
-	IN tipoU CHAR(1), --tipo de usuario
-	IN codigo CHAR(5)  --el token de acceso
-)
+-- Validacion del token
+CREATE OR REPLACE FUNCTION sp_tokenValido(IN id t_cedula,IN tipoU CHAR(1),IN codigo CHAR(5))
 RETURNS BOOLEAN AS
 $BODY$
 BEGIN 
-	IF ( SELECT COUNT (idUsuario) FROM autorizacion WHERE idUsuario LIKE id AND 
-		TipoUsuario LIKE tipoU AND codigo LIKE token) =0 THEN
+	IF (SELECT COUNT (idUsuario) FROM autorizacion WHERE idUsuario LIKE id AND TipoUsuario LIKE tipoU AND token LIKE codigo) =0 THEN
 		RETURN FALSE;
 	ELSE 
 	    RETURN TRUE;
-	END IF;
-	
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	END IF;	
+	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END
 $BODY$
 LANGUAGE plpgsql;
 
 
--- Seccion de solicitudes de cartas:
-CREATE OR REPLACE FUNCTION sp_crearSolicitud
-(
-    IN v_carne VARCHAR(10),
-    IN v_tramite VARCHAR(50),
-    IN v_sede VARCHAR(2)
-    
-) RETURNS BOOLEAN AS
+
+
+CREATE OR REPLACE FUNCTION sp_eliminarToken(IN codigo CHAR(5))
+RETURNS VOID AS
+$BODY$
+BEGIN 
+	DELETE FROM autorizacion WHERE codigo LIKE token;	
+END
+$BODY$
+LANGUAGE plpgsql;
+
+-- Almacenamiento del token 
+-- Nota: aun no se sabe el tamaño del token, se le puso 5 para las pruebas
+
+
+
+CREATE OR REPLACE FUNCTION sp_almacenarToken
+(IN id t_cedula,IN tipoU CHAR(1), IN codigo CHAR(5))
+RETURNS VOID AS
+$BODY$
+BEGIN
+	IF (SELECT COUNT(*) FROM autorizacion WHERE token SIMILAR TO '%'||codigo||'%')> 0 THEN
+		DELETE FROM autorizacion WHERE token SIMILAR TO '%'||codigo||'%';
+	END IF;
+	INSERT INTO autorizacion VALUES(id,tipoU,codigo);
+	
+END
+$BODY$
+LANGUAGE plpgsql;
+
+
+
+
+--- ===========================================================
+--- CARTAS
+--- ===========================================================
+
+CREATE OR REPLACE FUNCTION sp_crearSolicitud(IN v_carne t_carne,IN v_tramite t_tramite,IN v_sede t_sede)
+RETURNS BOOLEAN AS
 $BODY$
 BEGIN
 	INSERT INTO solicitudes (carne,tramite,estado,sede) VALUES (v_carne,v_tramite,FALSE,v_sede);
 	RETURN TRUE;
-EXCEPTION WHEN OTHERS THEN
+	EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;
 END;
 $BODY$
 LANGUAGE plpgsql;
 
 
-
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 (
-    IN v_sede VARCHAR(2),		
+    IN v_sede t_sede,		
     OUT v_idSolicitud INT,
-    OUT v_carne VARCHAR(10),
-    OUT v_tramite VARCHAR(50)
-   
+    OUT v_carne t_carne,
+    OUT v_tramite t_tramite   
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede LIKE v_sede;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede LIKE v_sede;
 END;
 $BODY$
 LANGUAGE plpgsql;
 
 
-
-
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesAtendidas
 (
-    IN v_sede VARCHAR(2),	
+    IN v_sede t_sede,	
     OUT v_idSolicitud INT,
-    OUT v_carne VARCHAR(10),
-    OUT v_tramite VARCHAR(50)
-    
-) RETURNS SETOF record AS
+    OUT v_carne t_carne,
+    OUT v_tramite t_tramite
+)    
+RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede;	
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -198,32 +171,29 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesCarnet
 (
-    IN v_carnet VARCHAR(10), 
+    IN v_carnet t_carne, 
     OUT v_idSolicitud INT,
-    OUT v_carne VARCHAR(10),
-    OUT v_tramite VARCHAR(50)
+    OUT v_carne t_carne,
+    OUT v_tramite t_tramite
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN  
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND carne LIKE v_carnet;
-	
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = FALSE AND carne LIKE v_carnet;
 END;
 $BODY$
 LANGUAGE plpgsql;
 
 
-
 CREATE OR REPLACE FUNCTION sp_eliminarSolicitud
 (
     IN v_idSolicitud INT
-) RETURNS BOOLEAN AS
+)
+RETURNS BOOLEAN AS
 $BODY$
 BEGIN
 	DELETE FROM solicitudes WHERE idSolicitud = v_idSolicitud;
 	RETURN TRUE;
-EXCEPTION WHEN OTHERS THEN
+	EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;
 END;
 $BODY$
@@ -237,8 +207,8 @@ CREATE OR REPLACE FUNCTION sp_actualizarEstado
 $BODY$
 BEGIN
     UPDATE solicitudes SET estado = TRUE WHERE idSolicitud = v_idSolicitud;
-    RETURN TRUE;
-EXCEPTION WHEN OTHERS THEN
+	RETURN TRUE;
+	EXCEPTION WHEN OTHERS THEN	
 	RETURN FALSE;
 END;
 $BODY$
@@ -246,89 +216,92 @@ LANGUAGE plpgsql;
 
 
 
+--- ===========================================================
+--- INFORMES
+--- ===========================================================
 
--- Funciona bien 
 
-CREATE OR REPLACE FUNCTION sp_crearinforme(v_profesorid character varying, v_area character varying, v_actividad character varying, v_fechainicio date, v_fechafinal date, v_objetivo character varying, v_programa character varying, v_cantestudiantes integer, v_sede character varying)
-  RETURNS boolean AS
+CREATE OR REPLACE FUNCTION sp_crearInforme
+(
+    IN v_profesorID t_cedula,
+    IN v_area t_area,
+    IN v_actividad VARCHAR(100),
+    IN v_fechaInicio DATE,
+    IN v_fechaFinal DATE,
+    IN v_objetivo VARCHAR(200),
+    IN v_programa VARCHAR(50),
+    IN v_cantEstudiantes INT,
+    IN v_sede t_sede
+) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-    INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes, sede)
+    INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede)
     VALUES (v_profesorID,v_area,v_actividad,v_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
     RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
+    EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END;
 $BODY$
-  LANGUAGE plpgsql
+  LANGUAGE plpgsql;
 
 
-
-  
--- Funciona bien  
-
-CREATE OR REPLACE FUNCTION sp_obtenerinformes_profesor(IN ve_profesorid character, IN v_sede character varying, OUT v_idinforme integer, OUT v_profesorid cedulas, OUT v_area character varying, OUT v_actividad character varying, OUT v_fechainicio date, OUT v_fechafinal date, OUT v_objetivo character varying, OUT v_programa character varying, OUT v_cantestudiantes integer)
-  RETURNS SETOF record AS
+CREATE OR REPLACE FUNCTION sp_obtenerInformes_profesor
+(
+    IN ve_profesorID t_cedula,
+    IN v_sede t_sede,
+    OUT v_idInforme INT,
+    OUT v_profesorID t_cedula,
+    OUT v_area t_area,
+    OUT v_actividad VARCHAR(100),
+    OUT v_fechaInicio DATE,
+    OUT v_fechaFinal DATE,
+    OUT v_objetivo VARCHAR(200),
+    OUT v_programa VARCHAR(100),
+    OUT v_cantEstudiantes INT
+    
+) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT idinforme, profesorId, area, actividad, fechainicio, fechafinal, objetivo, programa, cantestudiantes 
-    FROM informes WHERE profesorid like ve_profesorID AND sede like v_sede;
+	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
+	 FROM informes WHERE profesorID = ve_profesorID AND sede LIKE v_sede;
 END;
 $BODY$
-  LANGUAGE plpgsql
+  LANGUAGE plpgsql;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-CREATE OR REPLACE FUNCTION sp_obtenerinformesfechas(
-IN fecha_uno date, 
-IN fecha_dos date, 
-IN v_sede VARCHAR(2),
-OUT v_idinforme INTEGER, 
-OUT v_profesorid character varying, 
-OUT v_area character varying, 
-OUT v_actividad character varying, 
-OUT v_fechaInicio date,
-OUT v_fechaFinal date, 
-OUT v_objetivo character varying, 
-OUT v_programa character varying, 
-OUT v_cantestudiantes INTEGER
-
+CREATE OR REPLACE FUNCTION sp_obtenerinformesfechas
+(
+	IN fecha_uno date, 
+	IN fecha_dos date, 
+	IN v_sede t_sede,
+	OUT v_idinforme INT, 
+	OUT v_profesorid t_cedula, 
+	OUT v_area t_area, 
+	OUT v_actividad varchar(100), 
+	OUT v_fechaInicio date,
+	OUT v_fechaFinal date, 
+	OUT v_objetivo varchar(200), 
+	OUT v_programa varchar(100), 
+	OUT v_cantestudiantes INT
 )
   RETURNS SETOF record AS
 $BODY$
  
 BEGIN
 
-  RETURN query SELECT idInforme,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
-   FROM informes WHERE ((fechaInicio BETWEEN fecha_uno AND fecha_dos)OR
-  (fechaFinal BETWEEN fecha_uno AND fecha_dos)) AND sede LIKE v_sede;
-  EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+  RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
+   FROM informes WHERE ((fechaInicio BETWEEN fecha_uno AND fecha_dos) OR (fechaFinal BETWEEN fecha_uno AND fecha_dos)) AND sede LIKE v_sede;
 END;
 $BODY$
   LANGUAGE plpgsql;
 
-select * from informes
 
-drop function sp_obtenerinformes_area(character varying,character varying)
 CREATE OR REPLACE FUNCTION sp_obtenerInformes_area
 (
     IN ve_area VARCHAR(3),
     IN ve_sede VARCHAR(2),
     OUT v_idInforme INT,
-    OUT v_profesorID VARCHAR(10),
+    OUT v_profesorID t_cedula,
     OUT v_area VARCHAR(3),
     OUT v_actividad VARCHAR(100),
     OUT v_fechaInicio DATE,
@@ -340,9 +313,8 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes_area
 $BODY$
 
 BEGIN
-	raise notice 'area %',ve_area;
-	raise notice  'sede %',ve_sede;
-	RETURN query SELECT idInforme,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
+	
+	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
 	FROM informes WHERE area = ve_area AND sede LIKE ve_sede;
         
 END;
@@ -351,60 +323,57 @@ LANGUAGE plpgsql;
 
 
 
-CREATE OR REPLACE FUNCTION sp_obtenerInforme_porId(
-IN ve_idinforme INTEGER, 
-OUT v_idinforme INTEGER, 
-OUT v_profesorid character varying, 
-OUT v_area character varying, 
-OUT v_actividad character varying, 
-OUT v_fechaInicio DATE,
-OUT v_fechaFinal DATE, 
-OUT v_objetivo character varying, 
-OUT v_programa character varying, 
-OUT v_cantestudiantes INTEGER)
-  RETURNS SETOF record AS
+
+CREATE OR REPLACE FUNCTION sp_obtenerInforme_porId
+(
+	IN ve_idinforme INTEGER, 
+	OUT v_idInforme INT,
+	OUT v_profesorID t_cedula,
+	OUT v_area VARCHAR(3),
+	OUT v_actividad VARCHAR(100),
+	OUT v_fechaInicio DATE,
+	OUT v_fechaFinal DATE,
+	OUT v_objetivo VARCHAR(200),
+	OUT v_programa VARCHAR(50),
+	OUT v_cantEstudiantes INT  
+)
+ RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT idInforme,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
+	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
 	FROM informes WHERE idInforme = ve_idInforme;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	EXCEPTION WHEN OTHERS THEN RAISE EXCEPTION 'Error en la consulta';
 END;
 $BODY$
 LANGUAGE plpgsql;
 
 
-
-
 CREATE OR REPLACE FUNCTION sp_obtenerInformes
 (
-    IN v_sede ,
-    OUT v_idInforme INT,
-    OUT v_profesorID t_cedula,
-    OUT v_area VARCHAR(3),
-    OUT v_actividad VARCHAR(100),
-    OUT v_fechaInicio DATE,
-    OUT v_fechaFinal DATE,
-    OUT v_objetivo VARCHAR(200),
-    OUT v_programa VARCHAR(50),
-    OUT v_cantEstudiantes INT
+	IN v_sede t_sede,
+	OUT v_idInforme INT,
+	OUT v_profesorID t_cedula,
+	OUT v_area VARCHAR(3),
+	OUT v_actividad VARCHAR(100),
+	OUT v_fechaInicio DATE,
+	OUT v_fechaFinal DATE,
+	OUT v_objetivo VARCHAR(200),
+	OUT v_programa VARCHAR(50),
+	OUT v_cantEstudiantes INT  
     
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
 	RETURN query SELECT * FROM informes WHERE sede LIKE v_sede;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
 END;
 $BODY$
 LANGUAGE plpgsql;
 
-select * from sp_obtenerInformes('SC');
 
 CREATE OR REPLACE FUNCTION sp_modificarInforme
 (
     IN v_idInforme INT,
-    IN v_area VARCHAR(3),
+    IN v_area t_area,
     IN v_actividad VARCHAR(100),
     IN v_fechaInicio DATE,
     IN v_fechaFinal DATE,
@@ -414,80 +383,68 @@ CREATE OR REPLACE FUNCTION sp_modificarInforme
 ) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-	UPDATE informes SET
-    (area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes) = 
-    (v_area,v_actividad,v_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes) WHERE idInforme = v_idInforme;
-    COMMIT;
-    RETURN TRUE;
-    
-EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
-END;
-$BODY$
-LANGUAGE plpgsql;
-
-
-CREATE OR REPLACE FUNCTION sp_crearImagen
-(
-    IN v_idInforme INT,
-    IN v_nombre VARCHAR(12)
-) RETURNS BOOLEAN AS
-$BODY$
-BEGIN
-	INSERT INTO imagenes VALUES (v_nombre,v_idInforme);
-    RETURN TRUE;
-EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
-END;
-$BODY$
-LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION sp_obtenerImagenes_informe
-(
-    IN v_idInforme INT,
-    OUT v_nombre VARCHAR(12)
-) RETURNS SETOF VARCHAR(12) AS
-$BODY$
-BEGIN
-	RETURN query SELECT placa FROM imagenes WHERE idInforme = v_idInforme;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
-END;
-$BODY$
-LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION sp_obtenerImagenes_area
-(
-    IN v_area VARCHAR(3),
-    IN v_sede VARCHAR(2),
-    OUT v_nombre VARCHAR(12)
-    
-) RETURNS SETOF VARCHAR(12) AS
-$BODY$
-BEGIN
-	RETURN query SELECT imagenes.placa FROM imagenes INNER JOIN informes ON (imagenes.idInforme = informes.idInforme) WHERE area = v_area AND 
-	informes.sede LIKE v_sede;
-EXCEPTION WHEN OTHERS THEN
-	RAISE EXCEPTION 'Error en la consulta';
+	UPDATE informes SET(area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes) = 
+			   (v_area,v_actividad,v_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes) 
+			   WHERE id = v_idInforme;	
+	RETURN TRUE; 
+	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END;
 $BODY$
 LANGUAGE plpgsql;
 
 
 
-
-CREATE OR REPLACE FUNCTION sp_eliminarimagen
-(
-IN v_idinforme integer,
-IN v_nombre character varying
-)
-  RETURNS boolean AS
+CREATE OR REPLACE FUNCTION sp_crearImagen(IN v_idInforme INT,IN v_nombre VARCHAR)
+RETURNS BOOLEAN AS
 $BODY$
-
 BEGIN
-	DELETE FROM imagenes WHERE  placa= v_nombre and idinforme= v_idInforme;
+	INSERT INTO imagenes(placa, id_informe) VALUES (v_nombre,v_idInforme);
 	RETURN TRUE;
-EXCEPTION WHEN OTHERS THEN
+	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION sp_obtenerImagenes_informe(IN v_idInforme INT,OUT v_nombre VARCHAR(12))
+RETURNS SETOF VARCHAR(12) AS
+$BODY$
+BEGIN
+	RETURN query SELECT placa FROM imagenes WHERE id_Informe = v_idInforme;	
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+
+  
+
+CREATE OR REPLACE FUNCTION sp_obtenerImagenes_area(IN v_area t_area,IN v_sede t_sede,OUT v_nombre VARCHAR(12)) 
+RETURNS SETOF VARCHAR(12) AS
+$BODY$
+BEGIN
+	RETURN query SELECT imagenes.placa FROM 
+			imagenes INNER JOIN informes 
+			ON imagenes.idInforme = informes.idInforme
+			WHERE area = v_area AND informes.sede LIKE v_sede;
+	EXCEPTION WHEN OTHERS THEN
+	RAISE EXCEPTION 'Error en la consulta';
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+
+
+
+CREATE OR REPLACE FUNCTION sp_eliminarimagen(IN v_idinforme integer,IN v_nombre character varying)
+RETURNS boolean AS
+$BODY$
+
+BEGIN
+	DELETE FROM imagenes WHERE  placa= v_nombre and id_informe= v_idInforme;
+	RETURN TRUE;
+	EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;
 END;
 $BODY$

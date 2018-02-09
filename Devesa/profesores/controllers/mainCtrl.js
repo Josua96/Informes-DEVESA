@@ -5,8 +5,8 @@ angular.module('profesorModule')
             $scope.id=localStorage.getItem("userId");
             $scope.sede=localStorage.getItem("sede");
             
-            $scope.user = localStorage.getItem("user001");
-            $scope.email =localStorage.getItem("password001");
+            $scope.user = localStorage.getItem("userId");
+            $scope.email = "ejemplo@email.com";
             console.log($scope.user);
             console.log($scope.email);
             window.location.href =('#/profesores/inicio');

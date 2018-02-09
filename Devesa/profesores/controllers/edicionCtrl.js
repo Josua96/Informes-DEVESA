@@ -1,67 +1,57 @@
 angular.module('profesorModule')
-    .controller('edicionCtrl', function($scope,$location,$http, datosInforme, datosProfesor)
+    .controller('edicionCtrl', function($scope,$location,$http, datosInforme, peticiones)
     {
-        // Datos que se muestran en la interfaz
-
-        $scope.area= datosInforme.area;
-        $scope.idInforme=datosInforme.idInforme;
-        $scope.actividad= datosInforme.actividad;
-        $scope.fechaInicio= datosInforme.fechaInicio;
-        $scope.fechaFinal = datosInforme.fechaFinal;
-        $scope.objetivoActividad=datosInforme.objetivo;
-        $scope.programa=datosInforme.programa;
-        $scope.cantidadEstudiantes=datosInforme.numeroEstudiantes;
-
-        // *********************** Falta asignarle valor real *************************
-        $scope.codigo=localStorage.getItem("sessionToken");
-        $scope.idProfesor=localStorage.getItem("userId");
-        $scope.sede=localStorage.getItem("sede");
-        $scope.tipo="P";
-
+        $scope.informe = datosInforme;
+        var codigo=localStorage.getItem("sessionToken");
+        var idProfesor=localStorage.getItem("userId");
+        var sede=localStorage.getItem("sede");
+        $scope.opcion;
         $scope.imagenes=[];
+        $scope.opciones = AREAS;
 
-
-        //Selecciona el area que viene en el infome. (Problema de interfas, esto es un parche)
-        var areas = ['DI','SE','AYR','TSR','TSB','PS','BI','DE','CU','SOD','SME','SEN'];
-        var i=0;
-        var tam = areas.length;
-        for(i ; i<tam; i++)
+        // Permite ibicar el select en la posicion correcta
+        function ubicarDepartamento()
         {
-            if(areas[i]===$scope.area)
+            var tam = CODIGOS_AREAS.length;
+            for(var i=0 ; i<tam; i++)
             {
-                break;
+                if(CODIGOS_AREAS[i]===$scope.informe.area)
+                {
+                    $scope.opcion = AREAS[i];
+                }
             }
         }
-        document.getElementById("sel1").selectedIndex=i;
+        ubicarDepartamento();
 
 
+        // Permite eliminar una foto asociada a un informe tanto de la base de datos como del servidor.
         $scope.eliminarFoto = function(param)
         {
-            $http({
-                method : "DELETE",
-                url :API_ROOT+":8081/EliminarImagen?idInforme="+$scope.idInforme+ "&nombre="+param +
-                "&iden="+$scope.idProfesor+"&codigo="+$scope.codigo+"&tipo="+$scope.tipo
-
-            })
-                .then(function mySucces(response)
+            var respuesta = peticiones.eliminarFoto($scope.informe.idInforme,param,idProfesor,codigo,'P');
+            respuesta.then
+            (   function exito(response)
+                {
+                    if(response.data==="false")
                     {
-                        console.log(response);
+                        mostrarNotificacion("No se eliminó",1);
+                    }
+                    else
+                    {
                         $scope.borrarImagenServidor(param);
-                        mostrarNotificacion("Eliminado",2);
-                    },
-                    function myError(response)
-                    {
-                        console.log(response);
-                        mostrarNotificacion("Error de conexion",1);
-                    });
+                        $scope.cargarFotos();
+                    }
+                },
+                function error(response)
+                {
+                    mostrarNotificacion("Error de conexion",1);
+                }
+            );
         };
-
-
 
         $scope.borrarImagenServidor = function (nombre)
         {
             $.ajax(
-                {url:'eliminar.php?archivo='+nombre, type:'GET'}
+                {url:API_ROOT+':80/DEVESA/'+'eliminar.php?archivo='+nombre, type:'GET'}
             )
                 .done(function(msg)
                 {
@@ -75,102 +65,76 @@ angular.module('profesorModule')
         };
 
 
+        // Realiza la consulta a la base de datos acerca de las imagenes de cada informe y los guarda en la variable "imagenes".
         $scope.cargarFotos = function ()
         {
-            console.log("Cargando fotos");
-            $http(
-                {
-                    method : "GET",
-                    url :API_ROOT+":8081/ObtenerImagenesInforme?idInforme="+ $scope.idInforme +
-                    "&iden="+$scope.idProfesor+ "&tipo="+$scope.tipo+"&codigo="+$scope.codigo
-                })
-                .then(function mySucces(response)
-                    {
-                        console.log("Exito obteniendo fotos");
-                        console.log(response);
-                        $scope.imagenes = [];
 
-                        if(response.data!==0)
-                        {
-                            var lista = response.data;
-                            var tam = lista.length;
-                            for(i=0; i<tam; i++)
-                            {
-                                $scope.imagenes.push(response.data[i].v_nombre);
-                            }
-                            console.log("Imagenes:"+$scope.imagenes);
-                        }
-                        else
-                        {
-                            mostrarNotificacion("No hay informes de actividades",3);
-                        }
-                    },
-                    function myError(response)
+            var respuesta = peticiones.obtenermagenesInforme($scope.informe.idInforme,idProfesor,"P",codigo);
+            respuesta.then
+            (   function exito(response)
+                {
+                    if(response.data==="false")
                     {
-                        mostrarNotificacion("Error de conexion",1);
-                    });
+                        mostrarNotificacion("Ocurrió un error y no fue posible editar el informe",1);
+                    }
+                    else
+                    {
+                        $scope.imagenes = response.data;
+                        console.log($scope.imagenes);
+                    }
+                },
+                function error(response)
+                {
+                    mostrarNotificacion("Ocurrió un error y no fue editar el informe",1);
+                }
+            );
         };
 
 
-        // Permite subir varios archivos al mismo tiempo
 
-        $scope.SubirFotos = function ()
+        // Permite subir fotos de las actividades.
+        $scope.subirFotos = function ()
         {
             var archivos = document.getElementById("archivos");
-            var archivo = archivos.files;//Obtenemos los archivos seleccionados en el imput
-            //Creamos una instancia del Objeto FormDara.
+            var archivo = archivos.files;
             var archivos = new FormData();
-            /* Como son multiples archivos creamos un ciclo for que recorra la el arreglo de los archivos seleccionados en el input
-            Este y añadimos cada elemento al formulario FormData en forma de arreglo, utilizando la variable i (autoincremental) como
-            indice para cada archivo, si no hacemos esto, los valores del arreglo se sobre escriben*/
             var dat = new Date();
             for(i=0; i<archivo.length; i++) // Añadir configuracion de fecha - milisegundos
             {
-                archivos.append('archivo'+i,archivo[i]); //Añadimos cada archivo a el arreglo con un indice direfente
+                archivos.append('archivo'+i,archivo[i]);
             }
-            /*Ejecutamos la función ajax de jQuery*/
-            $.ajax({
-                url:API_ROOT+':80/Informes-DEVESA/Devesa/profesores/subir.php',
-                type:'POST', //Metodo que usaremos
-                contentType:false, //Debe estar en false para que pase el objeto sin procesar
-                data:archivos, //Le pasamos el objeto que creamos con los archivos
-                processData:false, //Debe estar en false para que JQuery no procese los datos a enviar
-                cache:false //Para que el formulario no guarde cache
+            //$.ajax({url:API_ROOT+':80/DEVESA/Devesa/profesores/subir.php', type:'POST',
+            $.ajax({url:API_ROOT+':80/DEVESA/subir.php', type:'POST',
+                contentType:false,
+                data:archivos,
+                processData:false,
+                cache:false
             }).done(function(msg)
             {
                 if(msg !== "ERROR")
                 {
-                    console.log("Esta es una prueba");
-                    console.log(msg);
                     var listaNombres = msg.split(",");
                     var longitud = listaNombres.length-1;
-
-                    console.log(listaNombres);
-
                     for(i=0; i<longitud; i++)
                     {
-                        if(listaNombres[i] != "")
-                        {
-                            console.log(listaNombres[i]);
-                            $http({
-                                method: "POST",
-                                url:API_ROOT+":8081/CrearImagen?idInforme="+$scope.idInforme+"&placa="+listaNombres[i]+ "&iden="+ $scope.idProfesor + "&codigo="+ $scope.codigo+"&tipo="+ $scope.tipo
-                            })
-                                .then(function mySucces(response){
-                                        console.log("SE escribio la vara");
-                                        console.log(response);
-                                    },
-                                    function myError(response)
-                                    {
-                                        console.log("SE escribio la vara con error"+response);
-                                        mostrarNotificacion("Ocurrio un error verifique la conexion",1);
-                                    });
-                        }
+                        console.log($scope.informe.idInforme);
+                        var respuesta = peticiones.registrarImagenes($scope.informe.idInforme, listaNombres[i],idProfesor, codigo,"P");
+                        respuesta.then
+                        (   function exito(response)
+                            {
+                                console.log("Exito");
+                            },
+                            function error(response)
+                            {
+
+                            }
+                        );
+                        console.log("ciclo: "+i);
                     }
                 }
                 else
                 {
-                        mostrarNotificacion(msg, 1);
+                        mostrarNotificacion("Error al cargar la imagen", 1);
                 }
             });
             mostrarNotificacion("Guardado",2);
@@ -178,45 +142,36 @@ angular.module('profesorModule')
         };
 
 
-        // Toma todos los datos y los sobreescribe en la BD
 
+        // Toma los datos del formulario y los escribe en la BD.
         $scope.guardarInforme = function ()
         {
             $scope.fechaActividad = document.getElementById("date2").value;
-
-            if(document.getElementById("sel1").value!=="")
+            if(noNulos([AREAS[document.getElementById("sel1").selectedIndex], $scope.informe.area, $scope.informe.actividad,  $scope.informe.fechaFinal, $scope.informe.fechaInicio,$scope.informe.objetivo, $scope.informe.programa,   $scope.informe.numeroEstudiantes])===true)
             {
-
-                var Codigoarea = areas[document.getElementById("sel1").value];
-                console.log(API_ROOT+":8081/ModificarInforme?area=" + Codigoarea +
-                    "&actividad="+ $scope.actividad+"&fechaInicio="+ $scope.fechaInicio +
-                    "&fechaFinal="+ $scope.fechaFinal + "&objetivo="+$scope.objetivoActividad
-                    +"&programa="+ $scope.programa+ "&cantidadEstudiantes="+ $scope.cantidadEstudiantes +
-                    "&iden="+ $scope.idProfesor + "&codigo=" + $scope.codigo + "&id="+$scope.idInforme);
-                $http(
+                var codigoArea = CODIGOS_AREAS[document.getElementById("sel1").selectedIndex];
+                var respuesta = peticiones.modificarInforme(codigoArea, $scope.informe.actividad, $scope.informe.fechaInicio, $scope.informe.fechaFinal, $scope.informe.objetivo, $scope.informe.programa, $scope.informe.numeroEstudiantes,idProfesor,codigo, $scope.informe.idInforme);
+                respuesta.then
+                (   function exito(response)
                     {
-                        method: "POST",
-                        url:API_ROOT+":8081/ModificarInforme?area=" + Codigoarea +
-                        "&actividad="+ $scope.actividad+"&fechaInicio="+ $scope.fechaInicio +
-                        "&fechaFinal="+ $scope.fechaFinal + "&objetivo="+$scope.objetivoActividad
-                        +"&programa="+ $scope.programa+ "&cantidadEstudiantes="+ $scope.cantidadEstudiantes +
-                         "&iden="+ $scope.idProfesor + "&codigo=" + $scope.codigo + "&id="+$scope.idInforme
-                    })
-                    .then(
-                        function mySucces(response)
+                        if(response.data==="false")
                         {
-                            if(response["data"]==="true")
-                            {
-                                $scope.SubirFotos();
-                            }
-                            else{mostrarNotificacion("Ocurrio un error verifique los datos",1);}
-                        },
-                        function myError(response){mostrarNotificacion("Ocurrio un error verifique la conexion",1);}
-                    );
+                            mostrarNotificacion("Ocurrió un error y no fue posible editar el informe",1);
+                        }
+                        else
+                        {
+                            $scope.subirFotos();
+                        }
+                    },
+                    function error(response)
+                    {
+                        mostrarNotificacion("Ocurrió un error y no fue editar el informe",1);
+                    }
+                );
             }
             else
             {
-                mostrarNotificacion("Seleccione un area",1);
+                mostrarNotificacion("Asegurése de ingresar datos en cada uno de los campos requeridos",1);
             }
         };
         $scope.cargarFotos();

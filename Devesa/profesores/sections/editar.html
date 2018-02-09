@@ -1,131 +1,90 @@
-
-
-<!--Esta es la seccion de edicion de las actividades realizadas por un profesor
-    En esta partes se puede editar todad la informacion de la actividad exepto
-    la cedula o el id del profesor encargado.
--->
-
 <div class="container-fluid" id="edicionDiv" style="padding:0;background-color: #D0CCCC">
     <FORM>
         <ul class="menu2" style="justify-content:center; list-style: none;">
             <li>
-                <h3>
-                    Editar informe
-                </h3>
+                <h3>Editar informe</h3>
             </li>
 
-            <li class="formInputs" style="justify-content:center;">
+            <li class="formInputs">
                 <div class="form-group">
                     <label for="sel1">Area</label>
-                    <select class="form-control" id="sel1" >
-                        <option value='0'>Dirección</option>
-                        <option value="1">Secretaría</option>
-                        <option value="2"> Admisión y Registro</option>
-                        <option value="3">Trabajo Social residencias</option>
-                        <option value="4">Trabajo Social Becas</option>
-                        <option value="5">Psicología</option>
-                        <option value="6">Biblioteca</option>
-                        <option value="7">Deportivas</option>
-                        <option value="8">Culturales</option>
-                        <option value="9">Salud -> Odontología</option>
-                        <option value="10">Salud -> Médico</option>
-                        <option value="11">Salud -> Enfermería</option>
+                    <select class="form-control" id="sel1" ng-model="opcion"  ng-options="opcion for opcion in opciones">
                     </select>
                 </div>
             </li>
-            <li class="formInputs" >
+
+            <li class="formInputs">
                 <div class="form-group">
                     <label for="i1">Nombre de la actividad</label>
-                    <input  id="i1" class="form-control" ng-model="actividad">
+                    <input  id="i1" class="form-control" ng-model="informe.actividad">
                 </div>
             </li>
 
-            <li class="formInputs" >
-                <div class="input-group">
-                    <div class="form-group">
-                        <label for="date2">Inicio de la actividad</label>
-                        <input class="form-control" id="date2" ng-model ="fechaInicio" name="date2"/>
-                    </div>
-                </div>
-            </li>
-
-            <li class="formInputs" >
-                <div class="input-group">
-                    <div class="form-group">
-                        <label for="date3">Fin de la actividad</label>
-                        <input class="form-control" id="date3" ng-model ="fechaFinal" name="date2"/>
-                    </div>
-                </div>
-            </li>
-
-            <li class="formInputs" >
+            <li class="formInputs">
                 <div class="form-group">
-                    <label for="comment1">Objetivo de la activida</label>
-                    <textarea class="form-control" rows="5" ng-model="objetivoActividad" id="comment1"></textarea>
+                    <label for="date2">Inicio de la actividad</label>
+                    <input class="form-control" id="date2" ng-model="informe.fechaInicio" name="date2"/>
                 </div>
             </li>
 
-            <li class="formInputs" >
+            <li class="formInputs">
+                <div class="form-group">
+                    <label for="date3">Fin de la actividad</label>
+                    <input class="form-control" id="date3" ng-model ="informe.fechaFinal" name="date2"/>
+                </div>
+            </li>
+
+            <li class="formInputs">
+                <div class="form-group">
+                    <label for="comment1">Objetivo de la actividad</label>
+                    <textarea class="form-control" rows="5" ng-model="informe.objetivo" id="comment1"></textarea>
+                </div>
+            </li>
+
+            <li class="formInputs">
                 <div class="form-group">
                     <label for="comment2">Programa</label>
-                    <textarea class="form-control" rows="5" ng-model="programa" id="comment2"></textarea>
+                    <input class="form-control" ng-model="informe.programa" id="comment2">
                 </div>
             </li>
 
-            <li class="formInputs" >
+            <li class="formInputs">
                 <div class="form-group">
                     <label for="numeroEstudiantes">Cantidad personas</label>
-                    <input id="numeroEstudiantes" ng-model='cantidadEstudiantes' onkeypress="return event.charCode >= 48 && event.charCode<= 57"  class="form-control" placeholder="Cantidad de estudiantes">
-                </div>
-                <label for="numeroEstudiantes">Imagenes</label>
-            </li>
-
-            <li>
-                <ul  style="display=inline-block;list-style: none; padding:0;">
-                    <!--El ng-repeat se pone en el elemento que se desea repetir, en este caso en el <li>-->
-                    <li ng-repeat="imagen in imagenes track by $index">
-                        <button type="button" class="btn btn-default btn-sm" ng-click= "eliminarFoto(imagen)">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                        <img ng-src="files/{{imagen}}" width="350px" height="auto" style="padding-left: 8px;">
-                    </li>
-                </ul>
-            </li>
-
-            <li  class="formInputs">
-                <div>
-                    <div class="input-group">
-                        <label class="input-group-btn">
-                            <span class="btn btn-primary">
-                                Añadir fotos&hellip;
-                                <input type="file" id="archivos" multiple="multiple">
-                            </span>
-                        </label>
-                        <input type="text" class="form-control" readonly>
-                    </div>
+                    <input id="numeroEstudiantes" ng-model='informe.numeroEstudiantes' onkeypress="return event.charCode >= 48 && event.charCode<= 57"  class="form-control" placeholder="Cantidad de estudiantes">
                 </div>
             </li>
 
-            <li  class="formInputs" style="justify-content:center;">
+            <li class="formInputs">
+                <div class="form-group">
+                    <label for="numeroEstudiantes">Imagenes</label>
+                </div>
+            </li>
+            <br>
+            <li class="formInputs">
+                <div class="form-group">
+                    <ul  style="display:inline-block;list-style: none; padding:0;">
+                        <!--El ng-repeat se pone en el elemento que se desea repetir, en este caso en el <li>
+                            Nota: Se deberia incluir alguna libreria para mostrar fotos, con zoom icluido
+                        -->
 
-                <button
-                        onclick="window.location.href =('#/profesores/informesEnviados');"
-                        type="button"
-                        class="btn"
-                        onmouseover='this.style.backgroundColor="#E1E5E8"'
-                        onmouseout='this.style.backgroundColor="#2F9EE2"'
-                        style="background-color:#2F9EE2;color:black;" >
-                    Atras
-                </button>
-                <button
-                        ng-click="guardarInforme()"
-                        type="button"
-                        class="btn"
-                        onmouseover='this.style.backgroundColor="#E1E5E8"'
-                        onmouseout='this.style.backgroundColor="#2F9EE2"'
-                        style="background-color:#2F9EE2;color:black;" >
-                    Guardar
-                </button>
+                        <li ng-repeat="imagen in imagenes track by $index">
+                            <button class="btn btn-default btn-sm" ng-click= "eliminarFoto(imagen.v_nombre)">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                            <!--<img ng-src="files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">-->
+                            <img ng-src = "http://localhost:80/DEVESA/files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">
+                        </li>
+                    </ul>
+
+
+                    <label class="input-group-btn">
+                        <span class="btn btn-primary">Añadir fotos<input type="file" aria-valuetext="Archivos" id="archivos" multiple="multiple"></span>
+                    </label>
+                    <input type="text" class="form-control" readonly>
+                    <button onclick="window.location.href =('#/profesores/informesEnviados');" type="button" class="btn" onmouseover="this.style.backgroundColor='#E1E5E8'" onmouseout="this.style.backgroundColor='#2F9EE2'" style="background-color:#2F9EE2;color:black;"> Atras</button>
+                    <button ng-click="guardarInforme()" type="button" class="btn" onmouseover="this.style.backgroundColor='#E1E5E8'" onmouseout="this.style.backgroundColor='#2F9EE2'" style="background-color:#2F9EE2;color:black;">Guardar</button>
+                </div>
             </li>
         </ul>
     </FORM>

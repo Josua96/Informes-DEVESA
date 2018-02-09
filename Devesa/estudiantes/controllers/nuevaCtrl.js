@@ -38,7 +38,7 @@ angular.module('userModule')
 
         $http({   
             method : "GET",
-            url :"http://localhost:8081/ObtenerSolicitudesCarnet?carnet="+$scope.carnet+"&iden="
+            url :API_ROOT+":8081/ObtenerSolicitudesCarnet?carnet="+$scope.carnet+"&iden="
             +$scope.id+"&codigo="+$scope.codigo
             })
             .then(function mySucces(response)
@@ -87,7 +87,7 @@ angular.module('userModule')
         $http(
         {
             method: "POST",
-            url: "http://localhost:8081/CrearSolicitud?carnet=" + $scope.carnet + "&tramite=" + $scope.solicitudes[$scope.indice]+
+            url: API_ROOT+":8081/CrearSolicitud?carnet=" + $scope.carnet + "&tramite=" + $scope.solicitudes[$scope.indice]+
             "&iden="+$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede+"&tipo="+$scope.tipoUsuario
         })
         .then(function mySucces(response) 

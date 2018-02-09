@@ -21,7 +21,7 @@ angular.module('adminModule')
 
                 $http({
                     method: "GET",
-                    url: "http://localhost:8081/ObtenerInformeId?id="+numeroInforme+"&iden="
+                    url: API_ROOT+":8081/ObtenerInformeId?id="+numeroInforme+"&iden="
                     +$scope.id+"&codigo="+$scope.codigo
                 }).then(function mySucces(response) {
                     $scope.informe=response.data;

@@ -1,6 +1,5 @@
 var closeSideBar=function () {
   var $window = $(window);
-  console.log($window.width());
   if($window.width()<=1000){
     var $body = $('body');
     var $overlay = $('.overlay');
@@ -41,6 +40,14 @@ const LS_LOCAL_MESSAGES = "messages.all";
  */
 const LS_REMEMBER_SESSION = "rememberSession";
 
+
+
+const AREAS = ["Dirección", "Secretaría", "Admisión y Registro", "Trabajo Social residencias", "Trabajo Social Becas", "Psicología",
+                "Biblioteca", "Deportivas", "Culturales", "Salud -> Odontología", "Salud -> Médico", "Salud -> Enfermería"];
+
+
+
+const CODIGOS_AREAS = ['DI','SE','AYR','TSR','TSB','PS','BI','DE','CU','SOD','SME','SEN'];
 // =========================================================
 
 /**
@@ -89,7 +96,8 @@ function dateToUrlParameter(datetime) {
         datetime.getMinutes());
 }
 
-function datetimeToUrlParameter(date, time) {
+function datetimeToUrlParameter(date, time)
+{
     console.log(time);
     return "{0}-{1}".format(date, time.replace(':', '-'));
 }
@@ -203,7 +211,7 @@ function setDia(dia){
 
 function getArea(num) 
 {
-    var areas = ['DI','SE','AYR','TS','PS','BI','DE','CU','SOD','SME','SEN'];
+    var areas =  ['DI','SE','AYR','TSR','TSB','PS','BI','DE','CU','SOD','SME','SEN'];
     return areas[num];
 }
 
@@ -234,6 +242,7 @@ function getTextoEspecial(dato, datosEstudiante)
 }
 //function para dar formato a la fecha que recibe por parametro
 function revertirCadena(cadena){
+    console.log("cadena revertida");
     return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
 }
 
@@ -286,3 +295,16 @@ function estaEnLista(lista,id) {
      return false; //no está en lista
 }
 
+// para validacion de datos no nulos, retorna false si algun elemento de la lista tiene un valor nulo
+function noNulos(listaValores)
+{
+    console.log(listaValores);
+    var limite= listaValores.length;
+    var i;
+    for (i=0; i <limite;i++){
+        if (listaValores[i]===undefined || listaValores[i]===""){ //valor nulo encontrado
+            return false;
+        }
+    }
+    return true; //no hay valores nulos
+}

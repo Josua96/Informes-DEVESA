@@ -1,73 +1,41 @@
 angular.module('profesorModule')
-    .controller('nuevoCtrl', function($scope,$location,$http, datosProfesor)
+    .controller('nuevoCtrl', function($scope,$location,$http, datosProfesor, peticiones)
     {
-        $scope.area;
-        $scope.actividad;
-        $scope.objetivoActividad;
-        $scope.programa;
-        $scope.cantidadEstudiantes=0;
-
-        // ********** Falta asignarle el valor real *******************
-        $scope.codigo=localStorage.getItem("sessionToken");
-        $scope.idProfesor=localStorage.getItem("userId");
-        $scope.sede=localStorage.getItem("sede");
-        $scope.tipo="P";
+        var codigo = localStorage.getItem("sessionToken");
+        var idProfesor = localStorage.getItem("userId");
+        var sede = localStorage.getItem("sede");
+        $scope.opciones = AREAS;
 
 
-        $scope.opciones =[
-            {area:"Dirección", codigo:'DI'},
-            {area:"Secretaría", codigo:'SE'},
-            {area:"Admisión y Registro", codigo:'AYR'},
-            {area:"Trabajo Social Residencias", codigo:'TSR'},
-            {area:"Trabajo Social Becas", codigo: 'TSB'},
-            {area:"Psicología", codigo:'PS'},
-            {area:"Biblioteca", codigo:'BI'},
-            {area:"Deportivas", codigo:'DE'},
-            {area:"Culturales", codigo:'CU'},
-            {area:"Salud -> Odontología", codigo:'SOD'},
-            {area:"Salud -> Médico", codigo:'SME'},
-            {area:"Salud -> Enfermería", codigo:'SEN'}];
-
+        // Recolecta los datos del formulario, los verifica y los envia a la BD
         $scope.enviarInforme = function ()
         {
-            $scope.fechaActividad=document.getElementById("date2").value;
-            $scope.fechaFinActividad =  document.getElementById("date3").value;
-            var Codigoarea;
-
-            if(document.getElementById("sel1").value!=="")
+            // Tiene una lista con los nodos del html
+            var datos  = document.getElementsByName("datos");
+            if(noNulos([CODIGOS_AREAS[datos[0].selectedIndex], datos[1].value,datos[2].value, datos[3].value,datos[4].value,datos[5].value, datos[6].value]))
             {
-                Codigoarea = $scope.opciones[document.getElementById("sel1").value].codigo;
-
-                console.log("Probando ");
-                $http(
+                var resp = peticiones.nuevoInforme(idProfesor,CODIGOS_AREAS[datos[0].selectedIndex],datos[1].value,datos[2].value,datos[4].value,datos[5].value,datos[6].value,datos[3].value,sede,codigo);
+                resp.then
+                (   function exito(response)
                     {
-                        method: "POST",
-                        url:API_ROOT+":8081/CrearInforme?profesorID="+$scope.idProfesor+"&area=" + Codigoarea +
-                        "&actividad="+ $scope.actividad+"&fechaInicio="+ $scope.fechaActividad +
-                        "&objetivo="+$scope.objetivoActividad +"&programa="+ $scope.programa+
-                        "&cantidadEstudiantes="+ $scope.cantidadEstudiantes + "&fechaFinal="+ $scope.fechaFinActividad +
-                        "&sede="+ $scope.sede + "&iden="+ $scope.idProfesor + "&codigo=" + $scope.codigo
-                    })
-                    .then(function mySucces(response)
-                    {
-                        console.log(response);
-                        if(response["data"]==="true")
+                        if(response.data==="true")
                         {
-                            mostrarNotificacion("El informe a sido enviado con exito",2);
-                            window.location.href =('#/profesores/informesEnviados');
+                            mostrarNotificacion("La solocitud ha sido agregada",2);
                         }
                         else
                         {
-                            mostrarNotificacion("Ocurrio un error verifique los datos",1);
+                            mostrarNotificacion("Ocurrió un error y no fue posible agregar la solicitud",1);
                         }
-                    },function myError(response)
+                    },
+                    function error(response)
                     {
-                        mostrarNotificacion("Ocurrio un error verifique la conexion",1);
-                    });
+                        mostrarNotificacion("Ocurrió un error y no fue posible agregar la solicitud",1);
+                    }
+                );
             }
             else
             {
-                mostrarNotificacion("Seleccione un area",1);
+                mostrarNotificacion("Asegurése de ingresar datos en cada uno de los campos requeridos",1);
             }
         };
-    });
+});

@@ -12,18 +12,16 @@ angular.module('adminModule')
 
         $scope.fechaInicio=document.getElementById("date1").value;
         $scope.fechaFin=document.getElementById("date2").value;
-        if($scope.fechaInicio != "" && $scope.fechaFin != ""){
+        
+        //si no hay valores nulos
+        if( noNulos([$scope.fechaInicio,$scope.fechaFinal]) ==true)
+        {
             setCookie($scope.fechaInicio,$scope.fechaFin);
             mostrarNotificacion("Configuración de fechas exitosa",2);
         }
         else{  //error en seleccion de fechas
-            swal({
-                title: " Ocurrió un error en la selección de fechas, no deben existir fechas sin seleccionar",
-                type: "error",
-                confirmButtonColor: "#EE2049",
-                timer: 3000,
-                showConfirmButton: false,
-            });
+            mostrarNotificacion("Ocurrió un error en la selección de fechas, no deben existir fechas sin seleccionar", 1);
+            
         }
         
     

@@ -16,7 +16,7 @@ angular.module('userModule')
         //format(Base64.encode($scope.carnet,true).toString())
         $http({
             method : "GET",
-            url :"http://localhost:8081/ObtenerSolicitudesCarnet?carnet="+$scope.carnet+
+            url :API_ROOT+":8081/ObtenerSolicitudesCarnet?carnet="+$scope.carnet+
                 "&iden="+$scope.id+"&codigo="+$scope.codigo
             })
             .then(function mySucces(response)
@@ -44,7 +44,7 @@ angular.module('userModule')
     {
     $http({   //delete a student's requests by id's requests
     method : "DELETE",
-    url :"http://localhost:8081/EliminarSolicitud?id="+$scope.solicitudes[indiceEliminar]["v_idsolicitud"]
+    url :API_ROOT+":8081/EliminarSolicitud?id="+$scope.solicitudes[indiceEliminar]["v_idsolicitud"]
     +"&iden="+$scope.id+"&codigo="+$scope.codigo
     }).then(function mySucces(response) {
     $scope.actualizarInfo();

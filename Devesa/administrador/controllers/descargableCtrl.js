@@ -17,9 +17,8 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
         return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
     };
 
-
-    /* agregar la fecha final*/
-
+    
+    //lista para controlar que ningun profesor se encuentre asociado a mas de un area
     $scope.asignarEncargados=function () {
         var limite= $scope.actividades.length;
         console.log("limite = "+limite);
@@ -37,7 +36,7 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
     };
     
     //funcion para obtener el nombre de los encargados de las actividades atraves de endpoint
-    $scope.obtenerEncargados=function () {
+    $scope.obtenerInformacionEncargado=function () {
         
     };
     
@@ -45,7 +44,7 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
     $scope.obtenerInformesArea=function () {
         $http({
             method: "GET",
-            url: "http://localhost:8081/ObtenerInformesArea?area=" +areaInforme.informeArea+"&iden="
+            url: API_ROOT+":8081/ObtenerInformesArea?area=" +areaInforme.informeArea+"&iden="
             +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
         }).then(function mySucces(response) {
             $scope.actividades = response.data;  //it does not need a conversion to json

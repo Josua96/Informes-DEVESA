@@ -19,14 +19,12 @@ app.controller('loginController', function($scope, $http)
     localStorage.setItem("userId",$scope.id);
 
     localStorage.setItem("userType","P");
-
-
     localStorage.setItem("sede","SC");
     
     $scope.tipoUsuario=localStorage.getItem("userType");
 
-
-    $scope.redirigirUsuario=function () {
+    $scope.redirigirUsuario=function ()
+    {
         if($scope.username==="e")
         {
             console.log("datos");
