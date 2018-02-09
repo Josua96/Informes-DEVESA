@@ -1,6 +1,4 @@
-﻿-- Dominios
-
-create domain t_cedula
+﻿create domain t_cedula
     char(11) not null
     constraint CHK_cedulas CHECK(VALUE similar to '[1-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]');
 
@@ -21,13 +19,19 @@ create domain t_area
 
 
 --------------------------------------------------- CARTAS DEVESA  -------------------------------------------------
-create table solicitudes
+
+
+
+CREATE TABLE solicitudes
 (
-    id SERIAL NOT NULL PRIMARY KEY,
+    idSolicitud SERIAL NOT NULL PRIMARY KEY,
+    fechaSolicitud DATE DEFAULT(CURRENT_DATE),
     carne t_carne,
     tramite t_tramite,
     estado BOOLEAN NOT NULL DEFAULT FALSE,
-    sede   t_sede
+    fechaImpresion DATE,
+    notificado BOOLEAN DEFAULT (FALSE),
+    sede DOMAIN_SEDE
 );
 
 ------------------------------------------------- INFORMES ---------------------------------------------------------
@@ -60,7 +64,7 @@ CREATE TABLE autorizacion
 (
 	idUsuario t_cedula,
 	TipoUsuario char(1),
-	token char(5)UNIQUE,
+	token char(32)UNIQUE,
 	CONSTRAINT PK_idUsuario_autorizacion PRIMARY KEY(idUsuario)
 );
 
@@ -90,7 +94,7 @@ LANGUAGE plpgsql;
 
 
 
-CREATE OR REPLACE FUNCTION sp_eliminarToken(IN codigo CHAR(5))
+CREATE OR REPLACE FUNCTION sp_eliminarToken(IN codigo CHAR(32))
 RETURNS VOID AS
 $BODY$
 BEGIN 
@@ -105,7 +109,7 @@ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION sp_almacenarToken
-(IN id t_cedula,IN tipoU CHAR(1), IN codigo CHAR(5))
+(IN id t_cedula,IN tipoU CHAR(1), IN codigo CHAR(32))
 RETURNS VOID AS
 $BODY$
 BEGIN
@@ -125,14 +129,22 @@ LANGUAGE plpgsql;
 --- CARTAS
 --- ===========================================================
 
+
 CREATE OR REPLACE FUNCTION sp_crearSolicitud(IN v_carne t_carne,IN v_tramite t_tramite,IN v_sede t_sede)
 RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-	INSERT INTO solicitudes (carne,tramite,estado,sede) VALUES (v_carne,v_tramite,FALSE,v_sede);
-	RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
+		/** Definir límite de solicitudes del mismo tipo que puede realizar un estudiante */
+    	IF ((SELECT COUNT(*) FROM solicitudes WHERE v_carne=carne AND v_tramite=tramite AND v_sede=sede AND estado=true)>4) THEN
+    		RAISE EXCEPTION 'limite';
+    	END IF;
+
+    	IF ((SELECT COUNT(*) FROM solicitudes WHERE v_carne=carne AND v_tramite=tramite AND v_sede=sede AND estado=FALSE)) THEN
+    		RAISE EXCEPTION 'registrada';
+    	END IF;
+
+    	INSERT INTO solicitudes (carne,fechaSolicitud,tramite,estado,sede) VALUES (v_carne,CURRENT_DATE,v_tramite,FALSE,v_sede);
+    	RETURN TRUE;
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -147,7 +159,8 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede LIKE v_sede;
+	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede LIKE v_sede
+	              ORDER BY fechaSolicitud ASC;
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -162,27 +175,39 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesAtendidas
 )    
 RETURNS SETOF record AS
 $BODY$
+ DECLARE fechaActual DATE;
 BEGIN
-	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede;	
-END;
+	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede AND fechaImpresion = fechaActual;
+END
 $BODY$
 LANGUAGE plpgsql;
 
 
+
+/** NOTA: Si una solicitud no ha sido impresa, el campo notificado de solicitudes es false */
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesCarnet
 (
-    IN v_carnet t_carne, 
+    IN v_carnet t_carne,
     OUT v_idSolicitud INT,
     OUT v_carne t_carne,
-    OUT v_tramite t_tramite
-) RETURNS SETOF record AS
+    OUT v_tramite t_tramite,
+    OUT v_fechaSolicitud DATE,
+    OUT v_estado BOOLEAN
+) RETURNS SETOF RECORD AS
 $BODY$
-BEGIN  
-	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = FALSE AND carne LIKE v_carnet;
+DECLARE
+
+	cursorSolicitudes CURSOR FOR
+	SELECT idSolicitud,carne,tramite,fechaSolicitud,estado FROM solicitudes WHERE notificado=FALSE AND carne LIKE v_carnet
+	ORDER BY fechaSolicitud ASC;
+BEGIN
+	OPEN cursorSolicitudes;
+	UPDATE solicitudes SET notificado=TRUE WHERE estado=true and carne=v_carnet;
+	RETURN query FETCH ALL FROM cursorSolicitudes;
+
 END;
 $BODY$
 LANGUAGE plpgsql;
-
 
 CREATE OR REPLACE FUNCTION sp_eliminarSolicitud
 (
@@ -200,13 +225,14 @@ $BODY$
 LANGUAGE plpgsql;
 
 
+
 CREATE OR REPLACE FUNCTION sp_actualizarEstado
 (
     IN v_idSolicitud INT
 ) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-    UPDATE solicitudes SET estado = TRUE WHERE idSolicitud = v_idSolicitud;
+    UPDATE solicitudes SET estado = TRUE, fechaImpresion = CURRENT_DATE WHERE idSolicitud = v_idSolicitud;
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN	
 	RETURN FALSE;
@@ -302,7 +328,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes_area
     IN ve_sede VARCHAR(2),
     OUT v_idInforme INT,
     OUT v_profesorID t_cedula,
-    OUT v_area VARCHAR(3),
+    OUT v_area t_area,
     OUT v_actividad VARCHAR(100),
     OUT v_fechaInicio DATE,
     OUT v_fechaFinal DATE,

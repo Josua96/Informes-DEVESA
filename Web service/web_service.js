@@ -1,4 +1,3 @@
-
 var pg = require('pg');
 var conString = "postgres://postgres:postgresql2017@localhost:5432/devesa_app";
 var client;
@@ -48,24 +47,35 @@ app.post('/registrarToken',function(req,res)
 //================================================================================================
 
 
-
 app.post('/CrearSolicitud', function(req, res) {
-	//validacion de token
-	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
-	.then(data =>
-	{
-		if(data.sp_tokenvalido==true)
-		{
-			db.proc('sp_crearSolicitud',[req.query.carnet,req.query.tramite,req.query.sede])
-			.then(data => {console.log("DATA:", data); res.end(JSON.stringify(data));})
-			.catch(error=> {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
-		}
-		else
-		{
-			res.end(JSON.stringify(false));
-		}
-	})
-	.catch(error => { res.end(JSON.stringify(false));})});
+    //validacion de token
+    db.proc('sp_TokenValido',[req.query.iden,"E",req.query.codigo])
+        .then(data => {
+        if(data.sp_tokenvalido==true) {
+        db.proc('sp_crearSolicitud',[req.query.carnet,req.query.tramite,req.query.sede])
+            .then(data => {
+            console.log("DATA:", data);
+        console.log(data.sp_crearsolicitud);
+        res.end(JSON.stringify(data.sp_crearsolicitud));
+    })
+    .catch(error=> {
+            console.log("ERROR: ",error);
+        res.status(400).send(
+            {message:false});
+    })
+
+    }
+
+else{
+        res.end(JSON.stringify("Invalid_Token"));
+    }
+})
+.catch(error => {
+        console.log("ERROR: ",error);
+    res.end(JSON.stringify("Invalid_Token"));
+})
+
+});
 
 
 

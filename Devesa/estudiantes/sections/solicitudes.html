@@ -20,11 +20,11 @@
                 onmouseout='this.style.backgroundColor="#3B4A95"' >
                 <td>{{solicitud["v_carne"]}}</td>
                 <td>{{solicitud["v_tramite"]}}</td>
-                <td><span class="label bg-red">Pendiente</span></td>
-                <!--cuando se presiona el boton, la funcion eliminar recibe la fila que está siendo editada -->
-
+                <td><span ng-class="{'label bg-red': solicitud['v_estado']===false, 'label bg-green': solicitud['v_estado']===true}">
+                    <b>{{solicitud["v_estado"]===true ? 'Atendida' : 'Pendiente' }}</b></span></td>
+                <!--cuando se presiona el boton, la funcion eliminar recibe el indice de la fila que está siendo editada -->
                 <td>
-                    <button
+                    <button ng-hide=solicitud["v_estado"]
                              type="button" 
                              class="btn bagTecEliminar" 
                              onmouseout='this.style.backgroundColor="#E1E5E8"'
@@ -32,7 +32,9 @@
                              onmouseover='this.style.backgroundColor="#2F9EE2"'
                              data-toggle="modal"
                              data-target="#myModal"                                                
-                             ng-click="eliminar($index)"><b>Eliminar solicitud</b>
+                             ng-click="eliminar($index)">
+                             <i class="material-icons right">delete</i>
+
                     </button>
                 </td>
             </tr>

@@ -2,17 +2,30 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" style="border:solid; border-color: black;">
+                <br>
                 <center>
-                    <span style="font-size: medium;">Seleccione el tipo de solicitud a realizar:</span>
-                    <br><br>
-                    <select ng-model="seleccionado"  ng-options="x.model for x in opciones" style="font-size: medium;"  >
+                <div class="form-group">
+                    <label for="sel1">Seleccione el tipo de trámite para la carta </label>
+                    <select  class="form-control" id="sel1" >
+                        <option  ng-repeat="solicitud in solicitudes">{{solicitud.nombre}} </option>
+
                     </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="sel2">Seleccione una de las siguientes sedes </label>
+                    <select  class="form-control" id="sel2" >
+                        <option  ng-repeat="opcion in opcionesSedes">{{opcion.nombre}} </option>
+
+                    </select>
+                </div>
                 </center>
-                <br><br>
-                <center>
-                    <button type="button" class="botones_nueva" style="background-color: #008CBA;" data-dismiss="modal"ng-click="evaluarSolicitud(seleccionado.num)">Realizar solicitud</button>
-                    <button style="background-color:#f44336;" type="button" class="botones_nueva" data-dismiss="modal" >Cancelar</button>
-                </center>
+                <div class="modal-footer">
+                    <center>
+                    <button type="button" class="btn-primary"  data-dismiss="modal"ng-click="realizarSolicitud()">Registrar la solicitud</button>
+                    <button  type="button" class="btn-danger" data-dismiss="modal" >Cancelar</button>
+                    </center>
+                </div>
             </div>
 
         </div>
@@ -24,6 +37,7 @@
     <center>
         <button type="button"  style="font-size: large;opacity: 0.89" class="btn btn-block btn-lg btn-info waves-effect nueva_solicitud"
                 data-toggle="modal" data-target="#myModal" >Realizar una nueva solicitud </button>
+
     </center>      
     <script src="controllers/nuevaCtrl.js"></script>
      

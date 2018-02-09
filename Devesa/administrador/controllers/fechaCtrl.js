@@ -12,9 +12,9 @@ angular.module('adminModule')
 
         $scope.fechaInicio=document.getElementById("date1").value;
         $scope.fechaFin=document.getElementById("date2").value;
-        
+       
         //si no hay valores nulos
-        if( noNulos([$scope.fechaInicio,$scope.fechaFinal]) ==true)
+        if( noNulos([$scope.fechaInicio,$scope.fechaFin]) ==true)
         {
             setCookie($scope.fechaInicio,$scope.fechaFin);
             mostrarNotificacion("Configuración de fechas exitosa",2);

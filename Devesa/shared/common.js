@@ -57,6 +57,29 @@ const CODIGOS_AREAS = ['DI','SE','AYR','TSR','TSB','PS','BI','DE','CU','SOD','SM
 const API_ROOT = "http://localhost";//"http://transportec-api.azurewebsites.net";
 
 /**
+ * CONSTANTE DE SEDES EN EL SISTEMA
+ */
+
+const sedes=[
+    {nombre:"Sede Regional San Carlos",abreviatura:"SC"},
+    {nombre:"Sede Central Cartago",abreviatura:"SCC"},
+    {nombre:"Centro académico de Limón",abreviatura:"CAL"},
+    {nombre:"Centro académico de Alajuela",abreviatura:"CAA"},
+    {nombre:"Centro acádemico de San José",abreviatura:"CAS"}
+];
+
+/**
+ * CONSTANTE DE tpos de solicitudes en el sistema
+ */
+
+const solicitudesDisponibles= [
+    {nombre: "Carnet de la CCSS", abreviatura:"CCSS"},
+    {nombre: "Estudiante Regular", abreviatura: "regular"},
+    {nombre: "Trámite de Visa", abreviatura: "visa"},
+    {nombre:"Trámite de Pensión",abreviatura: "pension"},
+    {nombre:"CCSS con Residencia",abreviatura:"CCSSResidencia"}
+];
+/**
  * Formatea una cadena de texto en base a los parámetros proporcionados.
  * Tomado de: http://stackoverflow.com/a/4256130/3288599
  * @returns {String} Cadena de texto con formato aplicado.
@@ -117,6 +140,22 @@ function signOut(){
   window.location.href = ('../index.html');
 }
 
+/*  función que busca un elemento en una lista de diccionarios (JSON)
+    array: lista que contiene al elemento a buscar
+    abreviatura: identificador del elemento a buscar
+    clave: la clave a buscar en la lista de diccionarios
+    Retorna el indice donde se encuentra el elmento, -1 si no se encuentra
+*/
+function searchInArray(array,abreviatura,clave){
+    var size= array.length;
+    for (i=0;i<size;i++){
+        if (array[i][abreviatura]===clave){
+            return i;
+        }
+    }
+    return -1
+}
+
 //funcion para mostrar notificaciones al usuario, un uno es error , 2 success, 3 mensaje normal
 function mostrarNotificacion(texto,num)
 {
@@ -126,7 +165,7 @@ function mostrarNotificacion(texto,num)
       title: texto,
       type: "error",
       confirmButtonColor: "#EE2049",
-      timer: 3000,
+      timer: 5000,
       showConfirmButton: false
     });
   }
@@ -240,6 +279,21 @@ function getTextoEspecial(dato, datosEstudiante)
       return "";
     }
 }
+
+//funcion que recibe el nombre de ka imagen y retorna su formato "JPG","JPEG"
+function retornaFormato(nombreImagen){
+    var contador=nombreImagen.length-1;
+    var caracter;
+    var formato;
+    while(nombreImagen[contador]!=".") //recorrer la cadena hasta encontrara un punto
+    {
+        contador-=1;
+
+    }
+    formato=nombreImagen.slice(contador,nombreImagen.length);
+    return formato;
+
+}
 //function para dar formato a la fecha que recibe por parametro
 function revertirCadena(cadena){
     console.log("cadena revertida");
@@ -301,8 +355,9 @@ function noNulos(listaValores)
     console.log(listaValores);
     var limite= listaValores.length;
     var i;
-    for (i=0; i <limite;i++){
-        if (listaValores[i]===undefined || listaValores[i]===""){ //valor nulo encontrado
+    for (i=0; i <limite;i++)
+    {
+        if ((listaValores[i]===undefined)||(String(listaValores[i]).length===0)){ //valor nulo encontrado
             return false;
         }
     }

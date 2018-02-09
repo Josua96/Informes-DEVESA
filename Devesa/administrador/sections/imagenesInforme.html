@@ -51,11 +51,16 @@
     <br><br>
       <ul ng-repeat="imagen in imagenes" style="display: inline-block;">
         <li>
-            <img src={{imagen}} width="350px" height="auto" style="padding-left: 8px;">
+            <img src={{imagen["v_nombre"]}} width="350px" height="auto" style="padding-left: 8px;">
         </li>
 
 
     </ul>
+
+    <div class="form-group">
+        <button type="button" class="btn-primary"  ng-click="descargarImagenes()" > Descargar imágenes </button>
+    </div>
+
 
 </div>
 
