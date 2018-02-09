@@ -74,7 +74,7 @@ CREATE TABLE autorizacion(
 CREATE OR REPLACE FUNCTION sp_eliminarToken
 (
 	
-	IN codigo CHAR(5)  --el token de acceso
+	IN codigo CHAR(32)  --el token de acceso
 )
 RETURNS VOID AS
 $BODY$
@@ -100,7 +100,7 @@ CREATE OR REPLACE FUNCTION sp_almacenarToken
 (
 	IN id CHAR(11),
 	IN tipoU CHAR(1), --tipo de usuario
-	IN codigo CHAR(5)  --el token de acceso
+	IN codigo CHAR(32)  --el token de acceso
 )
 RETURNS VOID AS
 $BODY$
@@ -123,7 +123,7 @@ CREATE OR REPLACE FUNCTION sp_tokenValido
 (
 	IN id CHAR(11),
 	IN tipoU CHAR(1), --tipo de usuario
-	IN codigo CHAR(5)  --el token de acceso
+	IN codigo CHAR(32)  --el token de acceso
 )
 RETURNS BOOLEAN AS
 $BODY$
