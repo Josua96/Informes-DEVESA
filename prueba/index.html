@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<script LANGUAGE="JavaScript">
+
+			extArray = new Array(".gif", ".odt",".jpg");
+			function LimitAttach(form, file) 
+			{
+				allowSubmit = false;
+				if (!file) return;
+
+				while (file.indexOf("\\") != -1)
+				{
+                    file = file.slice(file.indexOf("\\") + 1);
+                    ext = file.slice(file.indexOf(".")).toLowerCase();
+                    for (var i = 0; i < extArray.length; i++)
+                    {
+                        if (extArray[i] == ext) { allowSubmit = true; break;}
+					}
+				}
+				if (allowSubmit)
+				{
+					form.submit();
+				}
+				else
+				{
+					alert("Se permiten únicamente archivos con la extención: "+(extArray.join("  ")) +
+							"\nPor favor, seleccione otro archivo "+ "e intente de nuevo.");
+				}
+			}
+
+		</script>
+	</head>
+
+    <body>
+        <form method="post" name="upform" action="cgi-bin/tu-script.cgi" enctype="multipart/form-data">
+            <p>
+                <input type="file" name="uploadfile">
+                <input type="button" name="Submit" value="Enviar" onclick="LimitAttach(this.form, this.form.uploadfile.value)">
+            </p>
+        </form>
+    </body>
+</html>

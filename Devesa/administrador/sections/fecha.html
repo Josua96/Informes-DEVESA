@@ -1,6 +1,9 @@
+
 <div class="container-fluid" ng-controller="fechaCtrl" style="background:#FFF;">
+        <center>
+        <div class="container-fluid">
         <div>
-            <span>Inicio semestre</span>    
+            <h3>Inicio semestre</h3>
             <div class="input-group">
                 <div class="input-group-addon">
                     <i class="fa fa-calendar">
@@ -8,15 +11,21 @@
                 </div>
                 <input class="form-control" id="date1"  name="date1" type="date"/>
             </div>                                                              
-            <span>Fin semestre</span>
+            <h3>Fin semestre</h3>
             <div class="input-group">                        
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
                 <input class="form-control" id="date2"  name="date2"  type="date"/>
             </div>                                        
-        </div>                                 
-        <button  ng-click= "guardarFecha()">Guardar</button>         
+        </div>
+        <div class="input-group">
+            <button class="btn-primary" ng-click= "guardarFecha()">Guardar</button>
+        </div>
+        </div>
+        </center>
+
+
 </div>
 
         

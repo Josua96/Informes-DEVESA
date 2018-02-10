@@ -1,41 +1,28 @@
-
-<!--
-Permite ver una tabla con los diferentes informes, tambien permite su
--->
+<!-- Muestra una tabla con los informes enviados-->
 
 <div class="body">
+    <h4>Mis informes</h4>
     <div class="centrado">
         <span style="font-size:18px"></span>
     </div>
     <div class="table-responsive" style="opacity: 0.8;">
         <table class="table table-hover dashboard-task-infos">
             <thead style="background-color: #000000 ; color:#ffffff;">
-            <tr>
-                <td >Actividad</td>
-                <td>Fecha</td>
-                <td></td>
-            </tr>
+                <tr>
+                    <td>Nombre de la actividad</td>
+                    <td>Fecha de inicio</td>
+                    <td></td>
+                </tr>
             </thead>
+
             <tbody>
-            <tr editable-td row="{{$index}}" ng-repeat="informe in misInformes"
-                style="background-color:#3B4A95; color:#ffffff;"
-                onmouseover='this.style.backgroundColor="#B4C7E6"'
-                onmouseout='this.style.backgroundColor="#3B4A95"'>
-                <td>{{informe["v_actividad"]}}</td>
-                <td>{{revertirCadena(informe["v_fechainicio"])}}</td>
-                <td>
-                    <button
-                            type="button"
-                            class="btn"
-                            ng-click="editarInformes($index)"
-                            onmouseout='this.style.backgroundColor="#E1E5E8"'
-                            onmouseover='this.style.backgroundColor="#2F9EE2"'
-                            style="color:black;">
-                        Ver/Editar
-                    </button>
-                </td>
-            </tr>
+                <tr editable-td row="{{$index}}"  ng-repeat="informe in misInformes" style="background-color:#3B4A95; color:#ffffff;" onmouseover='this.style.backgroundColor="#B4C7E6"'  onmouseout='this.style.backgroundColor="#3B4A95"'>
+                    <td>{{informe.v_actividad}}</td>
+                    <td>{{informe.v_fechainicio.slice(0,10)}}</td>
+                    <td><button type="button" class="btn" ng-click="editarInformes($index)"  onmouseout='this.style.backgroundColor="#E1E5E8"' onmouseover='this.style.backgroundColor="#2F9EE2"' style="color:black;">Ver/Editar</button></td>
+                </tr>
             </tbody>
+
         </table>
     </div>
 </div>

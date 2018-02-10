@@ -1,31 +1,10 @@
-/*
-*     Web Service REST para la BD Devesa
-*
-* Autor: Edward Andrey Murillo Castro | 2015027610
-* Contacto: m.edwardandrey@gmail.com, m.edwardandrey@yahoo.com, eamc96@estudiantec.cr
-* Última Fecha de Modificación: 31/03/2017
-*
-*/
-
-
-
-var pg = require('pg'); //postgres controller
-
-//formato del string: "postgres://nombreUsuario:contraseña@ip:puerto/baseDeDatos"
-var conString = "postgres://postgres:12345@localhost:5432/devesa_app"; //connection link
+var pg = require('pg');
+var conString = "postgres://postgres:12345@localhost:5432/devesa_app";
 var client;
 var express = require('express');
-var app = express(); //restful api
+var app = express();
 var pgp = require('pg-promise')();
-
-var cn = {
-    host: 'localhost',
-    port: 5432,
-    database: 'devesa_app',
-    user: 'postgres',
-    password: '12345'
-};
-
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
 var db = pgp(cn);
 
 
@@ -36,97 +15,99 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "DELETE, GET, POST");
     next();
-})
+});
+
 
 
 //===============================================================================================
 //		SEGURIDAD
 //===============================================================================================
+
 app.delete('/eliminarToken',function(req,res)
 {
 	db.proc('sp_eliminarToken',[req.query.codigo])
 	.then(data => {res.end(JSON.stringify(true));})
-	.catch(error => {
-      		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_token"));
-    	});
+	.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));});
 });
 
-app.post('/registrarToken',function(req,res){
-    console.log(req.query.iden);
-    console.log(req.query.tipo);
-    console.log(req.query.codigo);
+
+
+app.post('/registrarToken',function(req,res)
+{
 	db.proc('sp_almacenarToken',[req.query.iden,req.query.tipo,req.query.codigo])
 	.then(data => {res.end(JSON.stringify(true));})
-
-	.catch(error => {
-      		console.log("ERROR: ",error);
-      		res.status(400).send({message:"Eror en registro"});
-    	})
+	.catch(error => {console.log("ERROR: ",error);res.status(400).send({message:"Eror en registro"});})
 });
 
 
+
+
 //================================================================================================
-//      Solicitudes
+//      Solicitudes de cartas
 //================================================================================================
 
 
-//Lista!
 app.post('/CrearSolicitud', function(req, res) {
-	//validacion de token
-	db.proc('sp_TokenValido',[req.query.iden,"E",req.query.codigo])
-	.then(data => {
-	  if(data.sp_tokenvalido==true) {
-		 db.proc('sp_crearSolicitud',[req.query.carnet,req.query.tramite,req.query.sede])
-		.then(data => {
-			console.log("DATA:", data);
-      console.log(data.sp_crearsolicitud);
-      res.end(JSON.stringify(data.sp_crearsolicitud));
-		})
-		.catch(error=> {
-			console.log("ERROR: ",error);
-      res.status(400).send(
+    //validacion de token
+    db.proc('sp_TokenValido',[req.query.iden,"E",req.query.codigo])
+        .then(data => {
+        if(data.sp_tokenvalido==true) {
+        db.proc('sp_crearSolicitud',[req.query.carnet,req.query.tramite,req.query.sede])
+            .then(data => {
+            console.log("DATA:", data);
+        console.log(data.sp_crearsolicitud);
+        res.end(JSON.stringify(data.sp_crearsolicitud));
+    })
+    .catch(error=> {
+            console.log("ERROR: ",error);
+        res.status(400).send(
             {message:false});
-		})
+    })
 
-		}
+    }
 
-	else{
-    		res.end(JSON.stringify("Invalid_Token"));
-    		}
-	})
-	.catch(error => {
-      		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
-    	})
-	
+else{
+        res.end(JSON.stringify("Invalid_Token"));
+    }
+})
+.catch(error => {
+        console.log("ERROR: ",error);
+    res.end(JSON.stringify("Invalid_Token"));
+})
+
 });
 
-//Lista!
+
+
+
 app.get('/ObtenerSolicitudesNoAtendidas', function(req, res) {
   db.proc('sp_TokenValido',[req.query.iden,"S",req.query.codigo])
 	.then(data => {
-	if(data.sp_tokenvalido==true) {
-			db.func('sp_obtenerSolicitudesNoAtendidas',[req.query.sede])
-    		.then(data => {
-      			console.log(data);
-      			res.end(JSON.stringify(data));
-    		})
-    	.catch(error => {
-      			console.log("ERROR: ",error);
-      			res.end(JSON.stringify(false));
-    		})
-		}
-
-	else {
-    		res.end(JSON.stringify("Invalid_Token"));
-    		}
+	if(data.sp_tokenvalido==true)
+	{
+		db.func('sp_obtenerSolicitudesNoAtendidas',[req.query.sede])
+		.then(data => {
+			console.log(data);
+			res.end(JSON.stringify(data));
+		})
+		.catch(error => {
+			console.log("ERROR: ",error);
+			res.end(JSON.stringify(false));
+		})
+	}
+	else
+	{
+		res.end(JSON.stringify("Invalid_Token"));
+	}
 	})
 	.catch(error => {
       		console.log("ERROR: ",error);
       		res.end(JSON.stringify("Invalid_Token"));
     	})
 });
+
+
+
 
 //----------------------------------------------------------
 app.get('/ObtenerSolicitudesAtendidas', function(req, res) {
@@ -158,7 +139,6 @@ app.get('/ObtenerSolicitudesAtendidas', function(req, res) {
 });
 
 
-
 //Lista!
 app.get('/ObtenerSolicitudesCarnet', function(req, res) {	
   	db.proc('sp_TokenValido',[req.query.iden,"E",req.query.codigo])
@@ -174,7 +154,6 @@ app.get('/ObtenerSolicitudesCarnet', function(req, res) {
       			res.end(JSON.stringify(false));
     		})	
     	}
-
     	else{
     		res.end(JSON.stringify("Invalid_Token"));
     		}
@@ -185,64 +164,42 @@ app.get('/ObtenerSolicitudesCarnet', function(req, res) {
     	})
 });
 
+
+
 //Lista!
 app.delete('/EliminarSolicitud', function(req, res) {
 	console.log(req.query.iden);
 	db.proc('sp_TokenValido',[req.query.iden,"E",req.query.codigo])
 	.then(data => {
-		if(data.sp_tokenvalido==true){
+		if(data.sp_tokenvalido==true)
+		{
 				db.proc('sp_eliminarSolicitud',[req.query.id])
-    			.then(data => {
-      				console.log(data.sp_eliminarsolicitud);
-      				res.end(JSON.stringify(data.sp_eliminarsolicitud));
-   					 })
-    			.catch(error => {
-      				console.log("ERROR: ",error);
-      				res.end(JSON.stringify(false));
-   				})
-
-			}
-
-		else{
-    		res.end(JSON.stringify("Invalid_Token"));
-    		}
+    			.then(data => {console.log(data.sp_eliminarsolicitud);res.end(JSON.stringify(data.sp_eliminarsolicitud));})
+    			.catch(error => {console.log("ERROR: ",error); res.end(JSON.stringify(false));})
+		}
+		else{res.end(JSON.stringify("Invalid_Token"));}
 		})
-		.catch(error => {
-      		console.log("ERROR: ",error);
-      	  res.end(JSON.stringify("Invalid_Token"));
-    	})	  
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
 });
 
 //Lista!
 app.post('/ActualizarEstado', (req, res, next) =>{
   	db.proc('sp_TokenValido',[req.query.iden,"S",req.query.codigo])
 		.then(data => {
-		if(data.sp_tokenvalido==true){
-
-			client = new pg.Client(conString);
-  			client.connect();
-  			client.query('UPDATE solicitudes SET estado = TRUE WHERE idSolicitud = ($1)',[req.query.id], function(err, result) {
-    		if (err)
-   			 {
-      		console.log(err);
-      		res.end(JSON.stringify(false));
-      		return;
-    		}
-    		console.log("true");
-    		client.end();
-    		res.end(JSON.stringify(true));
-  			});
+		if(data.sp_tokenvalido==true)
+		{
+            db.func('sp_actualizarEstado',[req.query.id])
+			.then(data => {console.log(data);res.end(JSON.stringify(data));})
+        	.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 		}
-
-		else{
+		else
+		{
     		res.end(JSON.stringify("Invalid_Token"));
-    		}
+		}
 		})
-		.catch(error => {
-      		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
-    		})
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
 })
+
 
 
 //================================================================================================
@@ -255,39 +212,15 @@ app.post('/ActualizarEstado', (req, res, next) =>{
 app.post('/CrearInforme', function(req, res) {
 	db.proc('sp_TokenValido',[req.query.iden,"P",req.query.codigo])
 			.then(data => {
-			if(data.sp_tokenvalido==true){
-
-			db.proc('sp_crearInforme',
-    		[req.query.profesorID,
-    		req.query.area,
-    		req.query.actividad,
-   			req.query.fechaInicio,
-        req.query.fechaFinal,
-    		req.query.objetivo,
-   			req.query.programa,
-    		req.query.cantidadEstudiantes,
-    		req.query.sede])
-    		.then(data => {
-      		console.log("DATA:", data);
-      		console.log(data.sp_crearinforme);
-      		res.end(JSON.stringify(data.sp_crearinforme));
-    	})
-    		.catch(error=> {
-    			console.log("ERROR: ",error);
-    			res.end(JSON.stringify(false));
-    			})
+			if(data.sp_tokenvalido==true)
+			{
+				db.proc('sp_crearInforme', [req.query.profesorID, req.query.area, req.query.actividad, req.query.fechaInicio, req.query.fechaFinal, req.query.objetivo, req.query.programa, req.query.cantidadEstudiantes, req.query.sede])
+				.then(data => {console.log("DATA:", data); console.log(data.sp_crearinforme); res.end(JSON.stringify(data.sp_crearinforme));})
+				.catch(error=> {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 			}
-
-			else{
-    			res.end(JSON.stringify("Invalid_Token"));
-    			}
-			})
-		.catch(error => {
-      		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
-    	})
- 
-}) 
+			else{res.end(JSON.stringify("Invalid_Token"));}})
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
+});
 
 
 
@@ -299,11 +232,11 @@ app.post('/CrearInforme', function(req, res) {
 app.get('/ObtenerInformesProfesor', function(req, res) {
   db.proc('sp_TokenValido',[req.query.iden,"P",req.query.codigo])
 	.then(data => {
-			if(data.sp_tokenvalido==true){
-
+			if(data.sp_tokenvalido==true)
+			{
 				db.func('sp_obtenerInformes_profesor',[req.query.profesorID,req.query.sede])
-    			.then(data => {
-      			console.log(data);
+    			.then(data =>
+                {
       			res.end(JSON.stringify(data));
     		})
     			.catch(error => {
@@ -312,15 +245,15 @@ app.get('/ObtenerInformesProfesor', function(req, res) {
     			})
 			}
 			else
-				{
-    			res.end(JSON.stringify("Invalid_Token"));
-    			}
+			{
+				res.end(JSON.stringify("Invalid_Token"));
+			}
 	})
 	.catch(error => {
       		console.log("ERROR: ",error);
       		res.end(JSON.stringify("Invalid_Token"));
-    }) 
-})
+    })
+});
 
 app.get('/obtenerInformesRango',function(req, res){
   
@@ -339,41 +272,28 @@ app.get('/obtenerInformesRango',function(req, res){
   				})
 
 			}
-
-
 			else{
     			res.end(JSON.stringify("Invalid_Token"));
     		}
-
 			})
-		.catch(error => {
-      		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
-    		})
-})
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
+});
 
 //Lista!
 app.get('/ObtenerInformesArea', function(req, res) {
  
 	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
 		.then(data => {
-			if(data.sp_tokenvalido==true){
-
+			if(data.sp_tokenvalido==true)
+			{
 			  db.func('sp_obtenerInformes_area',[req.query.area,req.query.sede])
-    			.then(data => {
-      			console.log(data);
-      			res.end(JSON.stringify(data));
-    			})
-    			.catch(error => {
-      			console.log("ERROR: ",error);
-      		  res.end(JSON.stringify(false));
-    			})
-
+    			.then(data => {console.log(data);res.end(JSON.stringify(data));})
+    			.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 			}
 
 			else{
-    		res.end(JSON.stringify("Invalid_Token"));
-    		}
+    			res.end(JSON.stringify("Invalid_Token"));
+			}
 			})
 
 		.catch(error => {
@@ -388,27 +308,18 @@ app.get('/ObtenerInformes', function(req, res) {
 
 	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
 		.then(data => {
-			if(data.sp_tokenvalido==true){
-
+			if(data.sp_tokenvalido==true)
+			{
 				db.func('sp_obtenerInformes',[req.query.sede])
-    				.then(data => {
-      					console.log(data);
-      					res.end(JSON.stringify(data));
-    			})
-    				.catch(error => {
-      					console.log("ERROR: ",error);
-      					res.end(JSON.stringify(false));
-
-    					})
+				.then(data => {res.end(JSON.stringify(data));})
+				.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 			}
-
-			else{
+			else
+			{
     			res.end(JSON.stringify("Invalid_Token"));
-    			}
+			}
 				})
-		.catch(error => {
-      		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));
     	}) 
 })
 
@@ -422,20 +333,14 @@ app.get('/ObtenerInformeId', function(req, res) {
   	
   	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
 		.then(data => {
-			if(data.sp_tokenvalido==true){
-
+			if(data.sp_tokenvalido==true)
+			{
 				db.func('sp_obtenerInforme_porId',[req.query.id])
-    				.then(data => {
-      					console.log(data);
-      					res.end(JSON.stringify(data));
-    					})
-    				.catch(error => {
-      					console.log("ERROR: ",error);
-      					res.end(JSON.stringify(false));
-    					})
-				}
+				.then(data => {console.log(data);res.end(JSON.stringify(data));})
+				.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
+			}
 			else{
-    			res.end(JSON.stringify("Invalid_Token"));
+    				res.end(JSON.stringify("Invalid_Token"));
     			}
 			})
 		.catch(error => {
@@ -449,50 +354,21 @@ app.get('/ObtenerInformeId', function(req, res) {
 //
 //Lista!
 app.post('/ModificarInforme', (req, res, next) => {
-  
-	db.proc('sp_TokenValido',
-    [req.query.iden,"P",req.query.codigo])
+	db.proc('sp_TokenValido',[req.query.iden,"P",req.query.codigo])
 		.then(data => {
-			if(data.sp_tokenvalido==true){
-
-					 client = new pg.Client(conString);
- 					 client.connect();
-  					 client.query('UPDATE informes SET' +
-    				 '(area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes)' +
-    				' =($1,$2,$3,$4,$5,$6,$7) WHERE idInforme = $8; ',
-    				[req.query.area,
-   					 req.query.actividad,
-    				 req.query.fechaInicio,
-             req.query.fechaFinal,
-    				 req.query.objetivo,
-    				 req.query.programa,
-   					 req.query.cantidadEstudiantes,
-    				 req.query.id],
-    				function(err, result) {
-    				if (err)
-    					{
-      					console.log(err);
-      					res.end(JSON.stringify(false));
-      					return;
-    					}
-    					console.log("true");
-    					client.end();
-    					res.end(JSON.stringify(true));
-  						});
-
-
-					}
-
-			else{
-    			res.end(JSON.stringify("Invalid_Token"));
-    			}
-			})
-		.catch(error => {
-      			console.log("ERROR: ",error);
-      			res.end(JSON.stringify("Invalid_Token"));
-    		})
-
+			if(data.sp_tokenvalido==true)
+			{
+                db.func('sp_modificarInforme',[req.query.id,req.query.area, req.query.actividad, req.query.fechaInicio, req.query.fechaFinal, req.query.objetivo, req.query.programa, req.query.cantidadEstudiantes])
+				.then(data => {res.end(JSON.stringify(data));})
+				.catch(error => {console.log("ERROR2: ",error);res.end(JSON.stringify(false));})
+			}
+			else{res.end(JSON.stringify(false));}
+		})
+		.catch(error => {console.log("ERROR1: ",error);res.end(JSON.stringify("Invalid_Token"));})
 })
+
+
+
 
 
 
@@ -506,39 +382,39 @@ app.post('/ModificarInforme', (req, res, next) => {
 
 //Lista!
 app.post('/CrearImagen', function(req, res) {
+
   	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
 			.then(data => {
-				if(data.sp_tokenvalido==true){
-
+                console.log(req.query.tipo);
+			    console.log(data);
+				if(data.sp_tokenvalido===true)
+				{
+				    console.log(req.query.idInforme+"  "+req.query.placa);
 					db.proc('sp_crearImagen',[req.query.idInforme,req.query.placa])
     					.then(data => {
-      						console.log("DATA:", data);
-      						console.log(data.sp_crearimagen);
      						res.end(JSON.stringify(data.sp_crearimagen));
     					})
-    					.catch(error=> {
+    					.catch(error=>
+                        {
       						console.log("ERROR: ",error);
       						res.end(JSON.stringify(false));
-    					})
-					}
-
-				else{
-    					res.end(JSON.stringify("Invalid_Token"));
-    					}
-				})
-			.catch(error => {
-      				console.log("ERROR: ",error);
-      				res.end(JSON.stringify("Invalid_Token"));
-    			})
-})
+    					});
+				}
+				else
+                {
+				    res.end(JSON.stringify(false));
+                }
+            })
+			.catch(error => {console.log("ERROR: ",error); res.end(JSON.stringify(false)); });
+});
 
 //Lista!
-app.get('/ObtenerImagenesInforme', function(req, res) {
-  
-	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
-		.then(data => {
-			if(data.sp_tokenvalido==true){
 
+app.get('/ObtenerImagenesInforme', function(req, res) {
+	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
+		.then(data => {
+			if(data.sp_tokenvalido==true)
+			{
 				db.func('sp_obtenerImagenes_informe',[req.query.idInforme])
     				.then(data => {
       					console.log(data);
@@ -550,29 +426,27 @@ app.get('/ObtenerImagenesInforme', function(req, res) {
     				})
 				}
 			else{
-    				res.end(JSON.stringify("Invalid_Token"));
+    				res.end(JSON.stringify(false));
     		}
-
 			})
 		.catch(error => {
       			console.log("ERROR: ",error);
-      			res.end(JSON.stringify("Invalid_Token"));
-    		})
- 
-})
+      			res.end(JSON.stringify(false));
+    		});
+});
 
 //Lista!
-app.get('/EliminarImagen', function(req, res) {
+app.delete('/EliminarImagen', function(req, res) {
 
-	db.proc('sp_TokenValido',[req.query.iden,"A",req.query.codigo])
+	db.proc('sp_TokenValido',[req.query.iden,req.query.tipo,req.query.codigo])
 		.then(data => {
 			if(data.sp_tokenvalido==true)
 			{
-                db.proc('sp_eliminarImagen',[req.query.idInforme, req.query.nombre])
-                    .then(data => {
-                    console.log(data.sp_eliminarImagen);
-                res.end(JSON.stringify(data.sp_eliminarImagen));
-            })
+                db.proc('sp_eliminarImagen',[req.query.idInforme, req.query.nombre]).then(data =>
+				{
+					console.log(data.sp_eliminarImagen);
+					res.end(JSON.stringify(data.sp_eliminarImagen));
+            	})
             .catch(error => {
                 console.log("ERROR: ",error);
             });
@@ -590,21 +464,6 @@ app.get('/EliminarImagen', function(req, res) {
 
 
 
-//prueba
-
-app.get('/prueba', function(req, res) {
-
-  db.func('sp_obtenerSolicitudesCarnet',[req.query.carnet])
-    .then(data => {
-
-      res.end(JSON.stringify(data));
-        
-          })
-    .catch(error => {
-            console.log("ERROR: ",error);
-            res.end(JSON.stringify("Error"));
-        });
-});
 
 
 //================================================================================================

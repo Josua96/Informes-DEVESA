@@ -1,14 +1,14 @@
 angular.module('profesorModule')
-
     //consumo de endpoints relacionados con los profesores
     .service('peticiones',['$http',function($http)
     {
         //endpoint de realizacion de un nuevo informe para un profesor
-        this.nuevoInforme=function (idProfesor,CodigoArea,actividad,fechaInicio,objetivo,programa,cantidadEstudiantes,fechaFin,sede,codigo) {
+        this.nuevoInforme=function(idProfesor,codigoArea,actividad,fechaInicio,objetivo,programa,cantidadEstudiantes,fechaFin,sede,codigo)
+        {
             return $http(
                 {
                     method: "POST",
-                    url:API_ROOT+":8081/CrearInforme?profesorID="+idProfesor+"&area=" + CodigoArea +
+                    url:API_ROOT+":8081/CrearInforme?profesorID="+idProfesor+"&area=" + codigoArea +
                     "&actividad="+ actividad+"&fechaInicio="+ fechaInicio +
                     "&objetivo="+ objetivo +"&programa="+ programa +
                     "&cantidadEstudiantes="+ cantidadEstudiantes + "&fechaFinal="+ fechaFin +
@@ -16,14 +16,22 @@ angular.module('profesorModule')
                 })
         };
 
-        
-        this.eliminarFoto=function (idInforme,param,idProfesor,codigo,tipo) {
+        this.informesProfesor = function(idProfesor,codigo, sede)
+        {
+            return $http({
+                method : "GET",
+                url :API_ROOT+":8081/ObtenerInformesProfesor?profesorID="+idProfesor + "&iden="+ idProfesor+"&codigo="+codigo+"&sede="+sede
+            })
+        };
+
+
+        this.eliminarFoto=function (idInforme,param,idProfesor,codigo,tipo)
+        {
             return $http({
                 method : "DELETE",
                 url :API_ROOT+":8081/EliminarImagen?idInforme="+idInforme+ "&nombre="+param +
                 "&iden="+idProfesor+"&codigo="+codigo+"&tipo="+tipo
-
-            })
+            });
         };
 
         this.obtenermagenesInforme=function (idInforme,idProfesor,tipo,codigo) {
@@ -35,7 +43,9 @@ angular.module('profesorModule')
                 })
         };
 
-        this.registrarImagenes=function (idInforme,nombreImagen,idProfesor,codigo,tipo) {
+        this.registrarImagenes=function (idInforme,nombreImagen,idProfesor,codigo,tipo)
+        {
+            console.log(nombreImagen);
             return $http({method: "POST",
                 url:API_ROOT+":8081/CrearImagen?idInforme="+idInforme+"&placa="+nombreImagen+
                 "&iden="+ idProfesor + "&codigo="+ codigo+"&tipo="+ tipo})
@@ -46,7 +56,7 @@ angular.module('profesorModule')
             return $http(
                 {
                     method: "POST",
-                    url:API_ROOT+":8081/ModificarInforme?area=" + CodigoArea +
+                    url:API_ROOT+":8081/ModificarInforme?area=" + codigoArea +
                     "&actividad="+ actividad+"&fechaInicio="+ fechaInicio +
                     "&fechaFinal="+ fechaFinal + "&objetivo="+objetivoActividad
                     +"&programa="+ programa+ "&cantidadEstudiantes="+ cantidadEstudiantes +
@@ -62,9 +72,9 @@ angular.module('profesorModule')
         var factory ={};
         factory.nombre= "Nombre del profesor";
         factory.idProfesor = "1234567890";
-
         return factory;
     })
+
     .factory('datosInforme',function()
     {
         var datosInforme ={};

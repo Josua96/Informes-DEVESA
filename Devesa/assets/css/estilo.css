@@ -10,6 +10,10 @@
         width: 50%;
         justify-content: center;
     }
+    [class*= "form-control"]{
+        width: 50%;
+
+    }
 }
 
 @media only screen and (max-width: 768px) 
@@ -17,4 +21,12 @@
     [class*="formInputs"] {
         width: 80%;
     }
+    [class*= "form-control"]{
+        width: 80%;
+
+    }
+}
+
+.shorter{
+    width: 60%;
 }
