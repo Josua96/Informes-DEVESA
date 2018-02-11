@@ -5,7 +5,7 @@ angular.module('profesorModule')
         var idProfesor = localStorage.getItem("userId");
         var sede = localStorage.getItem("sede");
         $scope.opciones = AREAS;
-
+        $scope.opcion="Dirección";
 
         // Recolecta los datos del formulario, los verifica y los envia a la BD
         $scope.enviarInforme = function ()

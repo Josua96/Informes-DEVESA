@@ -103,7 +103,7 @@ angular.module('profesorModule')
             {
                 archivos.append('archivo'+i,archivo[i]);
             }
-            //$.ajax({url:API_ROOT+':80/DEVESA/Devesa/profesores/subir.php', type:'POST',
+
             $.ajax({url:API_ROOT+':80/DEVESA/subir.php', type:'POST',
                 contentType:false,
                 data:archivos,

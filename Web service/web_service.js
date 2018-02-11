@@ -67,12 +67,12 @@ app.post('/CrearSolicitud', function(req, res) {
     }
 
 else{
-        res.end(JSON.stringify("Invalid_Token"));
+        res.end(JSON.stringify(false));
     }
 })
 .catch(error => {
         console.log("ERROR: ",error);
-    res.end(JSON.stringify("Invalid_Token"));
+    res.end(JSON.stringify(false));
 })
 
 });
@@ -97,12 +97,12 @@ app.get('/ObtenerSolicitudesNoAtendidas', function(req, res) {
 	}
 	else
 	{
-		res.end(JSON.stringify("Invalid_Token"));
+		res.end(JSON.stringify(false));
 	}
 	})
 	.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     	})
 });
 
@@ -225,7 +225,7 @@ app.post('/CrearInforme', function(req, res) {
 				.catch(error=> {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 			}
 			else{res.end(JSON.stringify("Invalid_Token"));}})
-		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 });
 
 
@@ -252,12 +252,12 @@ app.get('/ObtenerInformesProfesor', function(req, res) {
 			}
 			else
 			{
-				res.end(JSON.stringify("Invalid_Token"));
+				res.end(JSON.stringify(false));
 			}
 	})
 	.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     })
 });
 
@@ -282,7 +282,7 @@ app.get('/obtenerInformesRango',function(req, res){
     			res.end(JSON.stringify("Invalid_Token"));
     		}
 			})
-		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 });
 
 //Lista!
@@ -298,13 +298,13 @@ app.get('/ObtenerInformesArea', function(req, res) {
 			}
 
 			else{
-    			res.end(JSON.stringify("Invalid_Token"));
+    			res.end(JSON.stringify(false));
 			}
 			})
 
 		.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     	})
 })
 
@@ -325,7 +325,7 @@ app.get('/ObtenerInformes', function(req, res) {
     			res.end(JSON.stringify("Invalid_Token"));
 			}
 				})
-		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));
     	}) 
 })
 
@@ -351,7 +351,7 @@ app.get('/ObtenerInformeId', function(req, res) {
 			})
 		.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     			})
 
 })
@@ -370,7 +370,7 @@ app.post('/ModificarInforme', (req, res, next) => {
 			}
 			else{res.end(JSON.stringify(false));}
 		})
-		.catch(error => {console.log("ERROR1: ",error);res.end(JSON.stringify("Invalid_Token"));})
+		.catch(error => {console.log("ERROR1: ",error);res.end(JSON.stringify(false));})
 })
 
 
@@ -459,12 +459,12 @@ app.delete('/EliminarImagen', function(req, res) {
 			}
 			else
 				{
-    				res.end(JSON.stringify("Invalid_Token"));
+    				res.end(JSON.stringify(false));
 				}
 					})
 		.catch(error => {
       			console.log("ERROR: ",error);
-      			res.end(JSON.stringify("Invalid_Token"));
+      			res.end(JSON.stringify(false));
     		});
 });
 
@@ -481,6 +481,7 @@ var server = app.listen(8081, function ()
 {
 	var host = server.address().address;
 	var port = server.address().port;
-  console.log("Example app listening at http://%s:%s", host, port)
+	var ip = server.address().ip;
+  console.log("Example app listening at http://%s:%s", host, port, ip);
 });
 

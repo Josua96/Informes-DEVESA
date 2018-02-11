@@ -20,8 +20,6 @@ create domain t_area
 
 --------------------------------------------------- CARTAS DEVESA  -------------------------------------------------
 
-
-
 CREATE TABLE solicitudes
 (
     idSolicitud SERIAL NOT NULL PRIMARY KEY,
@@ -31,7 +29,7 @@ CREATE TABLE solicitudes
     estado BOOLEAN NOT NULL DEFAULT FALSE,
     fechaImpresion DATE,
     notificado BOOLEAN DEFAULT (FALSE),
-    sede DOMAIN_SEDE
+    sede t_sede
 );
 
 ------------------------------------------------- INFORMES ---------------------------------------------------------
@@ -80,12 +78,12 @@ CREATE TABLE autorizacion
 CREATE OR REPLACE FUNCTION sp_tokenValido(IN id t_cedula,IN tipoU CHAR(1),IN codigo CHAR(5))
 RETURNS BOOLEAN AS
 $BODY$
-BEGIN 
-	IF (SELECT COUNT (idUsuario) FROM autorizacion WHERE idUsuario LIKE id AND TipoUsuario LIKE tipoU AND token LIKE codigo) =0 THEN
+BEGIN
+	IF (SELECT COUNT (idUsuario) FROM autorizacion WHERE idUsuario = id AND TipoUsuario = tipoU AND token =codigo) =0 THEN
 		RETURN FALSE;
-	ELSE 
+	ELSE
 	    RETURN TRUE;
-	END IF;	
+	END IF;
 	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END
 $BODY$
@@ -97,8 +95,8 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION sp_eliminarToken(IN codigo CHAR(32))
 RETURNS VOID AS
 $BODY$
-BEGIN 
-	DELETE FROM autorizacion WHERE codigo LIKE token;	
+BEGIN
+	DELETE FROM autorizacion WHERE codigo = token;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -177,7 +175,7 @@ RETURNS SETOF record AS
 $BODY$
  DECLARE fechaActual DATE;
 BEGIN
-	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede AND fechaImpresion = fechaActual;
+	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede AND fechaImpresion = fechaActual;
 END
 $BODY$
 LANGUAGE plpgsql;

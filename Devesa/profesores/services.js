@@ -5,6 +5,12 @@ angular.module('profesorModule')
         //endpoint de realizacion de un nuevo informe para un profesor
         this.nuevoInforme=function(idProfesor,codigoArea,actividad,fechaInicio,objetivo,programa,cantidadEstudiantes,fechaFin,sede,codigo)
         {
+
+            console.log(API_ROOT+":8081/CrearInforme?profesorID="+idProfesor+"&area=" + codigoArea +
+                "&actividad="+ actividad+"&fechaInicio="+ fechaInicio +
+                "&objetivo="+ objetivo +"&programa="+ programa +
+                "&cantidadEstudiantes="+ cantidadEstudiantes + "&fechaFinal="+ fechaFin +
+                "&sede="+ sede + "&iden="+ idProfesor + "&codigo=" + codigo);
             return $http(
                 {
                     method: "POST",

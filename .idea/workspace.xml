@@ -2,217 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="221b5662-a634-464b-8b73-f811b3bda418" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/.codeclimate.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/.editorconfig" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/.gitignore" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/.jshintignore" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/.jshintrc" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/.npmignore" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/.travis.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/CHANGES.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/FileSaver.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/Gruntfile.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/LICENSE.markdown" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/README.markdown" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/_config.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/bower.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/component.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/dist/jszip-utils-ie.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/dist/jszip-utils-ie.min.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/dist/jszip-utils.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/dist/jszip-utils.min.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/dist/jszip.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/dist/jszip.min.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/docs/APPNOTE.TXT" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/docs/ZIP spec.txt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/docs/references.txt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/_layouts/default.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/constructor.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/external.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/file_data.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/file_name.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/file_regex.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/filter.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/folder_name.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/folder_regex.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/for_each.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/generate_async.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/generate_internal_stream.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/generate_node_stream.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/load_async.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/load_async_object.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/remove.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/support.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_jszip/version.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_streamhelper.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_streamhelper/accumulate.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_streamhelper/on.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_streamhelper/pause.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_streamhelper/resume.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_zipobject.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_zipobject/async.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_zipobject/internal_stream.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/api_zipobject/node_stream.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/contributing.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/css/main.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/css/pygments.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/download-zip-file.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/download-zip-file.inc/blob.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/download-zip-file.inc/blob.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/download-zip-file.inc/data_uri.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/download-zip-file.inc/data_uri.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/downloader.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/downloader.inc/downloader.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/downloader.inc/downloader.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/downloader.inc/helpers.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/get-binary-files-ajax.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/get-binary-files-ajax.inc/fetch_api.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/get-binary-files-ajax.inc/fetch_api.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/get-binary-files-ajax.inc/jszip_utils.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/get-binary-files-ajax.inc/jszip_utils.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/read-local-file-api.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/read-local-file-api.inc/read.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/examples/read-local-file-api.inc/read.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/faq.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/howto/read_zip.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/howto/write_zip.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/limitations.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/documentation/upgrade_guide.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/index.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/base64.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/compressedObject.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/compressions.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/crc32.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/defaults.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/external.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/flate.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/generate/ZipFileWorker.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/generate/index.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/index.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/license_header.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/load.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/nodejs/NodejsStreamInputAdapter.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/nodejs/NodejsStreamOutputAdapter.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/nodejsUtils.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/object.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/readable-stream-browser.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/reader/ArrayReader.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/reader/DataReader.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/reader/NodeBufferReader.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/reader/StringReader.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/reader/Uint8ArrayReader.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/reader/readerFor.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/signature.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/stream/ConvertWorker.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/stream/Crc32Probe.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/stream/DataLengthProbe.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/stream/DataWorker.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/stream/GenericWorker.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/stream/StreamHelper.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/support.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/utf8.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/utils.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/zipEntries.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/zipEntry.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/lib/zipObject.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/package-lock.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/package.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/constructor.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/delete.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/deprecated.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/external.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/file.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/filter.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/foreach.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/generate.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/load.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/permissions.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/stream.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/unicode.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/asserts/version.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/helpers/browser-test-utils.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/helpers/node-test-utils.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/helpers/test-utils.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/index.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/jquery-1.8.3.min.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/all-stream.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/all.7zip.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/all.windows.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/all.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/all_appended_bytes.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/all_missing_bytes.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/all_prepended_bytes.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/archive_comment.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/backslash.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/complex_files/AntarcticaTemps.ods" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/complex_files/AntarcticaTemps.xlsx" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/complex_files/Franz Kafka - The Metamorphosis.epub" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/complex_files/Outlook2007_Calendar.xps" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/data_descriptor.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/deflate-stream.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/deflate.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/empty.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/encrypted.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/extra_attributes.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/folder.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/image.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/invalid/bad_decompressed_size.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/invalid/bad_offset.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/invalid/compression.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/invalid/crc32.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/local_encoding_in_name.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/nested.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/nested_data_descriptor.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/nested_zip64.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/linux_7z.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/linux_ark.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/linux_file_roller-ubuntu.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/linux_file_roller-xubuntu.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/linux_zip.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/mac_finder.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/windows_7z.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/windows_compressed_folders.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/windows_izarc.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/permissions/windows_winrar.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/pile_of_poo.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/slashes_and_izarc.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/store-stream.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/store.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/subfolder.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/text.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/utf8.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/utf8_in_name.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/winrar_utf8_in_name.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/zip64.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/zip64_appended_bytes.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/zip64_missing_bytes.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/ref/zip64_prepended_bytes.zip" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/test/smile.gif" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Devesa/bower_components/jszip/vendor/FileSaver.js" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Devesa/.idea/workspace.xml" afterPath="$PROJECT_DIR$/Devesa/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Devesa/administrador/MainView.html" afterPath="$PROJECT_DIR$/Devesa/administrador/MainView.html" />
-      <change beforePath="$PROJECT_DIR$/Devesa/administrador/controllers/cartaCtrl.js" afterPath="$PROJECT_DIR$/Devesa/administrador/controllers/cartaCtrl.js" />
-      <change beforePath="$PROJECT_DIR$/Devesa/administrador/controllers/descargableTotalAreasCtrl.js" afterPath="$PROJECT_DIR$/Devesa/administrador/controllers/descargableTotalAreasCtrl.js" />
-      <change beforePath="$PROJECT_DIR$/Devesa/administrador/controllers/fechaCtrl.js" afterPath="$PROJECT_DIR$/Devesa/administrador/controllers/fechaCtrl.js" />
-      <change beforePath="$PROJECT_DIR$/Devesa/administrador/controllers/imagenesInformeCtrl.js" afterPath="$PROJECT_DIR$/Devesa/administrador/controllers/imagenesInformeCtrl.js" />
       <change beforePath="$PROJECT_DIR$/Devesa/administrador/controllers/solicitudesPendienteCtrl.js" afterPath="$PROJECT_DIR$/Devesa/administrador/controllers/solicitudesPendienteCtrl.js" />
-      <change beforePath="$PROJECT_DIR$/Devesa/administrador/sections/descargableTotalAreas.html" afterPath="$PROJECT_DIR$/Devesa/administrador/sections/descargableTotalAreas.html" />
-      <change beforePath="$PROJECT_DIR$/Devesa/administrador/sections/imagenesInforme.html" afterPath="$PROJECT_DIR$/Devesa/administrador/sections/imagenesInforme.html" />
-      <change beforePath="$PROJECT_DIR$/Devesa/estudiantes/MainView.html" afterPath="$PROJECT_DIR$/Devesa/estudiantes/MainView.html" />
-      <change beforePath="$PROJECT_DIR$/Devesa/estudiantes/controllers/nuevaCtrl.js" afterPath="$PROJECT_DIR$/Devesa/estudiantes/controllers/nuevaCtrl.js" />
-      <change beforePath="$PROJECT_DIR$/Devesa/estudiantes/controllers/solicitudesCtrl.js" afterPath="$PROJECT_DIR$/Devesa/estudiantes/controllers/solicitudesCtrl.js" />
-      <change beforePath="$PROJECT_DIR$/Devesa/estudiantes/sections/nueva.html" afterPath="$PROJECT_DIR$/Devesa/estudiantes/sections/nueva.html" />
-      <change beforePath="$PROJECT_DIR$/Devesa/estudiantes/sections/solicitudes.html" afterPath="$PROJECT_DIR$/Devesa/estudiantes/sections/solicitudes.html" />
-      <change beforePath="$PROJECT_DIR$/Devesa/estudiantes/services.js" afterPath="$PROJECT_DIR$/Devesa/estudiantes/services.js" />
-      <change beforePath="$PROJECT_DIR$/Devesa/index.html" afterPath="$PROJECT_DIR$/Devesa/index.html" />
-      <change beforePath="$PROJECT_DIR$/Devesa/loginController.js" afterPath="$PROJECT_DIR$/Devesa/loginController.js" />
-      <change beforePath="$PROJECT_DIR$/Devesa/shared/common.js" afterPath="$PROJECT_DIR$/Devesa/shared/common.js" />
+      <change beforePath="$PROJECT_DIR$/Devesa/profesores/controllers/edicionCtrl.js" afterPath="$PROJECT_DIR$/Devesa/profesores/controllers/edicionCtrl.js" />
+      <change beforePath="$PROJECT_DIR$/Devesa/profesores/controllers/enviadosCtrl.js" afterPath="$PROJECT_DIR$/Devesa/profesores/controllers/enviadosCtrl.js" />
+      <change beforePath="$PROJECT_DIR$/Devesa/profesores/controllers/nuevoCtrl.js" afterPath="$PROJECT_DIR$/Devesa/profesores/controllers/nuevoCtrl.js" />
+      <change beforePath="$PROJECT_DIR$/Devesa/profesores/files/1515277640.8885.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Devesa/profesores/files/1515277640.8886.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Devesa/profesores/sections/nuevo.html" afterPath="$PROJECT_DIR$/Devesa/profesores/sections/nuevo.html" />
+      <change beforePath="$PROJECT_DIR$/Devesa/profesores/services.js" afterPath="$PROJECT_DIR$/Devesa/profesores/services.js" />
+      <change beforePath="$PROJECT_DIR$/Devesa/profesores/subir.php" afterPath="" />
       <change beforePath="$PROJECT_DIR$/Script/script(Tablas-Funciones).sql" afterPath="$PROJECT_DIR$/Script/script(Tablas-Funciones).sql" />
       <change beforePath="$PROJECT_DIR$/Web service/web_service.js" afterPath="$PROJECT_DIR$/Web service/web_service.js" />
-      <change beforePath="$PROJECT_DIR$/files/1518201930.236.jpg" afterPath="" />
     </list>
     <ignored path="Informes.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -231,41 +32,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="web_service.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="edicionCtrl.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/edicionCtrl.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2100">
+              <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainView.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Devesa/profesores/MainView.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="140">
+              <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="services.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Devesa/profesores/services.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="8" column="25" lean-forward="false" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="web_service.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Web service/web_service.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1480">
-              <caret line="205" column="97" lean-forward="true" selection-start-line="205" selection-start-column="97" selection-end-line="205" selection-end-column="97" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="common.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Devesa/shared/common.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="358" column="5" lean-forward="false" selection-start-line="358" selection-start-column="5" selection-end-line="358" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="loginController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Devesa/loginController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1151">
-              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="script(Tablas-Funciones).sql" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Script/script(Tablas-Funciones).sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="443">
+              <caret line="484" column="71" lean-forward="false" selection-start-line="484" selection-start-column="71" selection-end-line="484" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -313,17 +114,18 @@
         <option value="$PROJECT_DIR$/Devesa/profesores/subir.php" />
         <option value="$PROJECT_DIR$/subir.php" />
         <option value="$PROJECT_DIR$/Devesa/index.html" />
-        <option value="$PROJECT_DIR$/Devesa/profesores/controllers/enviadosCtrl.js" />
-        <option value="$PROJECT_DIR$/Devesa/profesores/controllers/nuevoCtrl.js" />
         <option value="$PROJECT_DIR$/Devesa/profesores/sections/enviados.html" />
-        <option value="$PROJECT_DIR$/Devesa/profesores/sections/nuevo.html" />
         <option value="$PROJECT_DIR$/Devesa/profesores/sections/editar.html" />
-        <option value="$PROJECT_DIR$/Devesa/profesores/services.js" />
-        <option value="$PROJECT_DIR$/Devesa/profesores/controllers/edicionCtrl.js" />
-        <option value="$PROJECT_DIR$/Web service/web_service.js" />
         <option value="$PROJECT_DIR$/Devesa/shared/common.js" />
         <option value="$PROJECT_DIR$/Devesa/loginController.js" />
+        <option value="$PROJECT_DIR$/Devesa/profesores/sections/nuevo.html" />
+        <option value="$PROJECT_DIR$/Devesa/profesores/controllers/enviadosCtrl.js" />
+        <option value="$PROJECT_DIR$/Devesa/profesores/services.js" />
+        <option value="$PROJECT_DIR$/Devesa/profesores/controllers/nuevoCtrl.js" />
         <option value="$PROJECT_DIR$/Script/script(Tablas-Funciones).sql" />
+        <option value="$PROJECT_DIR$/Devesa/administrador/controllers/solicitudesPendienteCtrl.js" />
+        <option value="$PROJECT_DIR$/Devesa/profesores/controllers/edicionCtrl.js" />
+        <option value="$PROJECT_DIR$/Web service/web_service.js" />
       </list>
     </option>
   </component>
@@ -337,10 +139,9 @@
     <handled-path value="$PROJECT_DIR$/Web service/node_modules" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="784" />
+    <option name="x" value="-7" />
+    <option name="width" value="697" />
+    <option name="height" value="775" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -393,8 +194,7 @@
             <path>
               <item name="DEVESA" type="b2602c69:ProjectViewProjectNode" />
               <item name="DEVESA" type="462c0819:PsiDirectoryNode" />
-              <item name="Devesa" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
+              <item name="Web service" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -407,10 +207,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="nodejs_interpreter_path" value="node" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\DEVESA\Devesa\shared" />
       <recent name="C:\xampp\htdocs\DEVESA" />
     </key>
   </component>
@@ -489,7 +290,7 @@
       <workItem from="1515277318643" duration="1681000" />
       <workItem from="1518016797294" duration="644000" />
       <workItem from="1518115444768" duration="15062000" />
-      <workItem from="1518192079017" duration="6911000" />
+      <workItem from="1518192079017" duration="16891000" />
     </task>
     <task id="LOCAL-00001" summary="Se actualizo el gitignore">
       <created>1509717566062</created>
@@ -502,16 +303,16 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116345000" />
+    <option name="totallyTimeSpent" value="126325000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16398244" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20863836" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32784432" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934132" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18720749" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -529,7 +330,6 @@
       <window_info id="Project Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Job Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="MaxCompute Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -564,48 +364,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/MainView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3564">
-          <caret line="132" column="15" lean-forward="true" selection-start-line="132" selection-start-column="15" selection-end-line="132" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1053">
-          <caret line="39" column="40" lean-forward="true" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/loginController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/edicionCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2133">
-          <caret line="79" column="24" lean-forward="false" selection-start-line="79" selection-start-column="24" selection-end-line="79" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/nuevoCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="999">
-          <caret line="37" column="210" lean-forward="false" selection-start-line="37" selection-start-column="210" selection-end-line="37" selection-end-column="210" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/shared/common.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7830">
-          <caret line="290" column="8" lean-forward="false" selection-start-line="290" selection-start-column="8" selection-end-line="290" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/enviadosCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
@@ -747,13 +505,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Devesa/estudiantes/jdfbdhfbh.html" />
-    <entry file="file://$PROJECT_DIR$/Devesa/estudiantes/sections/solicitudes.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Devesa/estudiantes/MainView.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -775,14 +526,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/enviadosCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="18" lean-forward="true" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Devesa/shared/fondoTec.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -793,21 +536,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="32" lean-forward="false" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/nuevoCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="17" column="25" lean-forward="true" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -827,22 +555,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/sections/nuevo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="39" lean-forward="false" selection-start-line="1" selection-start-column="39" selection-end-line="1" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/MainView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Devesa/profesores/subir.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
@@ -851,39 +563,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/sections/editar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="71" column="106" lean-forward="true" selection-start-line="71" selection-start-column="78" selection-end-line="71" selection-end-column="106" />
-          <folding>
-            <element signature="n#style#0;n#ul#0;n#div#0;n#li#9;n#ul#0;n#FORM#0;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#img#0;n#li#0;n#ul#0;n#div#0;n#li#9;n#ul#0;n#FORM#0;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#button#0;n#div#0;n#li#9;n#ul#0;n#FORM#0;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#button#1;n#div#0;n#li#9;n#ul#0;n#FORM#0;n#div#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/subir.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/services.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="31" column="51" lean-forward="false" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/sections/enviados.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="51" lean-forward="true" selection-start-line="0" selection-start-column="51" selection-end-line="0" selection-end-column="51" />
           <folding />
         </state>
       </provider>
@@ -896,42 +579,162 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/edicionCtrl.js">
+    <entry file="file://$PROJECT_DIR$/Devesa/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web service/web_service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1480">
-          <caret line="205" column="97" lean-forward="true" selection-start-line="205" selection-start-column="97" selection-end-line="205" selection-end-column="97" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Devesa/shared/common.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="358" column="5" lean-forward="false" selection-start-line="358" selection-start-column="5" selection-end-line="358" selection-end-column="5" />
+        <state relative-caret-position="-260">
+          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Devesa/loginController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1151">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="2000">
+          <caret line="100" column="35" lean-forward="false" selection-start-line="100" selection-start-column="35" selection-end-line="100" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/estudiantes/sections/solicitudes.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/profesores/sections/editar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="19" lean-forward="false" selection-start-line="10" selection-start-column="19" selection-end-line="11" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/profesores/sections/enviados.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="18" column="83" lean-forward="false" selection-start-line="18" selection-start-column="72" selection-end-line="18" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/profesores/sections/nuevo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="18" column="17" lean-forward="true" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/shared/common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="44" column="46" lean-forward="false" selection-start-line="44" selection-start-column="46" selection-end-line="44" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/nuevoCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="31" lean-forward="false" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/enviadosCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="20" column="59" lean-forward="true" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Script/script(Tablas-Funciones).sql">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="88" column="6" lean-forward="true" selection-start-line="88" selection-start-column="6" selection-end-line="88" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/administrador/MainView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1140">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/administrador/controllers/solicitudesPendienteCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="740">
+          <caret line="37" column="43" lean-forward="false" selection-start-line="37" selection-start-column="43" selection-end-line="37" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/administrador/controllers/solicitudesAtendidasCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/administrador/controllers/mainCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/administrador/controllers/nuevaSolicitudCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-43">
+          <caret line="16" column="34" lean-forward="false" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/administrador/sections/pendientes.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="80" lean-forward="false" selection-start-line="10" selection-start-column="69" selection-end-line="10" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/profesores/controllers/edicionCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2100">
+          <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/profesores/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="8" column="25" lean-forward="false" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devesa/profesores/MainView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web service/web_service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="484" column="71" lean-forward="false" selection-start-line="484" selection-start-column="71" selection-end-line="484" selection-end-column="71" />
           <folding />
         </state>
       </provider>

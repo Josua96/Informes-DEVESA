@@ -10,13 +10,16 @@ angular.module('profesorModule')
         $scope.obtenerInformes = function()
         {
             var datos = peticiones.informesProfesor(idProfesor, codigo, sede);
+
             datos.then
             (
                 function exito(response)
                 {
                     if(response.data!=="false" && response.data!==0 &&response.data!==[])
                     {
+                        console.log(response);
                         $scope.misInformes = response.data;
+
                     }
                     else
                     {
