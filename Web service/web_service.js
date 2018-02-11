@@ -1,10 +1,10 @@
 var pg = require('pg');
-var conString = "postgres://postgres:postgresql2017@localhost:5432/devesa_app";
+var conString = "postgres://postgres:12345@localhost:5432/devesa_app";
 var client;
 var express = require('express');
 var app = express();
 var pgp = require('pg-promise')();
-var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: 'postgresql2017'};
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
 var db = pgp(cn);
 
 
@@ -108,12 +108,6 @@ app.get('/ObtenerSolicitudesNoAtendidas', function(req, res) {
 
 
 
-app.get('/getTabla', function(req, res)
-{
-	db.func('sp_obtenerSolicitudesNoAtendidas',[req.query.sede])
-	.then(data =>   { console.log(data);res.end(JSON.stringify(data));})
-	.catch(error=> { console.log("ERROR: ",error); res.end(JSON.stringify(false));});
-});
 
 //----------------------------------------------------------
 app.get('/ObtenerSolicitudesAtendidas', function(req, res) {
@@ -194,7 +188,7 @@ app.post('/ActualizarEstado', (req, res, next) =>{
 		.then(data => {
 		if(data.sp_tokenvalido==true)
 		{
-            db.func('sp_obtenerSolicitudesAtendidas',[req.query.sede])
+            db.func('sp_actualizarEstado',[req.query.id])
 			.then(data => {console.log(data);res.end(JSON.stringify(data));})
         	.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 		}

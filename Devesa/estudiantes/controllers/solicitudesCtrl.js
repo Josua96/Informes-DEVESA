@@ -40,16 +40,23 @@ angular.module('userModule')
     //Eliina una solicitud del sistema
     $scope.completarEliminado = function() //elimina una solicitud
     {
-    console.log("indice a elimnar:" + indiceEliminar);
-    if(indiceEliminar != -1)
+
+    if($scope.indiceEliminar != -1)
     {
     $http({   //delete a student's requests by id's requests
     method : "DELETE",
-    url :API_ROOT+":8081/EliminarSolicitud?id="+$scope.solicitudes[indiceEliminar]["v_idsolicitud"]
+    url :API_ROOT+":8081/EliminarSolicitud?id="+$scope.solicitudes[$scope.indiceEliminar]["v_idsolicitud"]
     +"&iden="+$scope.id+"&codigo="+$scope.codigo
     }).then(function mySucces(response) {
-    $scope.actualizarInfo();
+
+        mostrarNotificacion("La solicitud se eliminó con éxito",2);
+       // $scope.actualizarInfo();
+        //Eliminar la solicitud de la lista de solicitudes
+        $scope.solicitudes.splice($scope.indiceEliminar,1);
+
     //automaticamente se elimina de la tabla
+
+
     console.log("entro", response);
     }, function myError(response) {
     console.log("error");
@@ -62,8 +69,9 @@ angular.module('userModule')
     };
     //Funcion de petición de confirmación al usuario para el proceso de borrado
     $scope.eliminar= function (indice)
-    {   console.log("indice ",indice);
-    indiceEliminar = indice;
+    {
+
+    $scope.indiceEliminar = indice;
     swal({ //mostrar cuadro de dialogo para confirmacion del proceso de eliminado
     title: "Eliminar la solicitud?",
     text: "Una vez eliminada no habrá forma de recuperarla!",
