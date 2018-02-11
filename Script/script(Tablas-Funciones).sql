@@ -157,7 +157,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT id, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede LIKE v_sede
+	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede= v_sede
 	              ORDER BY fechaSolicitud ASC;
 END;
 $BODY$
@@ -175,7 +175,8 @@ RETURNS SETOF record AS
 $BODY$
  DECLARE fechaActual DATE;
 BEGIN
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede LIKE v_sede AND fechaImpresion = fechaActual;
+	fechaActual = (select Current_date);
+	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede = v_sede AND fechaImpresion = fechaActual;
 END
 $BODY$
 LANGUAGE plpgsql;

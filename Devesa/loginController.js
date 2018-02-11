@@ -7,7 +7,7 @@ app.controller('loginController', function($scope, $http)
     localStorage.removeItem("userType");
     localStorage.removeItem("sede");
     /* PARA PRUEBAS USAMOS ESE USUARIO,CON ESE ID Y ESE TOKEN*/
-    $scope.username = "alguien";
+    $scope.username = "s";
     $scope.password = "";
     $scope.id="2-1122-1222";
     $scope.codigo="wer33";
@@ -19,36 +19,61 @@ app.controller('loginController', function($scope, $http)
     localStorage.setItem("userId",$scope.id);
 
 
-    localStorage.setItem("userType","S");
+
     localStorage.setItem("sede","SC");
     
-    $scope.tipoUsuario=localStorage.getItem("userType");
+    $scope.tipoUsuario;
 
     $scope.redirigirUsuario=function ()
     {
         if($scope.username==="e")
         {
-            console.log("datos");
-            console.log($scope.user);
-            console.log($scope.password);
-
             localStorage.setItem("user001", $scope.username);
             localStorage.setItem("password001", $scope.password);
-
             window.location.href = ('estudiantes/MainView.html');//'{0}/MainView.html'.format(userData.userType == "Admin" ? "" : "users"));
         }
         else if($scope.username === "p")
         {
+            localStorage.setItem("user001", $scope.username);
+            localStorage.setItem("password001", $scope.password);
             window.location.href = ('profesores/MainView.html');
+        }
+        else if($scope.username === "s")
+        {
+            localStorage.setItem("user001", $scope.username);
+            localStorage.setItem("password001", $scope.password);
+            window.location.href = ('secretaria/MainView.html');
         }
         else
         {
+            localStorage.setItem("user001", $scope.username);
+            localStorage.setItem("password001", $scope.password);
             window.location.href = ('administrador/MainView.html');//'{0}/MainView.html'.format(userData.userType == "Admin" ? "" : "users"));
         }
     };
 
     $scope.doLogin = function () 
     {
+        if($scope.username==="e")
+        {
+            localStorage.setItem("userType","E");
+            $scope.tipoUsuario=localStorage.getItem("userType");
+        }
+        else if($scope.username === "p")
+        {
+            localStorage.setItem("userType","P");
+            $scope.tipoUsuario=localStorage.getItem("userType");
+        } else if($scope.username === "s")
+        {
+            localStorage.setItem("userType","S");
+            $scope.tipoUsuario=localStorage.getItem("userType");
+        }
+        else
+        {
+            localStorage.setItem("userType","A");
+            $scope.tipoUsuario=localStorage.getItem("userType");
+        }
+
         /*
         $http({
         method: "GET",
