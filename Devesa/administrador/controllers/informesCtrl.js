@@ -4,9 +4,9 @@ angular.module('adminModule')
         $scope.codigo=localStorage.getItem("sessionToken");
         $scope.id=localStorage.getItem("userId");
         $scope.sede=localStorage.getItem("sede");
-        
         $scope.seleccionado;
         $scope.tipoInformes=["DI","SE","AYR","TS","PS","BI","SOD","SME","SEN","CU","DE"];
+
         $scope.informesArea=[];
         $scope.opciones=[
             {model:"Dirección",num:0},
@@ -73,12 +73,13 @@ angular.module('adminModule')
             }
         };
 
-        $scope.verMas=function (indice) {
-            numeroInforme=$scope.informesArea[indice]["v_idinforme"];
+        $scope.verMas=function (indice)
+        {
+            numeroInforme =$scope.informesArea[indice]["v_idinforme"];
             departamento=$scope.informesArea[indice]["v_area"];
             window.location.href=("#/imagenesInforme");
 
-        }
+        };
 
         $scope.descargar=function () {
             //validar que se haya seleccionado un area de informmes y que de ese informe se tenga aunque sea un registro
@@ -90,7 +91,6 @@ angular.module('adminModule')
             else{
                 mostrarNotificacion("Asegúrese de seleccionar un área y que esta contenga al menos un informe",1);
             }
-            
         };
         
         $scope.recargarPagina();
