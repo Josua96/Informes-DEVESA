@@ -20,8 +20,6 @@ create domain t_area
 
 --------------------------------------------------- CARTAS DEVESA  -------------------------------------------------
 
-
-
 CREATE TABLE solicitudes
 (
     idSolicitud SERIAL NOT NULL PRIMARY KEY,
@@ -77,29 +75,28 @@ CREATE TABLE autorizacion
 
 
 -- Validacion del token
-CREATE OR REPLACE FUNCTION sp_tokenValido(IN id t_cedula,IN tipoU CHAR(1),IN codigo CHAR(32))
+CREATE OR REPLACE FUNCTION sp_tokenValido(IN id t_cedula,IN tipoU CHAR(1),IN codigo CHAR(5))
 RETURNS BOOLEAN AS
 $BODY$
-BEGIN 
-	IF ((SELECT COUNT (*) FROM autorizacion WHERE idUsuario=id AND TipoUsuario=tipoU AND token=codigo)=0) THEN
+BEGIN
+	IF (SELECT COUNT (idUsuario) FROM autorizacion WHERE idUsuario = id AND TipoUsuario = tipoU AND token =codigo) =0 THEN
 		RETURN FALSE;
-	ELSE 
+	ELSE
 	    RETURN TRUE;
-	END IF;	
+	END IF;
 	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END
 $BODY$
 LANGUAGE plpgsql;
 
-select * from autorizacion
-select sp_tokenValido('2-1122-1222','E','wer33');
+
 
 
 CREATE OR REPLACE FUNCTION sp_eliminarToken(IN codigo CHAR(32))
 RETURNS VOID AS
 $BODY$
-BEGIN 
-	DELETE FROM autorizacion WHERE codigo LIKE token;	
+BEGIN
+	DELETE FROM autorizacion WHERE codigo = token;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -160,7 +157,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede=v_sede
+	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede= v_sede
 	              ORDER BY fechaSolicitud ASC;
 END;
 $BODY$
@@ -178,11 +175,12 @@ RETURNS SETOF record AS
 $BODY$
  DECLARE fechaActual DATE;
 BEGIN
-	fechaActual=(SELECT CURRENT_DATE);
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede=v_sede AND fechaImpresion=fechaActual;
+	fechaActual = (select Current_date);
+	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede = v_sede AND fechaImpresion = fechaActual;
 END
 $BODY$
 LANGUAGE plpgsql;
+
 
 
 /** NOTA: Si una solicitud no ha sido impresa, el campo notificado de solicitudes es false */

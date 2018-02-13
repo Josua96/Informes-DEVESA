@@ -1,10 +1,10 @@
 var pg = require('pg');
-var conString = "postgres://postgres:12345@localhost:5432/devesa_app";
+var conString = "postgres://postgres:postgresql2017@localhost:5432/devesa_app";
 var client;
 var express = require('express');
 var app = express();
 var pgp = require('pg-promise')();
-var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: 'postgresql2017'};
 var db = pgp(cn);
 
 
@@ -67,12 +67,12 @@ app.post('/CrearSolicitud', function(req, res) {
     }
 
 else{
-        res.end(JSON.stringify("Invalid_Token"));
+        res.end(JSON.stringify(false));
     }
 })
 .catch(error => {
         console.log("ERROR: ",error);
-    res.end(JSON.stringify("Invalid_Token"));
+    res.end(JSON.stringify(false));
 })
 
 });
@@ -97,12 +97,12 @@ app.get('/ObtenerSolicitudesNoAtendidas', function(req, res) {
 	}
 	else
 	{
-		res.end(JSON.stringify("Invalid_Token"));
+		res.end(JSON.stringify(false));
 	}
 	})
 	.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     	})
 });
 
@@ -128,12 +128,12 @@ app.get('/ObtenerSolicitudesAtendidas', function(req, res) {
 		}
 
 	else{
-    		res.end(JSON.stringify("Invalid_Token"));
+    		res.end(JSON.stringify(false));
     		}
 	})
 		.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     	})
 
 });
@@ -155,12 +155,12 @@ app.get('/ObtenerSolicitudesCarnet', function(req, res) {
     		})	
     	}
     	else{
-    		res.end(JSON.stringify("Invalid_Token"));
+    		res.end(JSON.stringify(false));
     		}
     	})
     .catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     	})
 });
 
@@ -177,9 +177,9 @@ app.delete('/EliminarSolicitud', function(req, res) {
     			.then(data => {console.log(data.sp_eliminarsolicitud);res.end(JSON.stringify(data.sp_eliminarsolicitud));})
     			.catch(error => {console.log("ERROR: ",error); res.end(JSON.stringify(false));})
 		}
-		else{res.end(JSON.stringify("Invalid_Token"));}
+		else{res.end(JSON.stringify(false));}
 		})
-		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 });
 
 //Lista!
@@ -194,10 +194,10 @@ app.post('/ActualizarEstado', (req, res, next) =>{
 		}
 		else
 		{
-    		res.end(JSON.stringify("Invalid_Token"));
+    		res.end(JSON.stringify(false));
 		}
 		})
-		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 })
 
 
@@ -214,12 +214,17 @@ app.post('/CrearInforme', function(req, res) {
 			.then(data => {
 			if(data.sp_tokenvalido==true)
 			{
+				console.log("Acepto el token");
 				db.proc('sp_crearInforme', [req.query.profesorID, req.query.area, req.query.actividad, req.query.fechaInicio, req.query.fechaFinal, req.query.objetivo, req.query.programa, req.query.cantidadEstudiantes, req.query.sede])
 				.then(data => {console.log("DATA:", data); console.log(data.sp_crearinforme); res.end(JSON.stringify(data.sp_crearinforme));})
 				.catch(error=> {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 			}
-			else{res.end(JSON.stringify("Invalid_Token"));}})
-		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
+			else{
+				console.log(data);
+				console.log(data);
+				console.log("No aceptó el token");
+				res.end(JSON.stringify(false));}})
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 });
 
 
@@ -246,12 +251,12 @@ app.get('/ObtenerInformesProfesor', function(req, res) {
 			}
 			else
 			{
-				res.end(JSON.stringify("Invalid_Token"));
+				res.end(JSON.stringify(false));
 			}
 	})
 	.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     })
 });
 
@@ -273,10 +278,10 @@ app.get('/obtenerInformesRango',function(req, res){
 
 			}
 			else{
-    			res.end(JSON.stringify("Invalid_Token"));
+    			res.end(JSON.stringify(false));
     		}
 			})
-		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));})
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 });
 
 //Lista!
@@ -292,13 +297,13 @@ app.get('/ObtenerInformesArea', function(req, res) {
 			}
 
 			else{
-    			res.end(JSON.stringify("Invalid_Token"));
+    			res.end(JSON.stringify(false));
 			}
 			})
 
 		.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     	})
 })
 
@@ -316,10 +321,10 @@ app.get('/ObtenerInformes', function(req, res) {
 			}
 			else
 			{
-    			res.end(JSON.stringify("Invalid_Token"));
+    			res.end(JSON.stringify(false));
 			}
 				})
-		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify("Invalid_Token"));
+		.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));
     	}) 
 })
 
@@ -340,12 +345,12 @@ app.get('/ObtenerInformeId', function(req, res) {
 				.catch(error => {console.log("ERROR: ",error);res.end(JSON.stringify(false));})
 			}
 			else{
-    				res.end(JSON.stringify("Invalid_Token"));
+    				res.end(JSON.stringify(false));
     			}
 			})
 		.catch(error => {
       		console.log("ERROR: ",error);
-      		res.end(JSON.stringify("Invalid_Token"));
+      		res.end(JSON.stringify(false));
     			})
 
 })
@@ -364,7 +369,7 @@ app.post('/ModificarInforme', (req, res, next) => {
 			}
 			else{res.end(JSON.stringify(false));}
 		})
-		.catch(error => {console.log("ERROR1: ",error);res.end(JSON.stringify("Invalid_Token"));})
+		.catch(error => {console.log("ERROR1: ",error);res.end(JSON.stringify(false));})
 })
 
 
@@ -453,12 +458,12 @@ app.delete('/EliminarImagen', function(req, res) {
 			}
 			else
 				{
-    				res.end(JSON.stringify("Invalid_Token"));
+    				res.end(JSON.stringify(false));
 				}
 					})
 		.catch(error => {
       			console.log("ERROR: ",error);
-      			res.end(JSON.stringify("Invalid_Token"));
+      			res.end(JSON.stringify(false));
     		});
 });
 
@@ -475,6 +480,6 @@ var server = app.listen(8081, function ()
 {
 	var host = server.address().address;
 	var port = server.address().port;
-  console.log("Example app listening at http://%s:%s", host, port)
+  console.log("Example app listening at http://%s:%s", host, port);
 });
 

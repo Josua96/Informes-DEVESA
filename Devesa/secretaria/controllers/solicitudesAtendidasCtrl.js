@@ -1,4 +1,4 @@
-angular.module('adminModule')
+angular.module('secretariaModule')
     .controller('atendidasCtrl', function($scope,$location,$http, datosEstudiante) {
 
         $scope.codigo=localStorage.getItem("sessionToken");

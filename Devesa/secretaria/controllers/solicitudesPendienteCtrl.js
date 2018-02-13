@@ -1,4 +1,4 @@
-angular.module('adminModule')
+angular.module('secretariaModule')
     .controller('pendienteCtrl', function($scope,$location,$http, datosEstudiante) {
 
         $scope.codigo=localStorage.getItem("sessionToken");
@@ -9,22 +9,25 @@ angular.module('adminModule')
         departamento="";
         $scope.carnet;
         $scope.tramite;
-        $scope.solicitudes=[];
+        $scope.solicitudes;
         $scope.idCosulta;                
         $scope.actualizarInfo = function()
         {
             $http({
             method : "GET",
-            url : API_ROOT+":8081/ObtenerSolicitudesNoAtendidas?"+"&iden="+$scope.id+"&codigo="+$scope.codigo
-                +"&sede="+$scope.sede
+            url : API_ROOT+":8081/ObtenerSolicitudesNoAtendidas?"+"&iden="+$scope.id+"&codigo="+$scope.codigo +"&sede="+$scope.sede
             }).then(function mySucces(response)
             {
-                    console.log("sede");
-                    console.log($scope.sede);
-                    console.log("solicitudes");
-                    console.log(response.data);
+                if(response.data !== "false" && response.data!==[] && response.data!== 0 && response.data !== false )
+                {
                     $scope.solicitudes=response.data;  //it does not need a conversion to json
-                    $scope.solicitudes=setTextSolicitudes($scope.solicitudes); 
+                    $scope.solicitudes=setTextSolicitudes($scope.solicitudes);
+                }
+                else
+                {
+                    mostrarNotificacion("No hay solicitudes de cartas pendientes",3);
+                }
+
 
             }, function myError(response)
             {              

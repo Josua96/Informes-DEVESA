@@ -1,4 +1,4 @@
-angular.module('adminModule')
+angular.module('secretariaModule')
 .controller('fechaCtrl',function($scope,$location) 
 {       
 

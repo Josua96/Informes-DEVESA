@@ -1,4 +1,4 @@
-angular.module('adminModule').controller('cartaCtrl', function($scope,$location,$http, datosEstudiante){   
+angular.module('secretariaModule').controller('cartaCtrl', function($scope,$location,$http, datosEstudiante){
     
     numeroInforme=-1;
     departamento="";

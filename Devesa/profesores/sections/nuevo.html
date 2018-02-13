@@ -13,8 +13,7 @@ Este apartado permite crear un informe.
             <li class="formInputs">
                 <div class="form-group">
                     <label for="sel1">Seleccione el area</label>
-                    <select id= "sel1" name="datos" class="form-control">
-                        <option ng-repeat="opcion in opciones">{{opcion}}</option>
+                    <select class="form-control" name="datos" id="sel1" ng-model="opcion"  ng-options="opcion for opcion in opciones">
                     </select>
                 </div>
             </li>

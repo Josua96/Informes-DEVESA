@@ -5,7 +5,7 @@ angular.module('profesorModule')
         var idProfesor = localStorage.getItem("userId");
         var sede = localStorage.getItem("sede");
         $scope.opciones = AREAS;
-
+        $scope.opcion="Dirección";
 
         // Recolecta los datos del formulario, los verifica y los envia a la BD
         $scope.enviarInforme = function ()
@@ -20,22 +20,22 @@ angular.module('profesorModule')
                     {
                         if(response.data==="true")
                         {
-                            mostrarNotificacion("La solocitud ha sido agregada",2);
+                            mostrarNotificacion("El informe fue creado",2);
                         }
                         else
                         {
-                            mostrarNotificacion("Ocurrió un error y no fue posible agregar la solicitud",1);
+                            mostrarNotificacion("Ocurrió un error",1);
                         }
                     },
                     function error(response)
                     {
-                        mostrarNotificacion("Ocurrió un error y no fue posible agregar la solicitud",1);
+                        mostrarNotificacion("Ocurrió un error",1);
                     }
                 );
             }
             else
             {
-                mostrarNotificacion("Asegurése de ingresar datos en cada uno de los campos requeridos",1);
+                mostrarNotificacion("Error: asegurése de ingresar datos en cada uno de los campos requeridos",1);
             }
         };
 });

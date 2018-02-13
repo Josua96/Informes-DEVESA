@@ -1,10 +1,10 @@
-<html ng-app="adminModule">
+<html ng-app="secretariaModule">
     
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>DEVESA</title>
+    <title>Secretaria DEVESA</title>
     
     <link rel="stylesheet" type="text/css" href="../assets/css/estiloPrevew.css">	
     <!-- Favicon-->
@@ -82,22 +82,34 @@
             
             <div class="menu">
                 <ul class="list">
-                    <li class="header">PANEL ADMINISTRATIVO </li>
+                    <li class="header">SECRETARÍA </li>
                     
                     <li class="active">
-                        <a href="#/informes" onclick="closeSideBar()">
-                            <i class="material-icons"> description</i>
-                            <span> Ver informes </span>
+                        <a href="#/solicitudes" onclick="closeSideBar()">
+                            <i class="material-icons">home</i>
+                            <span>Solicitudes pendientes</span>
                         </a>
+                    </li>
+                   
+                    <li  class="active">
+                        <a href="#/atendidas" onclick="closeSideBar()">
+                            <i class="material-icons">done</i>
+                            <span>Solicitudes atendidas</span>
+                        </a>
+                    </li> 
+                    <li  class="active">
+                        <a href="#/nuevaSolicitud" onclick="closeSideBar()">
+                            <i class="material-icons">assignment</i>
+                            <span>Nueva solicitud</span>
+                        </a>
+                    </li> 
+                    <li  class="active">
+                        <a href="#/fecha" onclick="closeSideBar()">
+                            <i class="material-icons">today</i>
+                            <span>Configuracion de fechas</span>
+                        </a>                        
                     </li>
 
-                    <li class="active">
-                        <a href="#/descargablesTotalAreas" onclick="closeSideBar()">
-                            <i class="material-icons"> description</i>
-                            <span> Obtener informes en rango de fechas </span>
-                        </a>
-                    </li>
-                    
                     <li class="active">
                         <a onclick="signOut()">
                             <i class="material-icons">power_settings_new</i>
@@ -135,21 +147,18 @@
     <script type="text/javascript" src="../bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
     <script type="text/javascript" src="../bower_components/fullcalendar/dist/gcal.js"></script>    
     <script type="text/javascript" src="../bower_components/sweetalert/dist/sweetalert.min.js"></script>
-
-    <!-- ANGULAR PAGINATION-->
-    <script type="text/javascript" src="../bower_components/angular-pagination/dirPagination.js"></script>
     
     <!-- app Js -->
     <script src="app.js"></script>
     <!-- services -->
     <script src="services.js"></script>
     <!-- main controller Js -->
-    <script src="controllers/descargableCtrl.js"></script>
-    <script src="controllers/descargableTotalAreasCtrl.js"></script>
     <script src="controllers/mainCtrl.js"></script>
-    <script src="controllers/informesCtrl.js"></script>
-    <script src="controllers/imagenesInformeCtrl.js"></script>
-
+    <script src="controllers/nuevaSolicitudCtrl.js"></script><!--Importar el js-->
+    <script src="controllers/solicitudesPendienteCtrl.js"></script>
+    <script src="controllers/cartaCtrl.js"></script><!--Importar el js-->
+    <script src="controllers/solicitudesAtendidasCtrl.js"></script><!--Importar el js--> 
+    <script src="controllers/fechaCtrl.js"></script><!--Importar el js--> 
     <!-- Jquery Core Js -->
     <script src="../plugins/jquery/jquery.min.js"></script>
 

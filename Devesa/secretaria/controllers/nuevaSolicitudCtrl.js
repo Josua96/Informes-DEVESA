@@ -1,4 +1,4 @@
-angular.module('adminModule')
+angular.module('secretariaModule')
 .controller('nuevaSolicitudCtrl', function($scope,$location, datosEstudiante)
 { 
     
