@@ -6,6 +6,11 @@
   font-family: 'Felipa', cursive;
   font-size: 3em;
 }
+
+.fondo{
+    background-color: white;
+}
+
 #LoginDiv
 {
     opacity:0.9;

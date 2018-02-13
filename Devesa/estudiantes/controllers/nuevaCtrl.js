@@ -16,7 +16,7 @@ angular.module('userModule')
 
 
     // Registra una nueva solicitud en el sistema
-    $scope.realizarSolicitud=function()
+    $scope.realizaSolicitud=function()
     {
         var indiceSede=document.getElementById("sel2").selectedIndex;
         var indiceSolicitud=document.getElementById("sel1").selectedIndex;

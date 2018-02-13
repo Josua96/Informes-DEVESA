@@ -1,4 +1,4 @@
-angular.module('adminModule',["ngRoute","ngResource","ui.calendar"])
+angular.module('adminModule',["ngRoute","ngResource","ui.calendar","angularUtils.directives.dirPagination"])
 .config(['$routeProvider',function($routeProvider)
     {
         $routeProvider.when("/solicitudes",{

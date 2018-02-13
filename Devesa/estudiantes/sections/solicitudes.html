@@ -1,10 +1,12 @@
-<div class="body">           
+<div class="fondo">
+    <br>
     <div class="centrado">
-    <span style="font-size:18px">Mis solicitudes</span>
+    <h3 class="align-center"><span class="bg-info circle">Mis solicitudes</span></h3>
     </div>
+    <br>
     <div class="table-responsive" style="opacity: 0.8;">  
     <table class="table table-hover dashboard-task-infos">
-        <thead style="background-color: #000000 ; color:#ffffff;" >
+        <thead class="theme-black" >
             <tr>
                 <th>Número de Carnet</th>
                 <th>Tipo de solicitud</th>
@@ -14,13 +16,12 @@
         </thead>        
 
         <tbody>
-            <tr ng-repeat="solicitud in solicitudes" 
-                style="background-color:#3B4A95;color:#ffffff;"
-                onmouseover='this.style.backgroundColor="#B4C7E6"'
-                onmouseout='this.style.backgroundColor="#3B4A95"' >
+            <tr ng-repeat="solicitud in solicitudes"
+
+                 >
                 <td>{{solicitud["v_carne"]}}</td>
                 <td>{{solicitud["v_tramite"]}}</td>
-                <td><span ng-class="{'label bg-red': solicitud['v_estado']===false, 'label bg-green': solicitud['v_estado']===true}">
+                <td><span ng-class="{'label bg-red btn-lg': solicitud['v_estado']===false, 'label bg-green': solicitud['v_estado']===true}">
                     <b>{{solicitud["v_estado"]===true ? 'Atendida' : 'Pendiente' }}</b></span></td>
                 <!--cuando se presiona el boton, la funcion eliminar recibe el indice de la fila que está siendo editada -->
                 <td>
@@ -39,8 +40,51 @@
                 </td>
             </tr>
         </tbody>
-    </table>                
-    </div>
+    </table>
 
+    </div>
+    <div class=align-center>
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#nuevaSolicitud">
+            Nueva Solicitud <i class="material-icons right">add</i>
+        </button>
+    </div>
+    <br> <br>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="nuevaSolicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="longTitle">Nueva solicitud</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="sel1">Seleccione el tipo de trámite para la carta </label>
+                    <select  class="form-control form-control-lg" id="sel1" >
+                        <option  ng-repeat="tipoSolicitud in tiposSolicitudes">{{tipoSolicitud.nombre}} </option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sel2">Seleccione una de las siguientes sedes </label>
+                    <select  class="form-control" id="sel2" >
+                        <option  ng-repeat="opcion in opcionesSedes">{{opcion.nombre}} </option>
+
+                    </select>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-click="realizarSolicitud()">Registrar nueva solicitud</button>
+            </div>
+        </div>
+    </div>
 </div>
 

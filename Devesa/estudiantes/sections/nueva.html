@@ -6,7 +6,7 @@
                 <center>
                 <div class="form-group">
                     <label for="sel1">Seleccione el tipo de trámite para la carta </label>
-                    <select  class="form-control" id="sel1" >
+                    <select  class="form-control form-control-lg" id="sel1" >
                         <option  ng-repeat="solicitud in solicitudes">{{solicitud.nombre}} </option>
 
                     </select>
@@ -22,7 +22,7 @@
                 </center>
                 <div class="modal-footer">
                     <center>
-                    <button type="button" class="btn-primary"  data-dismiss="modal"ng-click="realizarSolicitud()">Registrar la solicitud</button>
+                    <button type="button" class="btn-primary"  data-dismiss="modal"ng-click="realizaSolicitud()">Registrar la solicitud</button>
                     <button  type="button" class="btn-danger" data-dismiss="modal" >Cancelar</button>
                     </center>
                 </div>
