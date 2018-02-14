@@ -17,6 +17,12 @@ create domain t_area
     varchar(3) NOT NULL
     constraint CHK_area CHECK (value IN ('DI','SE','AYR','TSR', 'TSB','PS','BI','SOD','SME','SEN','CU','DE'));
 
+/************************************************
+Posiblemente se requiera un índice en el atributo fecha Inicio de los infomes
+CREATE INDEX informes_fechaIncio_fecha_index ON informes((fechaInicio::DATE));
+*************************************************/
+
+
 
 --------------------------------------------------- CARTAS DEVESA  -------------------------------------------------
 
@@ -40,7 +46,7 @@ create table informes
     profesorID t_cedula,
     area t_area,
     actividad VARCHAR(100) NULL,
-    fechaInicio DATE NOT NULL,
+    fechaInicio TIMESTAMP NOT NULL,
     fechaFinal DATE NOT NULL,
     objetivo VARCHAR(200),
     programa VARCHAR(100),
@@ -260,14 +266,19 @@ CREATE OR REPLACE FUNCTION sp_crearInforme
     IN v_sede t_sede
 ) RETURNS BOOLEAN AS
 $BODY$
+DECLARE 
+    p_fechaInicio TIMESTAMP;
+    p_fechaInicio= v_fechaInicio+(SELECT CURRENT_TIME);
+
 BEGIN
     INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede)
-    VALUES (v_profesorID,v_area,v_actividad,v_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
+    VALUES (v_profesorID,v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
     RETURN TRUE;
     EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END;
 $BODY$
   LANGUAGE plpgsql;
+
 
 
 CREATE OR REPLACE FUNCTION sp_obtenerInformes_profesor
@@ -278,7 +289,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes_profesor
     OUT v_profesorID t_cedula,
     OUT v_area t_area,
     OUT v_actividad VARCHAR(100),
-    OUT v_fechaInicio DATE,
+    OUT v_fechaInicio TIMESTAMP,
     OUT v_fechaFinal DATE,
     OUT v_objetivo VARCHAR(200),
     OUT v_programa VARCHAR(100),
@@ -288,7 +299,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes_profesor
 $BODY$
 BEGIN
 	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
-	 FROM informes WHERE profesorID = ve_profesorID AND sede LIKE v_sede;
+	 FROM informes WHERE profesorID = ve_profesorID AND sede LIKE v_sede ORDER BY fechaInicio DESC;
 END;
 $BODY$
   LANGUAGE plpgsql;
@@ -304,7 +315,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerinformesfechas
 	OUT v_profesorid t_cedula, 
 	OUT v_area t_area, 
 	OUT v_actividad varchar(100), 
-	OUT v_fechaInicio date,
+	OUT v_fechaInicio TIMESTAMP,
 	OUT v_fechaFinal date, 
 	OUT v_objetivo varchar(200), 
 	OUT v_programa varchar(100), 
@@ -312,11 +323,14 @@ CREATE OR REPLACE FUNCTION sp_obtenerinformesfechas
 )
   RETURNS SETOF record AS
 $BODY$
- 
+ DECLARE
+
+	v_fechaInicio TIMESTAMP;
 BEGIN
 
   RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
-   FROM informes WHERE ((fechaInicio BETWEEN fecha_uno AND fecha_dos) OR (fechaFinal BETWEEN fecha_uno AND fecha_dos)) AND sede LIKE v_sede;
+   FROM informes WHERE ((fechaInicio::DATE BETWEEN fecha_uno AND fecha_dos) AND (fechaFinal BETWEEN fecha_uno AND fecha_dos)) AND sede LIKE v_sede
+   ORDER BY fechaInicio DESC;
 END;
 $BODY$
   LANGUAGE plpgsql;
@@ -330,7 +344,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes_area
     OUT v_profesorID t_cedula,
     OUT v_area t_area,
     OUT v_actividad VARCHAR(100),
-    OUT v_fechaInicio DATE,
+    OUT v_fechaInicio TIMESTAMP,
     OUT v_fechaFinal DATE,
     OUT v_objetivo VARCHAR(200),
     OUT v_programa VARCHAR(50),
@@ -341,7 +355,8 @@ $BODY$
 BEGIN
 	
 	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
-	FROM informes WHERE area = ve_area AND sede LIKE ve_sede;
+	FROM informes WHERE area = ve_area AND sede LIKE ve_sede
+	ORDER BY fechaInicio DESC;
         
 END;
 $BODY$
@@ -357,7 +372,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInforme_porId
 	OUT v_profesorID t_cedula,
 	OUT v_area VARCHAR(3),
 	OUT v_actividad VARCHAR(100),
-	OUT v_fechaInicio DATE,
+	OUT v_fechaInicio TIMESTAMP,
 	OUT v_fechaFinal DATE,
 	OUT v_objetivo VARCHAR(200),
 	OUT v_programa VARCHAR(50),
@@ -368,7 +383,6 @@ $BODY$
 BEGIN
 	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
 	FROM informes WHERE idInforme = ve_idInforme;
-	EXCEPTION WHEN OTHERS THEN RAISE EXCEPTION 'Error en la consulta';
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -381,7 +395,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes
 	OUT v_profesorID t_cedula,
 	OUT v_area VARCHAR(3),
 	OUT v_actividad VARCHAR(100),
-	OUT v_fechaInicio DATE,
+	OUT v_fechaInicio TIMESTAMP,
 	OUT v_fechaFinal DATE,
 	OUT v_objetivo VARCHAR(200),
 	OUT v_programa VARCHAR(50),
@@ -390,7 +404,8 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT * FROM informes WHERE sede LIKE v_sede;
+	RETURN query SELECT * FROM informes WHERE sede LIKE v_sede
+	ORDER BY fechaInicio DESC;
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -408,12 +423,16 @@ CREATE OR REPLACE FUNCTION sp_modificarInforme
     IN v_cantEstudiantes INT
 ) RETURNS BOOLEAN AS
 $BODY$
+DECLARE 
+    p_fechaInicio TIMESTAMP;
+    p_fechaInicio= v_fechaInicio+(SELECT CURRENT_TIME);
+
 BEGIN
 	UPDATE informes SET(area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes) = 
-			   (v_area,v_actividad,v_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes) 
+			   (v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes) 
 			   WHERE id = v_idInforme;	
 	RETURN TRUE; 
-	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
+	
 END;
 $BODY$
 LANGUAGE plpgsql;
