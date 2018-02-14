@@ -23,11 +23,11 @@ create domain t_area
 CREATE TABLE solicitudes
 (
     idSolicitud SERIAL NOT NULL PRIMARY KEY,
-    fechaSolicitud DATE DEFAULT(CURRENT_DATE),
+    fechaSolicitud TIMESTAMP DEFAULT(CURRENT_TIMESTAMP),
     carne t_carne,
     tramite t_tramite,
     estado BOOLEAN NOT NULL DEFAULT FALSE,
-    fechaImpresion DATE,
+    fechaImpresion TIMESTAMP DEFAULT(CURRENT_TIMESTAMP),
     notificado BOOLEAN DEFAULT (FALSE),
     sede t_sede
 );
@@ -47,7 +47,6 @@ create table informes
     cantEstudiantes INT NOT NULL,
     sede t_sede
 );
-
 
 create table imagenes
 (
@@ -80,11 +79,11 @@ RETURNS BOOLEAN AS
 $BODY$
 BEGIN
 	IF (SELECT COUNT (idUsuario) FROM autorizacion WHERE idUsuario = id AND TipoUsuario = tipoU AND token =codigo) =0 THEN
-		RETURN FALSE;
+		RAISE EXCEPTION 'token inválido';
 	ELSE
 	    RETURN TRUE;
 	END IF;
-	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
+
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -141,12 +140,11 @@ BEGIN
     		RAISE EXCEPTION 'registrada';
     	END IF;
 
-    	INSERT INTO solicitudes (carne,fechaSolicitud,tramite,estado,sede) VALUES (v_carne,CURRENT_DATE,v_tramite,FALSE,v_sede);
+    	INSERT INTO solicitudes (carne,fechaSolicitud,tramite,estado,sede) VALUES (v_carne,CURRENT_TIMESTAMP,v_tramite,FALSE,v_sede);
     	RETURN TRUE;
 END;
 $BODY$
 LANGUAGE plpgsql;
-
 
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 (
@@ -175,11 +173,13 @@ RETURNS SETOF record AS
 $BODY$
  DECLARE fechaActual DATE;
 BEGIN
-	fechaActual = (select Current_date);
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede = v_sede AND fechaImpresion = fechaActual;
+	fechaActual = (SELECT CURRENT_DATE);
+	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede = v_sede AND fechaImpresion::DATE = fechaActual
+	ORDER BY fechaImpresion DESC;
 END
 $BODY$
 LANGUAGE plpgsql;
+
 
 
 
@@ -190,14 +190,15 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesCarnet
     OUT v_idSolicitud INT,
     OUT v_carne t_carne,
     OUT v_tramite t_tramite,
-    OUT v_fechaSolicitud DATE,
-    OUT v_estado BOOLEAN
+    OUT v_fechaSolicitud TIMESTAMP,
+    OUT v_estado BOOLEAN,
+    OUT v_sede t_sede
 ) RETURNS SETOF RECORD AS
 $BODY$
 DECLARE
 
 	cursorSolicitudes CURSOR FOR
-	SELECT idSolicitud,carne,tramite,fechaSolicitud,estado FROM solicitudes WHERE notificado=FALSE AND carne LIKE v_carnet
+	SELECT idSolicitud,carne,tramite,fechaSolicitud,estado,sede FROM solicitudes WHERE notificado=FALSE AND carne LIKE v_carnet
 	ORDER BY fechaSolicitud ASC;
 BEGIN
 	OPEN cursorSolicitudes;
