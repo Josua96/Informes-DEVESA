@@ -329,7 +329,7 @@ $BODY$
 BEGIN
 
   RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
-   FROM informes WHERE ((fechaInicio::DATE BETWEEN fecha_uno AND fecha_dos) AND (fechaFinal BETWEEN fecha_uno AND fecha_dos)) AND sede LIKE v_sede
+   FROM informes WHERE (fechaInicio::DATE BETWEEN fecha_uno AND fecha_dos) AND sede LIKE v_sede
    ORDER BY fechaInicio DESC;
 END;
 $BODY$
