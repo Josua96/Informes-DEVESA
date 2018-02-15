@@ -1,10 +1,10 @@
 var pg = require('pg');
-var conString = "postgres://postgres:12345@localhost:5432/devesa_app";
+var conString = "postgres://postgres:postgresql2017@localhost:5432/devesa_app";
 var client;
 var express = require('express');
 var app = express();
 var pgp = require('pg-promise')();
-var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: 'postgresql2017'};
 var db = pgp(cn);
 
 

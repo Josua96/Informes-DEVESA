@@ -43,11 +43,12 @@ const LS_REMEMBER_SESSION = "rememberSession";
 
 
 const AREAS = ["Dirección", "Secretaría", "Admisión y Registro", "Trabajo Social residencias", "Trabajo Social Becas", "Psicología",
-                "Biblioteca", "Deportivas", "Culturales", "Salud -> Odontología", "Salud -> Médico", "Salud -> Enfermería"];
-
+                "Biblioteca", "Deportivas", "Culturales", "Salud: Odontología", "Salud: Médico", "Salud: Enfermería"];
 
 
 const CODIGOS_AREAS = ['DI','SE','AYR','TSR','TSB','PS','BI','DE','CU','SOD','SME','SEN'];
+
+
 // =========================================================
 
 /**
@@ -300,41 +301,17 @@ function revertirCadena(cadena){
     return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
 }
 
-function textoInforme(informe) {
-    if (informe==="DI"){
-        console.log("asa");
-        return "Dirección";
+function textoInforme(codigoArea)
+{
+    var numeroAreas =CODIGOS_AREAS.length;
+    for(i=0; i<numeroAreas; i++)
+    {
+        if(codigoArea === CODIGOS_AREAS[i])
+        {
+            return AREAS[i];
+        }
     }
-    else if (informe==="SE"){
-        return "Secretaría";
-    }
-    else if (informe==="AYR"){
-        return "Admisión y Registro";
-    }
-    else if (informe==="TS"){
-        return "Trabajo Social";
-    }
-    else if (informe==="PS"){
-        return "Psicología";
-    }
-    else if (informe==="BI"){
-        return "Biblioteca";
-    }
-    else if (informe==="SOD"){
-        return "Salud: Odontología";
-    }
-    else if (informe==="SME"){
-        return "Salud: Médico";
-    }
-    else if (informe==="SEN"){
-        return "Salud: Enfermería";
-    }
-    else if (informe==="CU"){
-        return "Culturales";
-    }
-    else{
-        return "Deportivas";
-    }
+    return "Dirección";
 }
 
 //funcion que verifica si el id de un funcionario ya se registró en la lista

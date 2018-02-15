@@ -4,86 +4,59 @@ angular.module('adminModule')
         $scope.codigo=localStorage.getItem("sessionToken");
         $scope.id=localStorage.getItem("userId");
         $scope.sede=localStorage.getItem("sede");
-        $scope.seleccionado;
-        $scope.tipoInformes=["DI","SE","AYR","TS","PS","BI","SOD","SME","SEN","CU","DE"];
 
+        $scope.seleccionado="Dirección";
+        $scope.tipoInformes = CODIGOS_AREAS;
         $scope.informesArea=[];
-        $scope.opciones=[
-            {model:"Dirección",num:0},
-            {model: "Secretaría",num:1},
-            {model: "Admisión y Registro",num:2},
-            {model: "Trabajo Social",num:3},
-            {model: "Psicología",num:4},
-            {model: "Biblioteca",num:5},
-            {model: "Salud: Odontología",num:6},
-            {model: "Salud: Médico",num:7},
-            {model: "Salud: Enfermería",num:8},
-            {model: "Culturales",num:9},
-            {model: "Deportivas",num:10}
-        ];
+        $scope.opciones= AREAS;
+
 
         //funcion para retornar a partir de la aberviatura del area, el texto correspondiente para la misma
-        $scope.texto=function (text) {
+        $scope.texto = function (text) {
             return textoInforme(text);
         };
 
         //funcion que da formato a una fecha;
-        $scope.revertir=function (cadena) {
+        $scope.revertir = function (cadena) {
             return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
         };
-
-        $scope.mostrarInformes= function(indice) {
-            if (indice != undefined) {
+        $scope.mostrarInformes= function() {
+            var indice = document.getElementById("selector").selectedIndex;
+            if(indice===-1)
+            {
+                indice=0;
+            }
+            console.log("indice"+indice);
+            if (indice !== undefined) {
                 {
                     $http({
                         method: "GET",
                         url: API_ROOT+":8081/ObtenerInformesArea?area=" + $scope.tipoInformes[indice]+"&iden="
                         +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
                     }).then(function mySucces(response) {
-                        console.log("sede");
-                        console.log($scope.sede);
-                        console.log("informes");
-                        console.log(response.data);
                         $scope.informesArea = response.data;  //it does not need a conversion to json
-
+                        console.log($scope.informesArea);
                     }, function myError(response) {
                         mostrarNotificacion("Ocurrio un error", 1);
                     });
-                    
-                    areaInforme.informeArea=$scope.tipoInformes[indice];
+                    areaInforme.informeArea= $scope.tipoInformes[indice];
                 }
             }
         };
 
-        $scope.recargarPagina=function () {
-            if (numeroInforme != -1) { //si un informe fué seleccionado previamente
-                {
-                    $http({
-                        method: "GET",
-                        url: API_ROOT+":8081/ObtenerInformesArea?area=" +departamento+"&iden="
-                        +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
-                            
-                    }).then(function mySucces(response) {
-                        $scope.informesArea = response.data;  //it does not need a conversion to json
 
-                    }, function myError(response) {
-                        mostrarNotificacion("Ocurrio un error", 1);
-                    });
-                }
-            }
-        };
+
 
         $scope.verMas=function (indice)
         {
             numeroInforme =$scope.informesArea[indice]["v_idinforme"];
             departamento=$scope.informesArea[indice]["v_area"];
             window.location.href=("#/imagenesInforme");
-
         };
 
         $scope.descargar=function () {
             //validar que se haya seleccionado un area de informmes y que de ese informe se tenga aunque sea un registro
-            if ((document.getElementById("selector").selectedIndex.value==undefined)&&
+            if ((document.getElementById("selector").selectedIndex.value===undefined)&&
                 (document.getElementById("tablaInforme").rows.length>0))  
             {
                 window.location.href=("#/descargables");
@@ -93,7 +66,5 @@ angular.module('adminModule')
             }
         };
         
-        $scope.recargarPagina();
-        
-
+        $scope.mostrarInformes();
     });
