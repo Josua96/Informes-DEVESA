@@ -33,7 +33,7 @@ CREATE TABLE solicitudes
     carne t_carne,
     tramite t_tramite,
     estado BOOLEAN NOT NULL DEFAULT FALSE,
-    fechaImpresion TIMESTAMP DEFAULT(CURRENT_TIMESTAMP),
+    fechaImpresion TIMESTAMP,
     notificado BOOLEAN DEFAULT (FALSE),
     sede t_sede
 );
@@ -238,7 +238,7 @@ CREATE OR REPLACE FUNCTION sp_actualizarEstado
 ) RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-    UPDATE solicitudes SET estado = TRUE, fechaImpresion = CURRENT_DATE WHERE idSolicitud = v_idSolicitud;
+    UPDATE solicitudes SET estado = TRUE, fechaImpresion = CURRENT_TIMESTAMP WHERE idSolicitud = v_idSolicitud;
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN	
 	RETURN FALSE;
