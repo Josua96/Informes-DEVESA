@@ -36,7 +36,7 @@ angular.module('adminModule')
                 $http({
                     method: "GET",
                     url: "http://localhost:8081/ObtenerImagenesInforme?idInforme="+numeroInforme+"&iden="
-                    +$scope.id+"&codigo="+$scope.codigo
+                    +$scope.id+"&codigo="+$scope.codigo + "&tipo=A"
                 }).then(function mySucces(response) {
                     $scope.imagenes=response.data;
                     console.log(response);

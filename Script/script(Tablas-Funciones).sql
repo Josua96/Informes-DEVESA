@@ -120,7 +120,6 @@ BEGIN
 		DELETE FROM autorizacion WHERE token SIMILAR TO '%'||codigo||'%';
 	END IF;
 	INSERT INTO autorizacion VALUES(id,tipoU,codigo);
-	
 END
 $BODY$
 LANGUAGE plpgsql;

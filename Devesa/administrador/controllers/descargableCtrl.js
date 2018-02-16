@@ -25,7 +25,7 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
         var i=0;
         for(i=0;i <limite;i++){
             //si el funcionario aún no está en la lista de encargados
-            if (estaEnLista($scope.encargados,$scope.actividades[i]["v_profesorid"])==false) {
+            if (estaEnLista($scope.encargados,$scope.actividades[i]["v_profesorid"])===false) {
                 var diccionario={id:"0",area:"undef"}; //inicializacion del diccionario
                 diccionario.id=$scope.actividades[i]["v_profesorid"];
                 $scope.encargados.push(diccionario); //insertar el diccionario en la lista de encargados
@@ -60,12 +60,12 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
         }, function myError(response) {
             mostrarNotificacion("Ocurrio un error de conexión", 1);
         });
-    }
+    };
 
     //obtener el texto de area correctamente
     $scope.textoArea=function (texto) {
         return textoInforme(texto);
-    }
+    };
 
 
     $scope.descargar=function (idTabla) {
@@ -80,7 +80,7 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
         }, 100);
         window.location.href="#/informes";
 
-    }
+    };
     
     //pedir confirmacion para generar el descargable
     $scope.confirmacion=function () {

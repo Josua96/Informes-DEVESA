@@ -497,7 +497,7 @@ app.post('/ModificarInforme', (req, res, next) => {
 //Lista!
 app.post('/CrearImagen', function(req, res) {
 
-	validarToken(req.query.iden,"E",req.query.codigo,function(result){
+	validarToken(req.query.iden,"P",req.query.codigo,function(result){
     	console.log("result= " + result);
     	if (result===true){
     			
