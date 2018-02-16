@@ -44,6 +44,7 @@ angular.module('adminModule')
                     mostrarNotificacion("Ocurrio un error", 1);
                 });
 
+
                 //$scope.imagenes=["../assets/images/25d.jpg","../assets/images/A1D.jpg","../assets/images/antiopadas.jpg","../assets/images/paisaje-epuyen.jpg","../assets/images/dos.jpg"];
             };
 
