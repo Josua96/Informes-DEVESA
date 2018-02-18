@@ -4,14 +4,20 @@ angular.module('secretariaModule')
         $scope.codigo=localStorage.getItem("sessionToken");
         $scope.id=localStorage.getItem("userId");
         $scope.sede=localStorage.getItem("sede");
-        
+        $scope.paginaActual=1;
+        $scope.cantidadElementos=elementosPorPagina;
+        $scope.maximoElementos= maxSize;
+
         numeroInforme=-1;
         departamento="";
         $scope.carnet;
         $scope.tramite;
         $scope.solicitudes;
-        $scope.idCosulta;                
-        $scope.actualizarInfo = function()
+        $scope.idCosulta;
+        /*
+        Objetivo: obtener las solicitudes pendientes
+         */
+        $scope.obtenerSolicitudesPendientes = function()
         {
             $http({
             method : "GET",
@@ -34,16 +40,24 @@ angular.module('secretariaModule')
                     mostrarNotificacion("Ocurrio un error",1);
                     $scope.myWelcome = response.statusText;
             });
-        };   
-            //imprimir una fila (solicitud)segun el indice
-        $scope.imprimir= function (indice) 
+        };
+
+        /*********************************
+        Objetivio: imprimir alguna de las solicitudes pendientes
+         Parametros:
+            indice= indexa la fila de la tabla que es seleccionada
+         *********************************/
+        $scope.imprimir= function (indiceFila)
         {
+            //el indice real, la posicion en la que se encuentra el elemento dentro del arreglo
+            var indice= getRealIndex(indiceFila,$scope.cantidadElementos,$scope.paginaActual);
             datosEstudiante.carnet = $scope.solicitudes[indice]["v_carne"];
             datosEstudiante.idConsulta = $scope.solicitudes[indice]["v_idsolicitud"];
+            datosEstudiante.estadoConsulta= $scope.solicitudes[indice]["v_estado"];
             var datos = getTextoEspecial( $scope.solicitudes[indice]["v_tramite"]);
             datosEstudiante.tipoTramite= datos[0];
             datosEstudiante.textoResidencia= datos[1];
             window.location.href=('#/carta');
         };                
-        $scope.actualizarInfo();        
+        $scope.obtenerSolicitudesPendientes();
 });

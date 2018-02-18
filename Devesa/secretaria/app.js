@@ -1,4 +1,4 @@
-angular.module('secretariaModule',["ngRoute","ngResource"])
+angular.module('secretariaModule',["ngRoute","ngResource","angularUtils.directives.dirPagination"])
     .config(['$routeProvider',function($routeProvider)
     {
         $routeProvider.when("/solicitudes",{

@@ -157,11 +157,12 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
     IN v_sede t_sede,		
     OUT v_idSolicitud INT,
     OUT v_carne t_carne,
-    OUT v_tramite t_tramite   
+    OUT v_tramite t_tramite,   
+    OUT v_estado BOOLEAN
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = FALSE AND sede= v_sede
+	RETURN query SELECT idSolicitud, carne, tramite,estado FROM solicitudes WHERE estado = FALSE AND sede= v_sede
 	              ORDER BY fechaSolicitud ASC;
 END;
 $BODY$
@@ -173,14 +174,15 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesAtendidas
     IN v_sede t_sede,	
     OUT v_idSolicitud INT,
     OUT v_carne t_carne,
-    OUT v_tramite t_tramite
+    OUT v_tramite t_tramite,   
+    OUT v_estado BOOLEAN
 )    
 RETURNS SETOF record AS
 $BODY$
  DECLARE fechaActual DATE;
 BEGIN
 	fechaActual = (SELECT CURRENT_DATE);
-	RETURN query SELECT idSolicitud, carne, tramite FROM solicitudes WHERE estado = TRUE AND sede = v_sede AND fechaImpresion::DATE = fechaActual
+	RETURN query SELECT idSolicitud, carne, tramite,estado FROM solicitudes WHERE estado = TRUE AND sede = v_sede AND fechaImpresion::DATE = fechaActual
 	ORDER BY fechaImpresion DESC;
 END
 $BODY$
@@ -268,9 +270,12 @@ CREATE OR REPLACE FUNCTION sp_crearInforme
 $BODY$
 DECLARE 
     p_fechaInicio TIMESTAMP;
-    p_fechaInicio= v_fechaInicio+(SELECT CURRENT_TIME);
+    
 
 BEGIN
+
+    p_fechaInicio= p_fechaInicio+(SELECT CURRENT_TIME);
+    	
     INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede)
     VALUES (v_profesorID,v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
     RETURN TRUE;
@@ -425,9 +430,9 @@ CREATE OR REPLACE FUNCTION sp_modificarInforme
 $BODY$
 DECLARE 
     p_fechaInicio TIMESTAMP;
-    p_fechaInicio= v_fechaInicio+(SELECT CURRENT_TIME);
-
-BEGIN
+    
+BEGIN	
+	p_fechaInicio= v_fechaInicio+(SELECT CURRENT_TIME);
 	UPDATE informes SET(area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes) = 
 			   (v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes) 
 			   WHERE id = v_idInforme;	
@@ -445,7 +450,7 @@ $BODY$
 BEGIN
 	INSERT INTO imagenes(placa, id_informe) VALUES (v_nombre,v_idInforme);
 	RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
+	
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -480,8 +485,6 @@ $BODY$
 LANGUAGE plpgsql;
 
 
-
-
 CREATE OR REPLACE FUNCTION sp_eliminarimagen(IN v_idinforme integer,IN v_nombre character varying)
 RETURNS boolean AS
 $BODY$
@@ -489,8 +492,7 @@ $BODY$
 BEGIN
 	DELETE FROM imagenes WHERE  placa= v_nombre and id_informe= v_idInforme;
 	RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
+
 END;
 $BODY$
-  LANGUAGE plpgsql;
+LANGUAGE plpgsql;

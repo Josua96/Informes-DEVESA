@@ -11,6 +11,10 @@ angular.module('loginModule')
                 url :"http://localhost:8081/registrarToken?iden="+id+"&tipo="+tipoUsuario+
                 +"&codigo="+codigo
             })
+        };
+        
+        this.obtenerSolicitudes=function () {
+            
         }
 
     }])

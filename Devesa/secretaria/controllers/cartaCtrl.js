@@ -76,8 +76,12 @@ angular.module('secretariaModule').controller('cartaCtrl', function($scope,$loca
     ** divName(String): corresponde al id del div que contiene el texto e imagen de la carta
      */
     $scope.imprimir = function(divName)
-    {           
-        cambiarEstado();        
+    {
+        //si la solicitud no había sido atendida, se cambia su estado
+        if (datosEstudiante.estadoConsulta==false){
+            cambiarEstado();
+        }
+
         document.getElementById('botnImp').style.display = 'none';
         document.getElementById('botnCancel').style.display = 'none';
         var printContents = document.getElementById(divName).innerHTML;

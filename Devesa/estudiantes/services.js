@@ -6,7 +6,7 @@ angular.module('userModule')
     .service('peticionesEstudiantes',['$http',function($http) {
 
         //obtener laa solicitudes que aun no han atendido al estudiante
-        this.obtenerPendientes = function (carnet,codigo,id,sede) {
+        this.obtenerPendientes = function (carnet,codigo,id) {
             return $http({
                 method: "GET",
                 url:API_ROOT+":8081/ObtenerSolicitudesCarnet?carnet="+carnet+"&iden="

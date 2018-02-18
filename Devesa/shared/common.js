@@ -79,6 +79,10 @@ const solicitudesDisponibles= [
     {nombre:"Trámite de Pensión",abreviatura: "pension"},
     {nombre:"CCSS con Residencia",abreviatura:"CCSSResidencia"}
 ];
+
+const elementosPorPagina=8;
+const maxSize=7;
+
 /**
  * Formatea una cadena de texto en base a los parámetros proporcionados.
  * Tomado de: http://stackoverflow.com/a/4256130/3288599
@@ -156,6 +160,20 @@ function searchInArray(array,abreviatura,clave){
     return -1
 }
 
+/*************************************
+
+ * @param index indice del elemento en la página actual
+ * @param itemsPerPage cantidad de elementos que se exhiben por página
+ * @param numPage númmero de la página en visualización
+ * @returns {INT} indice real del elemento
+ */
+function getRealIndex(index, itemsPerPage, numPage){
+    return (itemsPerPage*(numPage-1))+index;
+
+}
+
+
+
 //funcion para mostrar notificaciones al usuario, un uno es error , 2 success, 3 mensaje normal
 function mostrarNotificacion(texto,num)
 {
@@ -184,27 +202,66 @@ function mostrarNotificacion(texto,num)
   {
     swal(texto);
   }
+
+}
+
+/**
+ * Función que administra la exhibición al usuario de mensajes de errores
+ * @param response: variable que contiene un codigo con el se identifica si el error es de autorización o por alguna validación
+ * @param errorMessage: mensaje en caso de que el error fue debido a una validación
+ */
+function manageErrorResponse(response, errorMessage) {
+    if (response.data.message==-1){
+        mostrarNotificacion("Ocurrió un error al verificar su código de acceso, usted no posee un código válido",1);
+
+        //esperar 5 segundos para redirigir al usuario a la página de inicio
+        $timeout( function(){
+            window.location.href = ('../index.html');
+        },4000 );
+    }
+    else if (response.data.message==0){
+        mostrarNotificacion(errorMessage,1);
+    }
+    else{
+        mostrarNotificacion("Ocurrió un error asegurese de tener conexión a internet",1);
+    }
 }
 
 //funcion para mostrar al usuario de manera bien escrita el tipo de carta solicitada 
 function setTextSolicitudes(solicitudes ){
-    var size= solicitudes.length;
-    for(i=0; i<size;i++){
-      if (solicitudes[i]["v_tramite"]==="regular"){
-        solicitudes[i]["v_tramite"]="Estudiante Regular";
-      }
-      else if(solicitudes[i]["v_tramite"]==="pension"){
-        solicitudes[i]["v_tramite"]="Pensión";
-      }
-      else if (solicitudes[i]["v_tramite"]==="visa"){
-        solicitudes[i]["v_tramite"]="Visa";
-      }
-      else if (solicitudes[i]["v_tramite"]==="CCSSResidencia"){
-        solicitudes[i]["v_tramite"]="CCSS con Residencia";
-      }
+    var size=solicitudesDisponibles.length;
+    var SolicitudesSize=solicitudes.length;
+    for(i=0; i<SolicitudesSize ;i++){
+
+        for (j=0; j<size;j++){
+            if (solicitudes[i]["v_tramite"]===solicitudesDisponibles[j].abreviatura){
+                solicitudes[i]["v_tramite"]=solicitudesDisponibles[j].nombre;
+                break;
+            }
+
+        }
+
     }
     return solicitudes;
 }
+
+/**
+ *
+ * @param solicitudes: arreglo que contiene las solicitudes a mostrar al usuario
+ * @param message: mensaje a exhibir en caso de que el arreglo esté vacío
+ * Retorna: un array
+ */
+function manageSolicitudesSuccessResponse(solicitudes,message) {
+    if (solicitudes.length===0)
+    {
+        mostrarNotificacion(message,3);
+        return solicitudes;
+    }
+    else{
+        return setTextSolicitudes(solicitudes);
+    }
+}
+
 
 
 //funcion para almacenar fecha inicio y fecha final del semestre en cookies

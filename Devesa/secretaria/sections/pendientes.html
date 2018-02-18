@@ -8,11 +8,8 @@
             <th> Acción </th>
             </thead>
             <tbody>
-            <tr editable-td row="{{$index}}" ng-repeat="solicitud in solicitudes"  
-                style="background-color:#3B4A95;color:#ffffff;"               
-                onmouseover='this.style.backgroundColor="#B4C7E6"'
-                onmouseout='this.style.backgroundColor="#3B4A95"'>
-                
+            <tr editable-td row="{{$index}}"   dir-paginate="solicitud in solicitudes|itemsPerPage:cantidadElementos"
+                current-page="paginaActual">
                 <td>{{solicitud["v_carne"]}}</td>
                 <td>{{solicitud["v_tramite"]}}</td>
                 <!--cuando se presiona el boton, la funcion eliminar recibe la fila que está siendo editada -->
@@ -23,13 +20,20 @@
                             style="color:black;"                                                          
                             onmouseover=this.style.backgroundColor="#2F9EE2"
                             ng-click="imprimir($index)">
-                        <i class="material-icons right">visibility</i>
+                        <i class="material-icons right">print</i>
                     </button> 
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+
+    <dir-pagination-controls
+            max-size="maximoElementos"
+            direction-links="true"
+            boundary-links="true" >
+    </dir-pagination-controls>
+
 </div>
 
     

@@ -14,6 +14,7 @@ angular.module('secretariaModule')
     {
         var factory ={};
         factory.carnet = "2345678987";
+        factory.estadoConsulta=false;
         factory.tipoTramite = "Tipo de solicitud";
         factory.elLa = "El";
         factory.nombre = "Jesus Andrez Alvarado";
@@ -55,4 +56,4 @@ angular.module('secretariaModule')
                 return href;
             }
         };
-    })
+    });

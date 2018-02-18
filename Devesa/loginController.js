@@ -30,7 +30,7 @@ app.controller('loginController', function($scope, $http)
         {
             localStorage.setItem("user001", $scope.username);
             localStorage.setItem("password001", $scope.password);
-            window.location.href = ('estudiantes/MainView.html');//'{0}/MainView.html'.format(userData.userType == "Admin" ? "" : "users"));
+            window.location.href = ('estudiantes/MainView.html');
         }
         else if($scope.username === "p")
         {
@@ -48,7 +48,7 @@ app.controller('loginController', function($scope, $http)
         {
             localStorage.setItem("user001", $scope.username);
             localStorage.setItem("password001", $scope.password);
-            window.location.href = ('administrador/MainView.html');//'{0}/MainView.html'.format(userData.userType == "Admin" ? "" : "users"));
+            window.location.href = ('administrador/MainView.html');
         }
     };
 

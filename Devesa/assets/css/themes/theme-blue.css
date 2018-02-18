@@ -11,6 +11,22 @@
 
 }
 
+.dateInput{
+  border-color: #2E9AFE;
+  border-style: solid;
+
+}
+
+.dateInput:hover{
+  border-color: #0080FF;
+}
+
+
+.btn-hover:hover{
+  background-color: #D0E9F7;
+  color: white;
+}
+
 .bagTecEliminar{
   background-color:#E1E5E8;
 }

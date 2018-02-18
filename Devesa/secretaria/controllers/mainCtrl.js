@@ -18,11 +18,11 @@ function($scope,$location)
                 method : "DELETE",
                 url : API_ROOT+":8081/eliminarToken?codigo="+$scope.codigo
             }).then(function (response) {
-                console.log("token_registrado");
+                console.log("token_eliminado");
                 $scope.redirigirUsuario();
             }, function (response) {
                 console.log(response.data.message);
-                $scope.status ="Error de conexion";
+                ;
             });
         }
 
