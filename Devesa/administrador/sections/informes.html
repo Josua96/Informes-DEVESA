@@ -1,4 +1,4 @@
-<div class="container-fluid " >
+<div class="container-fluid" >
     <center>
     <h2 style="margin-top: 2%;"> Informes organizados por área </h2>
     <br>
@@ -6,9 +6,9 @@
     <div class="menuEmergente" >
         <h3  class="textInformes"> Seleccione el área para visualizar los informes</h3>
         <br>
-        <select  id="selector" style="font-size: medium; " ng-click="mostrarInformes(seleccionado.num)" ng-model="seleccionado" ng-options="x.model for x in opciones">
-        </select>
 
+
+        <select  id="selector" style="font-size: medium; " ng-click="mostrarInformes()" ng-model="seleccionado" ng-options="x for x in opciones"> </select>
     </div>
 
     </center>
@@ -44,11 +44,20 @@
                             ng-click="verMas($index)"><b>Ver Más</b></button>
                 </td>
             </tr>
-
             </tbody>
         </table>
         <br>
-        <input type="button" class="btn-info" value="Obtener Informes" ng-click="descargar($index)">
+
+        <button type="button"
+                class="btn-info"
+                onmouseout=this.style.backgroundColor="#E1E5E8"
+                style="color:black;"
+                ng-click="descargar($index)"
+                onmouseover=this.style.backgroundColor="#2F9EE2"
+                ng-click="imprimir($index)">
+
+            Descargar <i class="material-icons right">file_download</i>
+        </button>
     </div>
 
 </div>

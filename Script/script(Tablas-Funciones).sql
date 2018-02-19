@@ -120,7 +120,6 @@ BEGIN
 		DELETE FROM autorizacion WHERE token SIMILAR TO '%'||codigo||'%';
 	END IF;
 	INSERT INTO autorizacion VALUES(id,tipoU,codigo);
-	
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -268,14 +267,12 @@ CREATE OR REPLACE FUNCTION sp_crearInforme
     IN v_sede t_sede
 ) RETURNS BOOLEAN AS
 $BODY$
-DECLARE 
+DECLARE
     p_fechaInicio TIMESTAMP;
-    
 
 BEGIN
 
     p_fechaInicio= p_fechaInicio+(SELECT CURRENT_TIME);
-    	
     INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede)
     VALUES (v_profesorID,v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
     RETURN TRUE;
@@ -375,7 +372,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInforme_porId
 	IN ve_idinforme INTEGER, 
 	OUT v_idInforme INT,
 	OUT v_profesorID t_cedula,
-	OUT v_area VARCHAR(3),
+	OUT v_area t_area,
 	OUT v_actividad VARCHAR(100),
 	OUT v_fechaInicio TIMESTAMP,
 	OUT v_fechaFinal DATE,
@@ -387,7 +384,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInforme_porId
 $BODY$
 BEGIN
 	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
-	FROM informes WHERE idInforme = ve_idInforme;
+	FROM informes WHERE id = ve_idInforme;
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -430,8 +427,8 @@ CREATE OR REPLACE FUNCTION sp_modificarInforme
 $BODY$
 DECLARE 
     p_fechaInicio TIMESTAMP;
-    
-BEGIN	
+
+BEGIN
 	p_fechaInicio= v_fechaInicio+(SELECT CURRENT_TIME);
 	UPDATE informes SET(area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes) = 
 			   (v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes) 

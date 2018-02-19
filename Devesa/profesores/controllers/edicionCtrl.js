@@ -5,29 +5,39 @@ angular.module('profesorModule')
         var codigo=localStorage.getItem("sessionToken");
         var idProfesor=localStorage.getItem("userId");
         var sede=localStorage.getItem("sede");
+
         $scope.opcion;
         $scope.imagenes=[];
         $scope.opciones = AREAS;
 
-        // Permite ibicar el select en la posicion correcta
-        function ubicarDepartamento()
+        /**
+         * Ubica el select en una determinado indice
+         *
+         * @param {any} codigoArea el parametroe es un string
+         * @returns el sistema retorna el nombre del area.
+         */
+        function ubicarDepartamento(codigoArea)
         {
             var tam = CODIGOS_AREAS.length;
             for(var i=0 ; i<tam; i++)
             {
-                if(CODIGOS_AREAS[i]===$scope.informe.area)
+                if(CODIGOS_AREAS[i]===  codigoArea)
                 {
-                    $scope.opcion = AREAS[i];
+                     return AREAS[i];
                 }
             }
         }
-        ubicarDepartamento();
 
+        /**
+         * Permite eliminar una imagen del la base de datos
+         *
+         * @param {any} nombreImagen es un String
+         * @returns none
+         */
 
-        // Permite eliminar una foto asociada a un informe tanto de la base de datos como del servidor.
-        $scope.eliminarFoto = function(param)
+        $scope.eliminarFoto = function(nombreImagen)
         {
-            var respuesta = peticiones.eliminarFoto($scope.informe.idInforme,param,idProfesor,codigo,'P');
+            var respuesta = peticiones.eliminarFoto($scope.informe.idInforme,nombreImagen,idProfesor,codigo,'P');
             respuesta.then
             (   function exito(response)
                 {
@@ -37,7 +47,7 @@ angular.module('profesorModule')
                     }
                     else
                     {
-                        $scope.borrarImagenServidor(param);
+                        $scope.borrarImagenServidor(nombreImagen);
                         $scope.cargarFotos();
                     }
                 },
@@ -48,6 +58,13 @@ angular.module('profesorModule')
             );
         };
 
+
+        /**
+         * Permite borrar una imagen del servidor
+         *
+         * @param nombre es un String
+         * @returns none
+         */
         $scope.borrarImagenServidor = function (nombre)
         {
             $.ajax(
@@ -64,8 +81,12 @@ angular.module('profesorModule')
                 });
         };
 
-
-        // Realiza la consulta a la base de datos acerca de las imagenes de cada informe y los guarda en la variable "imagenes".
+        /**
+         * Permite cargar los nombres de las imagenes
+         *
+         * @param  none
+         * @returns none
+         */
         $scope.cargarFotos = function ()
         {
 
@@ -73,77 +94,72 @@ angular.module('profesorModule')
             respuesta.then
             (   function exito(response)
                 {
-                    if(response.data==="false")
+                    if(response.data==="false" || response.data===[])
                     {
-                        mostrarNotificacion("Ocurrió un error y no fue posible editar el informe",1);
+                        mostrarNotificacion("No hay imagenes relacionadas",3);
                     }
                     else
                     {
-                        $scope.imagenes = response.data;
-                        console.log($scope.imagenes);
+                        $scope.imagenes= response.data;
                     }
                 },
                 function error(response)
                 {
-                    mostrarNotificacion("Ocurrió un error y no fue editar el informe",1);
+                    mostrarNotificacion("No hay imagenes relacionadas",1);
                 }
             );
         };
 
 
-
-        // Permite subir fotos de las actividades.
+        /**
+         * Permite cargar archivos al servidor.
+         *
+         * @param none
+         * @returns none
+         */
         $scope.subirFotos = function ()
         {
             var archivos = document.getElementById("archivos");
             var archivo = archivos.files;
             var archivos = new FormData();
             var dat = new Date();
-            for(i=0; i<archivo.length; i++) // Añadir configuracion de fecha - milisegundos
+            for(i=0; i<archivo.length; i++)
             {
                 archivos.append('archivo'+i,archivo[i]);
             }
 
-            $.ajax({url:API_ROOT+':80/DEVESA/subir.php', type:'POST',
-                contentType:false,
-                data:archivos,
-                processData:false,
-                cache:false
-            }).done(function(msg)
-            {
-                if(msg !== "ERROR")
+            $.ajax({url:API_ROOT+':80/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false}).done(
+                function(msg)
                 {
-                    var listaNombres = msg.split(",");
-                    var longitud = listaNombres.length-1;
-                    for(i=0; i<longitud; i++)
+                    if(msg !== "ERROR")
                     {
-                        console.log($scope.informe.idInforme);
-                        var respuesta = peticiones.registrarImagenes($scope.informe.idInforme, listaNombres[i],idProfesor, codigo,"P");
-                        respuesta.then
-                        (   function exito(response)
-                            {
-                                console.log("Exito");
-                            },
-                            function error(response)
-                            {
-
-                            }
-                        );
-                        console.log("ciclo: "+i);
+                        var listaNombres = msg.split(",");
+                        var longitud = listaNombres.length-1;
+                        for(i=0; i<longitud; i++)
+                        {
+                            var respuesta = peticiones.registrarImagenes($scope.informe.idInforme, listaNombres[i],idProfesor, codigo,"P");
+                            respuesta.then
+                            (   function exito(response) {},
+                                function error(response) {}
+                            );
+                        }
                     }
-                }
-                else
-                {
+                    else
+                    {
                         mostrarNotificacion("Error al cargar la imagen", 1);
-                }
-            });
-            mostrarNotificacion("Guardado",2);
-            window.location.href =('#/profesores/informesEnviados');
+                    }
+                });
+
+                mostrarNotificacion("Guardado",2);
+                window.location.href =('#/profesores/informesEnviados');
         };
 
 
-
-        // Toma los datos del formulario y los escribe en la BD.
+        /**
+         * Envia la informacion a la base de datos
+         * @param none
+         * @returns none
+         */
         $scope.guardarInforme = function ()
         {
             $scope.fechaActividad = document.getElementById("date2").value;
@@ -174,5 +190,8 @@ angular.module('profesorModule')
                 mostrarNotificacion("Asegurése de ingresar datos en cada uno de los campos requeridos",1);
             }
         };
+
+        $scope.opcion = ubicarDepartamento($scope.informe.area);
         $scope.cargarFotos();
+
     });

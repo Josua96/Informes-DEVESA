@@ -51,7 +51,7 @@
     <br><br>
       <ul ng-repeat="imagen in imagenes" style="display: inline-block;">
         <li>
-            <img src={{imagen["v_nombre"]}} width="350px" height="auto" style="padding-left: 8px;">
+            <img  ng-src = "http://localhost:80/DEVESA/files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">
         </li>
 
 

@@ -36,13 +36,14 @@ angular.module('adminModule')
                 $http({
                     method: "GET",
                     url: "http://localhost:8081/ObtenerImagenesInforme?idInforme="+numeroInforme+"&iden="
-                    +$scope.id+"&codigo="+$scope.codigo
+                    +$scope.id+"&codigo="+$scope.codigo + "&tipo=A"
                 }).then(function mySucces(response) {
                     $scope.imagenes=response.data;
                     console.log(response);
                 }, function myError(response) {
                     mostrarNotificacion("Ocurrio un error", 1);
                 });
+
 
                 //$scope.imagenes=["../assets/images/25d.jpg","../assets/images/A1D.jpg","../assets/images/antiopadas.jpg","../assets/images/paisaje-epuyen.jpg","../assets/images/dos.jpg"];
             };
