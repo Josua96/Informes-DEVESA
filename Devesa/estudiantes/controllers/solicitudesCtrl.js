@@ -11,8 +11,10 @@ angular.module('userModule')
     $scope.tramite="";
     $scope.indiceEliminar = -1;            
     $scope.solicitudes;
-
-    // Registra una nueva solicitud en el sistema
+    
+    /** Registra una nueva solicitud en la tabla solicitudes
+     * 
+     */
     $scope.realizarSolicitud=function()
     {
         var indiceSede=document.getElementById("sel2").selectedIndex;
@@ -37,8 +39,10 @@ angular.module('userModule')
 
     };
 
-
-    //obtiene las solicitudes realizadas por un estudiante
+    /** Obtiene las solicitudes realizadas por los estudiante
+     *
+     */ 
+    
     $scope.cargarSolicitudes =function()
     {
         peticionesEstudiantes.obtenerPendientes($scope.carnet,$scope.codigo,$scope.id)
@@ -52,23 +56,30 @@ angular.module('userModule')
             });
     };
 
-    //Eliina una solicitud del sistema
-    $scope.completarEliminado = function() //elimina una solicitud
+    /** Elimina una solicitud del sistema
+     * 
+     * @param indice: Representa la posición de la solicitud a eliminarConfirmacion del arreglo de solictudes
+     */
+    $scope.completarEliminado = function(indice) //elimina una solicitud
     {
-        peticionesEstudiantes.eliminarSolicitud(+$scope.solicitudes[$scope.indiceEliminar]["v_idsolicitud"]
+        peticionesEstudiantes.eliminarSolicitud(+$scope.solicitudes[indice]["v_idsolicitud"]
             ,$scope.id,$scope.codigo)
             .then(function(response){
                 mostrarNotificacion("La solicitud se eliminó con éxito",2);
                 //Eliminar la solicitud de la lista de solicitudes
-                $scope.solicitudes.splice($scope.indiceEliminar,1);
+                $scope.solicitudes.splice(indice,1);
             },function (response) {
                 manageErrorResponse(response,"");
 
             });
 
     };
-    //Funcion de petición de confirmación al usuario para el proceso de borrado
-    $scope.eliminar= function (indice)
+    /** Solicita al usuario qu confirme la acción
+     * 
+     * @param indice: Posicion dentro del arreglo solicitudes de la solicitud seleccionada
+     */
+
+    $scope.eliminarConfirmacion= function (indice)
     {
 
     $scope.indiceEliminar = indice;
@@ -84,7 +95,7 @@ angular.module('userModule')
     closeOnCancel: true
     },
     function(){
-    $scope.completarEliminado();
+    $scope.completarEliminado($scope.indiceEliminar);
     });
     };
 

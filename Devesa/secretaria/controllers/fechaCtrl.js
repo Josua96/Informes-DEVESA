@@ -6,7 +6,11 @@ angular.module('secretariaModule')
     departamento="";
     
     $scope.fechaInicio;
-    $scope.fechaFin;               
+    $scope.fechaFin;
+
+    /** Función para almacenar las fechas iniciales y finales del semestre
+     * 
+     */
     $scope.guardarFecha = function()
     {
 

@@ -1,4 +1,4 @@
-angular.module('secretariaModule').controller('cartaCtrl', function($scope,$location,$http, datosEstudiante){
+angular.module('secretariaModule').controller('cartaCtrl', function($scope,$location,$http, datosEstudiante,peticiones){
     
     numeroInforme=-1;
     departamento="";
@@ -23,7 +23,10 @@ angular.module('secretariaModule').controller('cartaCtrl', function($scope,$loca
     $scope.carrera = datosEstudiante.carrera;    
     $scope.textoResidencia = datosEstudiante.textoResidencia;
 
-    //funcion para verificar que en las cookies exita la fecha de inicio y final de semestre
+    /** funcion para verificar que en las cookies exita la fecha de inicio y final de semestre
+     *
+     */
+
     $scope.verificar_fechas= function(){
         $scope.fechas =readCookie();
 
@@ -49,23 +52,24 @@ angular.module('secretariaModule').controller('cartaCtrl', function($scope,$loca
     };
 
     /*
-    * Objetivo: cambiar el estado de una solicitud de pendiente(false) a realizada(true)
+    *  Función para cambiar el estado de una solicitud de pendiente(false) a realizada(true)
     *
-     */
+    */
     function cambiarEstado(){
-        //Aqui se cambia el estado de las solicitudes            
-       $http({   
-                method : "POST",
-                url :API_ROOT+":8081/ActualizarEstado?id=" + datosEstudiante.idConsulta+"&iden="
-                +$scope.id+"&codigo="+$scope.codigo
-            }).then(function mySucces(response) {
-                window.location.href =('#/solicitudes');  
-            }, function myError(response) {                    
-                mostrarNotificacion("Ocurrio un error",1);
-                $scope.myWelcome = response.statusText;
+        //Aqui se cambia el estado de las solicitudes
+        peticiones.cambiarEstado(datosEstudiante.idConsulta,$scope.id,$scope.codigo)
+            .then(function(response){
+                window.location.href =('#/solicitudes');
+            },function (response) {
+                manageErrorResponse(response,"");
             });
         };
 
+
+    /** Función para redirigir al usuario a la sección de solicitudes, en caso
+     *  de cancelar la impresión de la carta
+     * 
+     */
     $scope.cancelar = function()
     {
         window.location.href =('#/solicitudes');  

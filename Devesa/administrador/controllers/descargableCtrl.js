@@ -1,7 +1,8 @@
 /**
  * Created by Josua on 11/08/2017.
  */
-angular.module('adminModule').controller('descargableCtrl', function($scope,$location,$http,areaInforme,$timeout,Excel){
+angular.module('adminModule').controller('descargableCtrl', function($scope,$location,$http,areaInforme,
+                                                                     $timeout,Excel,peticionesAdministrador){
 
     $scope.codigo=localStorage.getItem("sessionToken");
     $scope.id=localStorage.getItem("userId");
@@ -13,61 +14,80 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
     $scope.encargados=[];
     //lista de actividades del area
     $scope.actividades=[];
-    $scope.revertir=function (cadena) {
-        return cadena.slice(8,10)+"-"+cadena.slice(5,8)+cadena.slice(0,4);
+
+    /** Dar formato a las fechas
+     *
+     * @param fecha(Date) fecha del informe
+     * @returns {string} La fecha con el formato correcto
+     */
+    $scope.formatoFecha=function (fecha) {
+        return fecha.slice(8,10)+"-"+fecha.slice(5,8)+fecha.slice(0,4);
     };
 
     
-    //lista para controlar que ningun profesor se encuentre asociado a mas de un area
+
+    /** Genera una lista de los id de las personas que registraron informes
+     *
+     */
     $scope.asignarEncargados=function () {
         var limite= $scope.actividades.length;
-        console.log("limite = "+limite);
         var i=0;
         for(i=0;i <limite;i++){
             //si el funcionario aún no está en la lista de encargados
-            if (estaEnLista($scope.encargados,$scope.actividades[i]["v_profesorid"])===false) {
+            if (estaEnLista($scope.encargados,$scope.actividades[i]["v_funcionarioid"])===false) {
                 var diccionario={id:"0",area:"undef"}; //inicializacion del diccionario
-                diccionario.id=$scope.actividades[i]["v_profesorid"];
+                diccionario.id=$scope.actividades[i]["v_funcionarioid"];
                 $scope.encargados.push(diccionario); //insertar el diccionario en la lista de encargados
                 console.log("insercion");
             }
         }
         console.log($scope.encargados);
     };
-    
-    //funcion para obtener el nombre de los encargados de las actividades atraves de endpoint
-    $scope.obtenerInformacionEncargado=function () {
+
+    /** Funcion para obtener el nombre de la persona que posee el id recibido por parámetro
+     *
+     * @param idPersona (string): id de la persona que registró el informe
+     */
+    $scope.obtenerInformacionEncargado=function (idPersona) {
         
     };
-    
-    //obtener las actividades realizadas de un area en especifico
+
+    /** Obtiene los informes registrados para un area en específico
+     *
+     */
     $scope.obtenerInformesArea=function () {
-        $http({
-            method: "GET",
-            url: API_ROOT+":8081/ObtenerInformesArea?area=" +areaInforme.informeArea+"&iden="
-            +$scope.id+"&codigo="+$scope.codigo+"&sede="+$scope.sede
-        }).then(function mySucces(response) {
-            $scope.actividades = response.data;  //it does not need a conversion to json
-            if($scope.actividades.length > 0){
-                console.log($scope.actividades);
-                $scope.asignarEncargados();
-            }
-            else{
-                mostrarNotificacion("No se encontraron informes disponibles",1);
-                window.location.href="#/informes";
-            }
-            
-        }, function myError(response) {
-            mostrarNotificacion("Ocurrio un error de conexión", 1);
-        });
+        
+        peticionesAdministrador.obtenerInformesArea(areaInforme.informeArea,$scope.id,$scope.codigo,
+            $scope.sede)
+            .then(function(response){
+                $scope.actividades = response.data;  
+                if($scope.actividades.length > 0){
+                    $scope.asignarEncargados();
+                }
+                else{
+                    mostrarNotificacion("No se encontraron informes disponibles",1);
+                    window.location.href="#/informes";
+                }
+            },function (response) {
+                manageErrorResponse(response,"");
+
+            });
     };
 
-    //obtener el texto de area correctamente
-    $scope.textoArea=function (texto) {
-        return textoInforme(texto);
+    /** Obtener el nombre completo del área recibida por parametro
+     *
+     * @param area(String): abreviatura de alguna de las áreas que el sistema reconoce
+     * @returns {(String): el texto del área correspondiente}
+     */
+    $scope.getTextArea=function (area) {
+        return textoInforme(area);
     };
 
 
+    /** Exportar una tabla a excel, y después generar la descarga
+     *
+     * @param idTabla (String): identificador de la tabla que va a exportarse a excel
+     */
     $scope.descargar=function (idTabla) {
         //se llama a la funcion tableToExcel dentro del factory excel
         $scope.exportHref=Excel.tableToExcel('tInforme',textoInforme(areaInforme.informeArea));
@@ -77,12 +97,14 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
             link.download = textoInforme(areaInforme.informeArea)+".xls";
             link.href = $scope.exportHref;
             link.click ();
-        }, 100);
+        }, 250);
         window.location.href="#/informes";
 
     };
-    
-    //pedir confirmacion para generar el descargable
+
+    /** Solicita al usuario que confirme la descarga
+     *
+     */
     $scope.confirmacion=function () {
         
         swal({ //mostrar cuadro de dialogo para confirmacion del proceso 
@@ -103,7 +125,7 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
                 window.location.href="#/informes"; 
             }
         });
-    }
+    };
     
 
     $scope.obtenerInformesArea();

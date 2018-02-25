@@ -1,69 +1,82 @@
 angular.module('adminModule')
-    .controller('imagenesInformeCtrl', function($q,$scope,$location,$http,idInformeEnCurso)
+    .controller('imagenesInformeCtrl', function($q,$scope,$location,$http,idInformeEnCurso,peticionesAdministrador)
         {
 
             $scope.codigo=localStorage.getItem("sessionToken");
             $scope.id=localStorage.getItem("userId");
+            $scope.tipoUsuario=localStorage.getItem("userType");
 
             $scope.informe;
             $scope.imagenes=[];
-
-
-            /*se carga el nombre de quienes realizaron el informe */
-            $scope.cargarInformacionPropietario=function () {
-
-            };
-
-            //obtener informacion de un inform;e en especifico
-            $scope.cargarInforme=function () {
-
-                $http({
-                    method: "GET",
-                    url: API_ROOT+":8081/ObtenerInformeId?id="+numeroInforme+"&iden="
-                    +$scope.id+"&codigo="+$scope.codigo
-                }).then(function mySucces(response) {
-                    $scope.informe=response.data;
-                    $scope.informe[0]["v_fechainicio"]=revertirCadena($scope.informe[0]["v_fechainicio"].slice(0,10));
-                    $scope.informe[0]["v_fechafinal"]=revertirCadena($scope.informe[0]["v_fechafinal"].slice(0,10));
-                    $scope.informe[0]["v_area"]=textoInforme($scope.informe[0]["v_area"]);
-                }, function myError(response) {
-                    mostrarNotificacion("Ocurrio un error", 1);
-                });
-            };
             
+
+
+            /** Obtiene el nombre de la persona que posee el id especificado
+             *  @param idPersona (String): identificación de la persona
+             */
+            $scope.cargarInformacionPropietario=function (idPersona) {
+
+            };
+
+            /** Obtiene la información completa de un informe en especifico
+             *  
+             */
+            $scope.cargarInforme=function () {
+                alert("numero de informe "+ idInformeEnCurso.numeroInforme);
+                peticionesAdministrador.obtenerInformacionInforme(idInformeEnCurso.numeroInforme,$scope.id,$scope.codigo)
+                    .then(function(response){
+                        $scope.informe=response.data;
+                        console.log($scope.informe);
+                        $scope.informe[0]["v_fechainicio"]=revertirCadena($scope.informe[0]["v_fechainicio"].slice(0,10));
+                        $scope.informe[0]["v_fechafinal"]=revertirCadena($scope.informe[0]["v_fechafinal"].slice(0,10));
+                        $scope.informe[0]["v_area"]=textoInforme($scope.informe[0]["v_area"]);
+                        
+                    },function (response) {
+                        manageErrorResponse(response,"");
+                    });
+                
+            };
+
+            /** Obtiene de la base de datos las imagenes que corresponden al informe
+             * 
+             */
             $scope.cargarImagenes= function () {
 
-                $http({
-                    method: "GET",
-                    url: "http://localhost:8081/ObtenerImagenesInforme?idInforme="+numeroInforme+"&iden="
-                    +$scope.id+"&codigo="+$scope.codigo + "&tipo=A"
-                }).then(function mySucces(response) {
-                    $scope.imagenes=response.data;
-                    console.log(response);
-                }, function myError(response) {
-                    mostrarNotificacion("Ocurrio un error", 1);
-                });
+                
+                peticionesAdministrador.obtenerImagenesInforme(idInformeEnCurso.numeroInforme,$scope.id,$scope.codigo,$scope.tipoUsuario)
+                    .then(function(response){
+                        if (response.data.length >0 ){
+                            $scope.imagenes=response.data;
+                        }
+                        else{
+                            mostrarNotificacion("No existen imagenes asociadas a este informe",3);
+                        }
+                    },function (response) {
+                        manageErrorResponse(response,"");
 
-
-                //$scope.imagenes=["../assets/images/25d.jpg","../assets/images/A1D.jpg","../assets/images/antiopadas.jpg","../assets/images/paisaje-epuyen.jpg","../assets/images/dos.jpg"];
+                    });
             };
 
-
+            /** Descarga las imágenes que contiene el arreglo de imágenes
+             * 
+             */
             $scope.descargarImagenes=function () {
                 var zip = new JSZip();
                 var count = 0;
                 var zipFilename = $scope.informe[0]["v_actividad"];
                 var urls=$scope.imagenes;
                 var filename;
-
+                var imageName;
                 urls.forEach(function(url){
-                    
-                    // loading a file and add it in a zip file
-                    JSZipUtils.getBinaryContent(url, function (err, data) {
+
+                    imageName=IMAGES_STORAGE_DIRECTION+ url.v_nombre;
+                    // cargar el archiv de imagen y agregarlo al zip
+                    JSZipUtils.getBinaryContent(imageName, function (err, data) {
                         if(err) {
-                            throw err; // or handle the error
+                            throw err; // manejar el error
                         }
-                        filename="Imagen" + count + retornaFormato(url);
+
+                        filename="Imagen" + count + retornaFormato(imageName);
                         zip.file(filename, data, {binary:true});
                         count++;
                         if (count == urls.length) {
@@ -79,6 +92,9 @@ angular.module('adminModule')
                 });  
             };
 
+            /** Redireccionar al usuario a la vista de informes
+             * 
+             */
             $scope.retroceder=function () {
                 
                 window.location.href="#/informes";
@@ -90,29 +106,3 @@ angular.module('adminModule')
         }
     );
 
-/**
- console.log("indice= "+indice);
-
-
- //cargar el archivo de imagen y agregarlo al zip
- JSZipUtils.getBinaryContent(url, function (err, data) {
-                        if (err) {
-                            mostrarNotificacion("Ocurrió un error al cargar las imágenes, la descarga no es posible", 2)
-                            return;
-                        }
-
-                        zip.file(filename, data, {binary: true});
-
-                        if (indice == limit){
-                            console.log("generar zip");
-                            zip.generateAsync({type:"blob"})
-                                .then(function(content) {
-                                    console.log(content);
-                                    // generar la descarga
-                                    saveAs(content,zipFilename);
-                                });
-                        }
-                    });
-
- });
- **/

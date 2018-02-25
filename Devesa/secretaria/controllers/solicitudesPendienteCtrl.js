@@ -1,5 +1,5 @@
 angular.module('secretariaModule')
-    .controller('pendienteCtrl', function($scope,$location,$http, datosEstudiante) {
+    .controller('pendienteCtrl', function($scope,$location,$http, datosEstudiante,peticiones) {
 
         $scope.codigo=localStorage.getItem("sessionToken");
         $scope.id=localStorage.getItem("userId");
@@ -14,41 +14,37 @@ angular.module('secretariaModule')
         $scope.tramite;
         $scope.solicitudes;
         $scope.idCosulta;
-        /*
-        Objetivo: obtener las solicitudes pendientes
+
+        /**
+         *  obtener las solicitudes pendientes (regitros de la tabla solicitudes)
          */
         $scope.obtenerSolicitudesPendientes = function()
         {
-            $http({
-            method : "GET",
-            url : API_ROOT+":8081/ObtenerSolicitudesNoAtendidas?"+"&iden="+$scope.id+"&codigo="+$scope.codigo +"&sede="+$scope.sede
-            }).then(function mySucces(response)
-            {
-                if(response.data !== "false" && response.data!==[] && response.data!== 0 && response.data !== false )
-                {
-                    $scope.solicitudes=response.data;  //it does not need a conversion to json
-                    $scope.solicitudes=setTextSolicitudes($scope.solicitudes);
-                }
-                else
-                {
-                    mostrarNotificacion("No hay solicitudes de cartas pendientes",3);
-                }
+            
+            peticiones.obtenerNoAtendidas($scope.codigo,$scope.id,$scope.sede)
+                .then(function(response){
+                    if (response.data.length >0 ){
+                        $scope.solicitudes=response.data;  //it does not need a conversion to json
+                        $scope.solicitudes=setTextSolicitudes($scope.solicitudes);
+                    }
+                    else{
+                        mostrarNotificacion("No hay solicitudes de cartas pendientes",3);
+                    }
+                },function (response) {
+                    manageErrorResponse(response,"");
 
-
-            }, function myError(response)
-            {              
-                    mostrarNotificacion("Ocurrio un error",1);
-                    $scope.myWelcome = response.statusText;
-            });
+                });
+            
         };
 
-        /*********************************
-        Objetivio: imprimir alguna de las solicitudes pendientes
-         Parametros:
-            indice= indexa la fila de la tabla que es seleccionada
-         *********************************/
+
+        /** Envía a impresión la solictud pendiente que fue seleccionada
+         *
+         * @param indiceFila indexa la fila de la tabla que es seleccionada
+         */
         $scope.imprimir= function (indiceFila)
         {
+
             //el indice real, la posicion en la que se encuentra el elemento dentro del arreglo
             var indice= getRealIndex(indiceFila,$scope.cantidadElementos,$scope.paginaActual);
             datosEstudiante.carnet = $scope.solicitudes[indice]["v_carne"];
@@ -58,6 +54,7 @@ angular.module('secretariaModule')
             datosEstudiante.tipoTramite= datos[0];
             datosEstudiante.textoResidencia= datos[1];
             window.location.href=('#/carta');
+            
         };                
         $scope.obtenerSolicitudesPendientes();
 });

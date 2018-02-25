@@ -1,10 +1,10 @@
 var pg = require('pg');
-var conString = "postgres://postgres:postgresql2017@localhost:5432/devesa_app";
+var conString = "postgres://postgres:12345@localhost:5432/devesa_app";
 var client;
 var express = require('express');
 var app = express();
 var pgp = require('pg-promise')();
-var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: 'postgresql2017'};
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
 var db = pgp(cn);
 
 
@@ -74,13 +74,9 @@ app.post('/registrarToken',function(req,res)
 });
 
 
-
-
-
 //================================================================================================
 //      Solicitudes de cartas
 //================================================================================================
-
 
 app.post('/CrearSolicitud', function(req, res) {
 
@@ -111,7 +107,6 @@ app.post('/CrearSolicitud', function(req, res) {
     	);
 
 });
-
 
 
 
@@ -283,7 +278,7 @@ app.post('/CrearInforme', function(req, res) {
     	
     	if (result===true){
     			
-    			db.func('sp_crearInforme', [req.query.profesorID, req.query.area, req.query.actividad, req.query.fechaInicio, req.query.fechaFinal, req.query.objetivo, req.query.programa, req.query.cantidadEstudiantes, req.query.sede])
+    			db.func('sp_crearInforme', [req.query.funcionarioID, req.query.area, req.query.actividad, req.query.fechaInicio, req.query.fechaFinal, req.query.objetivo, req.query.programa, req.query.cantidadEstudiantes, req.query.sede])
 					.then(data => {
 						console.log("DATA:", data); 
 						console.log(data.sp_crearinforme); 
@@ -308,15 +303,16 @@ app.post('/CrearInforme', function(req, res) {
 
 
 //Lista!
-app.get('/ObtenerInformesProfesor', function(req, res) {
+app.get('/ObtenerInformesFuncionario', function(req, res) {
 
 	validarToken(req.query.iden,"P",req.query.codigo,function(result){
     	
     	if (result===true){
     			
-    			db.func('sp_obtenerInformes_profesor',[req.query.profesorID,req.query.sede])
+    			db.func('sp_obtenerInformes_funcionario',[req.query.funcionarioID])
     				.then(data =>
                 	{
+                        console.log(data);
       					res.end(JSON.stringify(data));
     			
     				})
@@ -503,6 +499,7 @@ app.post('/CrearImagen', function(req, res) {
     			
     			db.func('sp_crearImagen',[req.query.idInforme,req.query.placa])
     				.then(data => {
+    					console.log("imagen agregada");
      					res.end(JSON.stringify(data.sp_crearimagen));
     				
     				})
@@ -557,7 +554,7 @@ app.get('/ObtenerImagenesInforme', function(req, res) {
 //Lista!
 app.delete('/EliminarImagen', function(req, res) {
 
-	validarToken(req.query.iden,"E",req.query.codigo,function(result){
+	validarToken(req.query.iden,"P",req.query.codigo,function(result){
     	console.log("result= " + result);
     	if (result===true){
     			

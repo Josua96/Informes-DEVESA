@@ -1,4 +1,4 @@
-<div class="container-fluid" >
+<div class="container-fluid fondo" >
     <center>
     <h2 style="margin-top: 2%;"> Informes organizados por área </h2>
     <br>
@@ -6,8 +6,6 @@
     <div class="menuEmergente" >
         <h3  class="textInformes"> Seleccione el área para visualizar los informes</h3>
         <br>
-
-
         <select  id="selector" style="font-size: medium; " ng-click="mostrarInformes()" ng-model="seleccionado" ng-options="x for x in opciones"> </select>
     </div>
 
@@ -24,14 +22,12 @@
             </thead>
 
             <tbody>
-            <tr ng-repeat="informes in informesArea"
-                style="background-color:#3B4A95;color:#ffffff;"
-                onmouseover=this.style.backgroundColor="#B4C7E6"
-                onmouseout=this.style.backgroundColor="#3B4A95" >
+            <tr ng-repeat="informes in informesArea">
+
                 <td>{{informes["v_actividad"]}}</td>
-                <td> {{texto(informes["v_area"])}}</td>
-                <td>{{revertir(informes["v_fechainicio"].slice(0,10))}}</td>
-                <td>{{revertir(informes["v_fechafinal"].slice(0,10))}}</td>
+                <td> {{getTextoArea(informes["v_area"])}}</td>
+                <td>{{formatoFecha(informes["v_fechainicio"].slice(0,10))}}</td>
+                <td>{{formatoFecha(informes["v_fechafinal"].slice(0,10))}}</td>
                 <td>
                     <button
                             type="button"
@@ -54,9 +50,9 @@
                 style="color:black;"
                 ng-click="descargar($index)"
                 onmouseover=this.style.backgroundColor="#2F9EE2"
-                ng-click="imprimir($index)">
+                >
 
-            Descargar <i class="material-icons right">file_download</i>
+            Descargar Informes <i class="material-icons right">file_download</i>
         </button>
     </div>
 

@@ -3,33 +3,17 @@ angular.module('profesorModule')
     {
         $scope.informe = datosInforme;
         var codigo=localStorage.getItem("sessionToken");
-        var idProfesor=localStorage.getItem("userId");
+        var idFuncionario=localStorage.getItem("userId");
         var sede=localStorage.getItem("sede");
 
         $scope.opcion;
         $scope.imagenes=[];
         $scope.opciones = AREAS;
 
-        /**
-         * Ubica el select en una determinado indice
-         *
-         * @param {any} codigoArea el parametroe es un string
-         * @returns el sistema retorna el nombre del area.
-         */
-        function ubicarDepartamento(codigoArea)
-        {
-            var tam = CODIGOS_AREAS.length;
-            for(var i=0 ; i<tam; i++)
-            {
-                if(CODIGOS_AREAS[i]===  codigoArea)
-                {
-                     return AREAS[i];
-                }
-            }
-        }
+        
 
         /**
-         * Permite eliminar una imagen del la base de datos
+         * Permite eliminarConfirmacion una imagen del la base de datos
          *
          * @param {any} nombreImagen es un String
          * @returns none
@@ -37,7 +21,7 @@ angular.module('profesorModule')
 
         $scope.eliminarFoto = function(nombreImagen)
         {
-            var respuesta = peticiones.eliminarFoto($scope.informe.idInforme,nombreImagen,idProfesor,codigo,'P');
+            var respuesta = peticiones.eliminarFoto($scope.informe.idInforme,nombreImagen,idFuncionario,codigo);
             respuesta.then
             (   function exito(response)
                 {
@@ -68,7 +52,7 @@ angular.module('profesorModule')
         $scope.borrarImagenServidor = function (nombre)
         {
             $.ajax(
-                {url:API_ROOT+':80/DEVESA/'+'eliminar.php?archivo='+nombre, type:'GET'}
+                {url:API_ROOT+':8080/DEVESA/eliminar.php?archivo='+nombre, type:'GET'}
             )
                 .done(function(msg)
                 {
@@ -90,18 +74,12 @@ angular.module('profesorModule')
         $scope.cargarFotos = function ()
         {
 
-            var respuesta = peticiones.obtenermagenesInforme($scope.informe.idInforme,idProfesor,"P",codigo);
+            var respuesta = peticiones.obtenermagenesInforme($scope.informe.idInforme,idFuncionario,"P",codigo);
             respuesta.then
             (   function exito(response)
                 {
-                    if(response.data==="false" || response.data===[])
-                    {
-                        mostrarNotificacion("No hay imagenes relacionadas",3);
-                    }
-                    else
-                    {
-                        $scope.imagenes= response.data;
-                    }
+                    $scope.imagenes= response.data;
+
                 },
                 function error(response)
                 {
@@ -128,7 +106,7 @@ angular.module('profesorModule')
                 archivos.append('archivo'+i,archivo[i]);
             }
 
-            $.ajax({url:API_ROOT+':80/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false}).done(
+            $.ajax({url:API_ROOT+':8080/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false}).done(
                 function(msg)
                 {
                     if(msg !== "ERROR")
@@ -137,9 +115,10 @@ angular.module('profesorModule')
                         var longitud = listaNombres.length-1;
                         for(i=0; i<longitud; i++)
                         {
-                            var respuesta = peticiones.registrarImagenes($scope.informe.idInforme, listaNombres[i],idProfesor, codigo,"P");
+                            var respuesta = peticiones.registrarImagenes($scope.informe.idInforme, listaNombres[i],idFuncionario, codigo,"P");
                             respuesta.then
                             (   function exito(response) {},
+
                                 function error(response) {}
                             );
                         }
@@ -163,21 +142,17 @@ angular.module('profesorModule')
         $scope.guardarInforme = function ()
         {
             $scope.fechaActividad = document.getElementById("date2").value;
-            if(noNulos([AREAS[document.getElementById("sel1").selectedIndex], $scope.informe.area, $scope.informe.actividad,  $scope.informe.fechaFinal, $scope.informe.fechaInicio,$scope.informe.objetivo, $scope.informe.programa,   $scope.informe.numeroEstudiantes])===true)
+            if(noNulos([AREAS[document.getElementById("sel1").selectedIndex], $scope.informe.area, $scope.informe.actividad,
+                    $scope.informe.fechaFinal, $scope.informe.fechaInicio,$scope.informe.objetivo,
+                    $scope.informe.programa,   $scope.informe.numeroEstudiantes])===true)
             {
                 var codigoArea = CODIGOS_AREAS[document.getElementById("sel1").selectedIndex];
-                var respuesta = peticiones.modificarInforme(codigoArea, $scope.informe.actividad, $scope.informe.fechaInicio, $scope.informe.fechaFinal, $scope.informe.objetivo, $scope.informe.programa, $scope.informe.numeroEstudiantes,idProfesor,codigo, $scope.informe.idInforme);
+                var respuesta = peticiones.modificarInforme(codigoArea, $scope.informe.actividad, $scope.informe.fechaInicio, $scope.informe.fechaFinal, $scope.informe.objetivo, $scope.informe.programa, $scope.informe.numeroEstudiantes,idFuncionario,codigo, $scope.informe.idInforme);
                 respuesta.then
                 (   function exito(response)
                     {
-                        if(response.data==="false")
-                        {
-                            mostrarNotificacion("Ocurrió un error y no fue posible editar el informe",1);
-                        }
-                        else
-                        {
-                            $scope.subirFotos();
-                        }
+                        $scope.subirFotos();
+
                     },
                     function error(response)
                     {

@@ -1,5 +1,5 @@
 angular.module('secretariaModule')
-    .controller('atendidasCtrl', function($scope,$location,$http, datosEstudiante) {
+    .controller('atendidasCtrl', function($scope,$location,$http, datosEstudiante,peticiones) {
 
         $scope.codigo=localStorage.getItem("sessionToken");
         $scope.id=localStorage.getItem("userId");
@@ -12,32 +12,36 @@ angular.module('secretariaModule')
     	numeroInforme=-1;
     	departamento="";
         $scope.carnet;
-        console.log("atendidasCtrl");
         $scope.tramite;
         $scope.solicitudes;   
         $scope.idCosulta;
-    
+
+        /** Obtiene las solicitudes que se han impreso en el día en cuestión (día actual)
+         * 
+         */
         $scope.obtenerSolicitudesAtendidas = function()
             {
-                $http({
-                method : "GET",
-                url : API_ROOT +":8081/ObtenerSolicitudesAtendidas?"+"&iden="+$scope.id+"&codigo="+$scope.codigo
-                    +"&sede="+$scope.sede
-                }).then(function mySucces(response) 
-                {
-                        $scope.solicitudes=response.data;  //it does not need a conversion to json
-                        $scope.solicitudes=setTextSolicitudes($scope.solicitudes);                    
-                }, function myError(response)
-                {              
-                        mostrarNotificacion("Ocurrio un error",1);
-                        $scope.myWelcome = response.statusText;
-                });
+                peticiones.obtenerAtendidas($scope.codigo,$scope.id,$scope.sede)
+                    .then(function(response){
+                        if (response.data.length > 0 ){
+                            $scope.solicitudes=response.data; 
+                            $scope.solicitudes=setTextSolicitudes($scope.solicitudes);
+                        }
+                        else{
+                            mostrarNotificacion("Hoy no se ha impreso ninguna carta",3);
+                        }
+                    },function (response) {
+                        manageErrorResponse(response,"");
+
+                    });
+               
             };
-        /*********************************
-        Objetivio: imprimir alguna de las solicitudes pendientes
-        Parametros:
-            indiceFila= indexa la fila de la tabla que es seleccionada
-        *********************************/
+        
+        
+        /** imprimir la solicitud atendida que es seleccionada
+         * 
+         * @param indiceFila: indexa la fila de la tabla que es seleccionada
+         */
         $scope.imprimir= function (indiceFila)
         {
             //el indice real, la posicion en la que se encuentra el elemento dentro del arreglo

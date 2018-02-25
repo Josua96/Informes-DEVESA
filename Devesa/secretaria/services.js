@@ -4,9 +4,35 @@ angular.module('secretariaModule')
     {
 
         //obtener las solicitudes no atendidas
-        this.obtenerNoAtendidas=function () {
+        this.obtenerNoAtendidas=function (codigo,id,sede) {
+             return $http({
+                method : "GET",
+                url : API_ROOT+":8081/ObtenerSolicitudesNoAtendidas?"+"&iden="+id+"&codigo="+codigo+"&sede="+sede
+            });
+        };
+        
+        this.obtenerAtendidas=function (codigo,id,sede) {
+            return $http({
+                method : "GET",
+                url : API_ROOT +":8081/ObtenerSolicitudesAtendidas?"+"&iden="+id+"&codigo="+codigo
+                +"&sede="+sede
+            });
+        };
 
-        }
+        /**
+         * 
+         * @param idSolicitud
+         * @param identificacion el id de la persona encargada en la secretaría de DEVESA
+         * @param codigo
+         * @returns {*}
+         */
+        this.cambiarEstado=function (idSolicitud,idUsuario,codigo) {
+            return $http({
+                method : "POST",
+                url :API_ROOT+":8081/ActualizarEstado?id=" +idSolicitud+"&iden="
+                +idUsuario+"&codigo="+codigo
+            });
+        };
 
     }])
 

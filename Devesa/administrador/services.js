@@ -1,11 +1,39 @@
 angular.module('adminModule')
 
-    .service('peticiones',['$http',function($http)
+    .service('peticionesAdministrador',['$http',function($http)
     {
-
-        //obtener las solicitudes no atendidas
-        this.obtenerNoAtendidas=function () {
-
+        
+        this.obtenerInformesArea=function (area,id,codigo,sede) {
+                return $http({
+                    method: "GET",
+                    url: API_ROOT+":8081/ObtenerInformesArea?area=" +area+"&iden="
+                    +id+"&codigo="+codigo+"&sede="+sede 
+                });
+        };
+        
+        this.obtenerInformacionInforme=function (idInforme,idUsuario,codigo) {
+            return $http({
+                method: "GET",
+                url: API_ROOT+":8081/ObtenerInformeId?id="+idInforme+"&iden="
+                +idUsuario+"&codigo="+codigo
+            })
+        };
+        
+        this.obtenerImagenesInforme=function (idInforme,idUsuario,codigo,tipoUsuario) {
+            return $http({
+                method: "GET",
+                url: API_ROOT + ":8081/ObtenerImagenesInforme?idInforme=" + idInforme + "&iden="
+                + idUsuario + "&codigo=" + codigo + "&tipo=" + tipoUsuario
+            });
+        };
+        
+        this.obtenerInformesEntreFechas=function (fechaUno,fechaDos,idUsuario,codigo,sede) {
+            return $http({
+                method: "GET",
+                url: API_ROOT+":8081/ObtenerInformesRango?fecha_uno=" +fechaUno + "&fecha_dos=" +fechaDos+"&iden="
+                +idUsuario+"&codigo="+codigo+"&sede="+sede
+        });
+        
         }
 
     }])

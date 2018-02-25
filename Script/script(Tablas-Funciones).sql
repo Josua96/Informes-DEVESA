@@ -43,12 +43,12 @@ CREATE TABLE solicitudes
 create table informes
 (
     id SERIAL NOT NULL PRIMARY KEY,
-    profesorID t_cedula,
+    funcionarioID t_cedula,
     area t_area,
-    actividad VARCHAR(100) NULL,
+    actividad VARCHAR(400) NULL,
     fechaInicio TIMESTAMP NOT NULL,
     fechaFinal DATE NOT NULL,
-    objetivo VARCHAR(200),
+    objetivo VARCHAR(400),
     programa VARCHAR(100),
     cantEstudiantes INT NOT NULL,
     sede t_sede
@@ -80,6 +80,13 @@ CREATE TABLE autorizacion
 
 
 -- Validacion del token
+
+--===============================================================
+--AUTHOR: Josua Carranza Pérez
+--CREATE DATE: 
+--DESCRIPTION: Verifica que el usuario tenga un token válido para acceder al sistema, (número de cédula,tipo de usuario,Token)
+--   : true si la operación fue exitosa, de lo contrario levanta una excepción
+--===============================================================
 CREATE OR REPLACE FUNCTION sp_tokenValido(IN id t_cedula,IN tipoU CHAR(1),IN codigo CHAR(5))
 RETURNS BOOLEAN AS
 $BODY$
@@ -96,6 +103,12 @@ LANGUAGE plpgsql;
 
 
 
+--===============================================================
+--AUTHOR: Josua Carranza Pérez
+--CREATE DATE: 
+--DESCRIPTION: Elimina un token de la tabla autorización, (Token)
+--   : Si la operación falla levanta una excepción
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_eliminarToken(IN codigo CHAR(32))
 RETURNS VOID AS
@@ -106,10 +119,14 @@ END
 $BODY$
 LANGUAGE plpgsql;
 
--- Almacenamiento del token 
--- Nota: aun no se sabe el tamaño del token, se le puso 5 para las pruebas
 
 
+--===============================================================
+--AUTHOR: Josua Carranza Pérez
+--CREATE DATE: 
+--DESCRIPTION: almacena un token para un usuario en la base de datos, (número de cédula,tipo de usuario,Token)
+--   : Si la operación falla levanta una excepción
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_almacenarToken
 (IN id t_cedula,IN tipoU CHAR(1), IN codigo CHAR(32))
@@ -131,6 +148,12 @@ LANGUAGE plpgsql;
 --- CARTAS
 --- ===========================================================
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: almacena una nueva solicitud (tabla solicitudes) con el carnet del estudiante, el tipo de trámite y la sede
+--   : TRUE si el proceso fue exitoso, de lo contrario levanta una excepción.
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_crearSolicitud(IN v_carne t_carne,IN v_tramite t_tramite,IN v_sede t_sede)
 RETURNS BOOLEAN AS
@@ -151,6 +174,13 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Obtiene las solicitudes que aún no han sido impresas (filtro por sede)
+--   : Retorna un conjunto de registros (solicitudes), de lo contrario levanta una excepción.
+--===============================================================
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesNoAtendidas
 (
     IN v_sede t_sede,		
@@ -167,7 +197,12 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
-
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Obtener las solicitudes que han sido impresas en el día en cuestión  (filtro por sede)
+--   : Retorna un conjunto de registros (solicitudes), de lo contrario levanta una excepción.
+--===============================================================
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesAtendidas
 (
     IN v_sede t_sede,	
@@ -189,8 +224,13 @@ LANGUAGE plpgsql;
 
 
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Obtiene las solicitudes que ha realizado algún estudiante ya sea que fueron atendidas o no (por el número de carné)
+--   : Un conjunto de registros de la tabla solicitudes, de lo contrario levanta una excepción.
+--===============================================================
 
-/** NOTA: Si una solicitud no ha sido impresa, el campo notificado de solicitudes es false */
 CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesCarnet
 (
     IN v_carnet t_carne,
@@ -216,6 +256,13 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Elimina una solictud de la tabla solicitudes (por id de solicitud)
+--   : TRUE si el proceso fue exitoso, de lo contrario levanta una excepción.
+--===============================================================
+
 CREATE OR REPLACE FUNCTION sp_eliminarSolicitud
 (
     IN v_idSolicitud INT
@@ -225,13 +272,17 @@ $BODY$
 BEGIN
 	DELETE FROM solicitudes WHERE idSolicitud = v_idSolicitud;
 	RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
 END;
 $BODY$
 LANGUAGE plpgsql;
 
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Actualiza el estado y fecha de impresión de una solictud (por id de solicitud)
+--   : TRUE si el proceso fue exitoso, de lo contrario levanta una excepción.
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_actualizarEstado
 (
@@ -241,8 +292,7 @@ $BODY$
 BEGIN
     UPDATE solicitudes SET estado = TRUE, fechaImpresion = CURRENT_TIMESTAMP WHERE idSolicitud = v_idSolicitud;
 	RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN	
-	RETURN FALSE;
+	
 END;
 $BODY$
 LANGUAGE plpgsql;
@@ -254,15 +304,22 @@ LANGUAGE plpgsql;
 --- ===========================================================
 
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Registra un nuevo informe en la tabla informes, (recibe los datos que posee un informe)
+--   : TRUE si el proceso fue exitoso, de lo contrario levanta una excepción.
+--===============================================================
+
 CREATE OR REPLACE FUNCTION sp_crearInforme
 (
-    IN v_profesorID t_cedula,
+    IN v_funcionarioID t_cedula,
     IN v_area t_area,
-    IN v_actividad VARCHAR(100),
+    IN v_actividad VARCHAR(400),
     IN v_fechaInicio DATE,
     IN v_fechaFinal DATE,
-    IN v_objetivo VARCHAR(200),
-    IN v_programa VARCHAR(50),
+    IN v_objetivo VARCHAR(400),
+    IN v_programa VARCHAR(400),
     IN v_cantEstudiantes INT,
     IN v_sede t_sede
 ) RETURNS BOOLEAN AS
@@ -271,42 +328,52 @@ DECLARE
     p_fechaInicio TIMESTAMP;
 
 BEGIN
-
-    p_fechaInicio= p_fechaInicio+(SELECT CURRENT_TIME);
-    INSERT INTO informes (profesorID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede)
-    VALUES (v_profesorID,v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
+    p_fechaInicio= v_fechaInicio+(SELECT CURRENT_TIME);
+    INSERT INTO informes (funcionarioID,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede)
+    VALUES (v_funcionarioID,v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes,v_sede);
     RETURN TRUE;
-    EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END;
 $BODY$
   LANGUAGE plpgsql;
 
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Obtiene los informes que ha realizado un funcionario (por medio del id del funcionario)
+--   : Retorna un conjunto de registros de la tabla informes, de lo contrario levanta una excepción.
+--===============================================================
 
-CREATE OR REPLACE FUNCTION sp_obtenerInformes_profesor
+CREATE OR REPLACE FUNCTION sp_obtenerInformes_funcionario
 (
-    IN ve_profesorID t_cedula,
-    IN v_sede t_sede,
+    IN ve_funcionarioID t_cedula,
     OUT v_idInforme INT,
-    OUT v_profesorID t_cedula,
+    OUT v_funcionarioID t_cedula,
     OUT v_area t_area,
-    OUT v_actividad VARCHAR(100),
+    OUT v_actividad VARCHAR(400),
     OUT v_fechaInicio TIMESTAMP,
     OUT v_fechaFinal DATE,
-    OUT v_objetivo VARCHAR(200),
-    OUT v_programa VARCHAR(100),
-    OUT v_cantEstudiantes INT
+    OUT v_objetivo VARCHAR(400),
+    OUT v_programa VARCHAR(400),
+    OUT v_cantEstudiantes INT,
+    OUT v_sede t_sede
     
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
-	 FROM informes WHERE profesorID = ve_profesorID AND sede LIKE v_sede ORDER BY fechaInicio DESC;
+	RETURN query SELECT id,funcionarioId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede
+	 FROM informes WHERE funcionarioID = ve_funcionarioID ORDER BY fechaInicio DESC;
 END;
 $BODY$
   LANGUAGE plpgsql;
 
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: obtiene los informes donde su fecha de inicio este entre el rango de fechas y que pertenezcan a la sede especificada
+--   : Retorna un conjunto de registros de la tabla informe, de lo contrario levanta una excepción.
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_obtenerinformesfechas
 (
@@ -314,23 +381,21 @@ CREATE OR REPLACE FUNCTION sp_obtenerinformesfechas
 	IN fecha_dos date, 
 	IN v_sede t_sede,
 	OUT v_idinforme INT, 
-	OUT v_profesorid t_cedula, 
+	OUT v_funcionarioid t_cedula, 
 	OUT v_area t_area, 
-	OUT v_actividad varchar(100), 
+	OUT v_actividad varchar(400), 
 	OUT v_fechaInicio TIMESTAMP,
 	OUT v_fechaFinal date, 
-	OUT v_objetivo varchar(200), 
-	OUT v_programa varchar(100), 
+	OUT v_objetivo varchar(400), 
+	OUT v_programa varchar(400), 
 	OUT v_cantestudiantes INT
 )
   RETURNS SETOF record AS
 $BODY$
- DECLARE
 
-	v_fechaInicio TIMESTAMP;
 BEGIN
 
-  RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
+  RETURN query SELECT id,funcionarioId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes
    FROM informes WHERE (fechaInicio::DATE BETWEEN fecha_uno AND fecha_dos) AND sede LIKE v_sede
    ORDER BY fechaInicio DESC;
 END;
@@ -338,25 +403,32 @@ $BODY$
   LANGUAGE plpgsql;
 
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Obtiene los informes que corresponden al área y la sede especificada por parámetro
+--   : Retorna un cnjunto de registros de la tabla informes, de lo contrario levanta una excepción.
+--===============================================================
+
 CREATE OR REPLACE FUNCTION sp_obtenerInformes_area
 (
     IN ve_area VARCHAR(3),
     IN ve_sede VARCHAR(2),
     OUT v_idInforme INT,
-    OUT v_profesorID t_cedula,
+    OUT v_funcionarioID t_cedula,
     OUT v_area t_area,
-    OUT v_actividad VARCHAR(100),
+    OUT v_actividad VARCHAR(400),
     OUT v_fechaInicio TIMESTAMP,
     OUT v_fechaFinal DATE,
-    OUT v_objetivo VARCHAR(200),
-    OUT v_programa VARCHAR(50),
+    OUT v_objetivo VARCHAR(400),
+    OUT v_programa VARCHAR(400),
     OUT v_cantEstudiantes INT  
 ) RETURNS SETOF record AS
 $BODY$
 
 BEGIN
 	
-	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
+	RETURN query SELECT id,funcionarioId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
 	FROM informes WHERE area = ve_area AND sede LIKE ve_sede
 	ORDER BY fechaInicio DESC;
         
@@ -366,42 +438,55 @@ LANGUAGE plpgsql;
 
 
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Obtiene todos los datos del informe que posee el id especificada por parámetro
+--   : Retorna un registro de la tabla informes, de lo contrario levanta una excepción.
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_obtenerInforme_porId
 (
 	IN ve_idinforme INTEGER, 
 	OUT v_idInforme INT,
-	OUT v_profesorID t_cedula,
+	OUT v_funcionarioID t_cedula,
 	OUT v_area t_area,
-	OUT v_actividad VARCHAR(100),
+	OUT v_actividad VARCHAR(400),
 	OUT v_fechaInicio TIMESTAMP,
 	OUT v_fechaFinal DATE,
-	OUT v_objetivo VARCHAR(200),
-	OUT v_programa VARCHAR(50),
+	OUT v_objetivo VARCHAR(400),
+	OUT v_programa VARCHAR(400),
 	OUT v_cantEstudiantes INT  
 )
  RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT id,profesorId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
+	RETURN query SELECT id,funcionarioId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes 
 	FROM informes WHERE id = ve_idInforme;
 END;
 $BODY$
 LANGUAGE plpgsql;
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Obtiene todos los registros de la tabla informes
+--   : Un conjunto de registros de la tabla informes, de lo contrario levanta una excepción.
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_obtenerInformes
 (
-	IN v_sede t_sede,
+	IN ve_sede t_sede,
 	OUT v_idInforme INT,
-	OUT v_profesorID t_cedula,
+	OUT v_funcionarioID t_cedula,
 	OUT v_area VARCHAR(3),
-	OUT v_actividad VARCHAR(100),
+	OUT v_actividad VARCHAR(400),
 	OUT v_fechaInicio TIMESTAMP,
 	OUT v_fechaFinal DATE,
-	OUT v_objetivo VARCHAR(200),
-	OUT v_programa VARCHAR(50),
-	OUT v_cantEstudiantes INT  
+	OUT v_objetivo VARCHAR(400),
+	OUT v_programa VARCHAR(400),
+	OUT v_cantEstudiantes INT,
+	OUT v_sede t_sede  
     
 ) RETURNS SETOF record AS
 $BODY$
@@ -413,15 +498,22 @@ $BODY$
 LANGUAGE plpgsql;
 
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Modifica los datos del informe que posee el id especificado
+--   : TRUE si el proceso fue exitoso, de lo contrario levanta una excepción.
+--===============================================================
+
 CREATE OR REPLACE FUNCTION sp_modificarInforme
 (
     IN v_idInforme INT,
     IN v_area t_area,
-    IN v_actividad VARCHAR(100),
+    IN v_actividad VARCHAR(400),
     IN v_fechaInicio DATE,
     IN v_fechaFinal DATE,
-    IN v_objetivo VARCHAR(200),
-    IN v_programa VARCHAR(50),
+    IN v_objetivo VARCHAR(400),
+    IN v_programa VARCHAR(400),
     IN v_cantEstudiantes INT
 ) RETURNS BOOLEAN AS
 $BODY$
@@ -439,8 +531,12 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
-
-
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Genera un nuevo registro en la tabla imagenes, asocia la dirección de una imagen al informe que posee el id recibido por parámetro
+--   : TRUE si el proceso fue exitoso, de lo contrario levanta una excepción.
+--===============================================================
 CREATE OR REPLACE FUNCTION sp_crearImagen(IN v_idInforme INT,IN v_nombre VARCHAR)
 RETURNS BOOLEAN AS
 $BODY$
@@ -453,6 +549,12 @@ $BODY$
 LANGUAGE plpgsql;
 
 
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Obtiene la dirección de las imágenes que se asocian al informe que posee el id recibido por parámetro
+--   : Retorna un conjunto de registro de la tabla imágenes, de lo contrario levanta una excepción.
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_obtenerImagenes_informe(IN v_idInforme INT,OUT v_nombre VARCHAR(12))
 RETURNS SETOF VARCHAR(12) AS
@@ -464,8 +566,12 @@ $BODY$
 LANGUAGE plpgsql;
 
 
-
-  
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Ontiene las imágenes de los informes que pertenecen al área especificada por parámetro y registrados en una sede en específico
+--   : Retorna un conjunto de registro de la tabla imágenes , de lo contrario levanta una excepción.
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_obtenerImagenes_area(IN v_area t_area,IN v_sede t_sede,OUT v_nombre VARCHAR(12)) 
 RETURNS SETOF VARCHAR(12) AS
@@ -481,6 +587,13 @@ END;
 $BODY$
 LANGUAGE plpgsql;
 
+
+--===============================================================
+--AUTHOR: Andrey Murillo
+--CREATE DATE: 
+--DESCRIPTION: Elimina la imagen que posee el nombre especificado por parámetro y se asocia con el id de informe especificado 
+--   : TRUE si el proceso fue exitoso, de lo contrario levanta una excepción.
+--===============================================================
 
 CREATE OR REPLACE FUNCTION sp_eliminarimagen(IN v_idinforme integer,IN v_nombre character varying)
 RETURNS boolean AS

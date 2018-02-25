@@ -48,6 +48,7 @@ const AREAS = ["Dirección", "Secretaría", "Admisión y Registro", "Trabajo Soc
 
 const CODIGOS_AREAS = ['DI','SE','AYR','TSR','TSB','PS','BI','DE','CU','SOD','SME','SEN'];
 
+const IMAGES_STORAGE_DIRECTION= "http://localhost:8080/DEVESA/files/";
 
 // =========================================================
 
@@ -173,6 +174,55 @@ function getRealIndex(index, itemsPerPage, numPage){
 
 }
 
+/**
+ * Buscar en el arreglo de areas que conoce el sistema, el nombre completo de un area
+ *
+ * @param {any} codigoArea el parametroe es un string
+ * @returns el sistema retorna el nombre del area.
+ */
+function ubicarDepartamento(codigoArea)
+{
+    var tam = CODIGOS_AREAS.length;
+    for(var i=0 ; i<tam; i++)
+    {
+        if(CODIGOS_AREAS[i]===  codigoArea)
+        {
+            return AREAS[i];
+        }
+    }
+}
+
+/**
+ * Buscar en el arreglo de solicitudes que conoce el sistema, el nombre completo de una sede
+ *
+ * @param {codigoSede (String)} abreviatura de la sede
+ * @returns el sistema retorna el nombre de la sede.
+ */
+function getNameSede (codigoSede){
+    var tam = sedes.length;
+    for(var i=0 ; i<tam; i++)
+    {
+        if(sedes[i].abreviatura===  codigoSede)
+        {
+            return sedes[i].nombre;
+        }
+
+    }
+}
+
+/**
+ * Establecer en cada elemento de la lista el nombre correcto de sedes y áreas
+ * @param informes (JSON): lista de informes obtenidos
+ * Retorna la lista de informes con el nombre completo de las sedes y áreas
+ */
+function setTextInformes(informes){
+    var size= informes.length;
+    for (i=0; i< size; i++){
+        informes[i].v_sede=getNameSede(informes[i].v_sede);
+        informes[i].v_area=ubicarDepartamento(informes[i].v_area);
+    }
+    return informes;
+}
 
 
 //funcion para mostrar notificaciones al usuario, un uno es error , 2 success, 3 mensaje normal

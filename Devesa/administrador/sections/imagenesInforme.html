@@ -1,67 +1,68 @@
+<div class="container-fluid fondo">
 <h2 style="text-align: center"> Visualización de Informes </h2>
-<div class="container-fluid" id="informe" style=" background-color: #FFFFFF;display: flex;border-radius: 10px;">
-
-    <br>
-
-    <div class="container-fluid justificado" style="order: 1; margin-left: 20px;">
+<div class="container-fluid justificado" id="informe">
         <br>
-        <h4 >  Identificación del profesor </h4>
-        <span class="exhibidores">{{informe[0]["v_profesorid"]}}</span>
+        <br>
+        <h4 class="align-center" >  Identificación del profesor </h4>
+        <span class="exhibidores align-center">{{informe[0]["v_funcionarioid"]}}</span>
 
         <br>
-        <h4 > Actividad </h4>
+        <br>
+        <h4 class="align-center"> Actividad </h4>
+        <span class="exhibidores align-center ">{{informe[0]["v_actividad"]}}</span>
+        <br>
+        <br>
+        <h4 class="align-center" > Objetivo </h4>
+        <span class="exhibidores align-center"> {{informe[0]["v_objetivo"]}}</span>
+        <br>
+        <br>
+        <h4 class="align-center"> Cantidad de estudiantes  </h4>
+        <span class="exhibidores align-center"> {{informe[0]["v_cantestudiantes"]}} </span>
+        <br>
+        <br>
+        <h4 class="align-center"> Area</h4>
+        <span class="exhibidores align-center ">{{informe[0]["v_area"]}} </span>
+        <br>
+        <br>
+        <h4 class="align-center"> Fecha de Inicio </h4>
+        <span class="exhibidores align-center">{{informe[0]["v_fechainicio"]}}</span>
+        <br>
+        <br>
+        <h4 class="align-center"> Fecha de Final </h4>
+        <span class="exhibidores align-center">{{informe[0]["v_fechafinal"]}}</span>
+        <br>
+        <br>
+        <h4 class="align-center"> Programa  </h4>
+        <span class="exhibidores align-center">{{informe[0]["v_programa"]}}</span>
+        <br>
+        <br>
 
-        <span class="exhibidores">{{informe[0]["v_actividad"]}}</span>
-        <br>
-        <h4 > Objetivo </h4>
-        <span class="exhibidores"> {{informe[0]["v_objetivo"]}}</span>
-        <br>
-        <h4 > Cantidad de estudiantes  </h4>
-        <span class="exhibidores"> {{informe[0]["v_cantestudiantes"]}} </span>
-        <br>
 
-
-    </div>
-
-    <div class="container-fluid justificado" id="main" style="order: 2;background-color: #FFFFFF">
-        <br>
-        <h4 > Area</h4>
-        <span class="exhibidores">{{informe[0]["v_area"]}} </span>
-        <br>
-        <h4 > Fecha de Inicio </h4>
-        <span class="exhibidores">{{informe[0]["v_fechainicio"]}}</span>
-        <br>
-        <h4> Fecha de Final </h4>
-        <span class="exhibidores">{{informe[0]["v_fechafinal"]}}</span>
-        <br>
-        <h4 > Programa  </h4>
-        <span class="exhibidores">{{informe[0]["v_programa"]}}</span>
-        <br>
-
-    </div>
 </div>
-<div>
+<div class="container-fluid">
     <br> <br>
     <button type="button" class="btn-danger"  ng-click="retroceder()"> Atrás </button>
-    <button type="button" class="btn-info"  ng-click="cargarImagenes()" > Ver Imágenes </button>
+    <button type="button" class="btn-primary"  ng-click="cargarImagenes()" > Ver Imágenes </button>
     <br>
 </div>
 
-<div>
+<div class="container-fluid">
     <br><br>
       <ul ng-repeat="imagen in imagenes" style="display: inline-block;">
         <li>
-            <img  ng-src = "http://localhost:80/DEVESA/files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">
+            <img  ng-src ="http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">
         </li>
 
 
     </ul>
 
     <div class="form-group">
-        <button type="button" class="btn-primary"  ng-click="descargarImagenes()" > Descargar imágenes </button>
+        <button type="button" class="btn-primary"  ng-click="descargarImagenes()" >Descargar Imágenes <i class="material-icons right">file_download</i> </button>
+        <button type="button" class="btn-primary"> Descargar Informe Completo <i class="material-icons right">file_download</i> </button>
     </div>
 
 
 </div>
 
 
+</div>

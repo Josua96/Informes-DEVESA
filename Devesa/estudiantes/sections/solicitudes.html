@@ -24,7 +24,7 @@
                 <td>{{solicitud["v_tramite"]}}</td>
                 <td><span ng-class="{'label bg-red btn-lg': solicitud['v_estado']===false, 'label bg-green': solicitud['v_estado']===true}">
                     <b>{{solicitud["v_estado"]===true ? 'Atendida' : 'Pendiente' }}</b></span></td>
-                <!--cuando se presiona el boton, la funcion eliminar recibe el indice de la fila que está siendo editada -->
+                <!--cuando se presiona el boton, la funcion eliminarConfirmacion recibe el indice de la fila que está siendo editada -->
                 <td>
                     <button ng-hide=solicitud["v_estado"]
                              type="button" 
@@ -34,7 +34,7 @@
                              onmouseover='this.style.backgroundColor="#2F9EE2"'
                              data-toggle="tooltip"
                              title="Eliminar"
-                             ng-click="eliminar($index)">
+                             ng-click="eliminarConfirmacion($index)">
                              <i class="material-icons right">delete</i>
 
                     </button>

@@ -7,13 +7,18 @@ angular.module('secretariaModule')
 
     $scope.tipoSolicitud;
     $scope.carnetEstudiante;
-    
-    //conexion con el endpoint que provee 
-    //los datos universitarios del estudiante
+
+
+    /** Conexion con el endpoint que provee los datos universitarios del estudiante
+     * 
+     */
     $scope.informacionEstudiante=function () {
         
     };
-    
+
+    /** Almacena en un factory los datos del estudiante para luego utilizarlos en la carta
+     * 
+     */
     $scope.cargarDatos = function()
     {    
         if (noNulos([$scope.tipoSolicitud,$scope.carnetEstudiante]) ==true){
@@ -32,6 +37,7 @@ angular.module('secretariaModule')
             mostrarNotificacion("Ocurrió un error en la indicacion de los datos, asegurése de ingresar la información requerida", 1); 
         }
     };
+    
     
     function mostrar(id)
     {

@@ -2,24 +2,24 @@ angular.module('profesorModule')
     .controller('enviadosCtrl', function($scope,$location,$http, datosInforme, peticiones)
     {
         var codigo=localStorage.getItem("sessionToken");
-        var idProfesor=localStorage.getItem("userId");
+        var idFuncionario=localStorage.getItem("userId");
         var sede=localStorage.getItem("sede");
         $scope.misInformes;
 
         // Modifica la variable "misInformes", con los informes que ha enviado un determinado profesor.
         $scope.obtenerInformes = function()
         {
-            var datos = peticiones.informesProfesor(idProfesor, codigo, sede);
+            var datos = peticiones.informesFuncionario(idFuncionario, codigo);
 
             datos.then
             (
                 function exito(response)
                 {
-                    if(response.data!=="false" && response.data!==0 &&response.data!==[])
+                    if(response.data.length > 0)
                     {
                         console.log(response);
-                        $scope.misInformes = response.data;
-
+                        $scope.misInformes = setTextInformes(response.data);
+                        console.log($scope.misInformes);
                     }
                     else
                     {
@@ -39,7 +39,7 @@ angular.module('profesorModule')
         {
             var informe = $scope.misInformes[indice];
             
-            datosInforme.idProfesor = informe["v_profesorid"];
+            datosInforme.idFuncionario = informe["v_funcionarioid"];
             datosInforme.idInforme = informe["v_idinforme"];
             datosInforme.area = informe["v_area"];
             datosInforme.actividad = informe["v_actividad"];
