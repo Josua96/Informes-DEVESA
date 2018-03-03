@@ -19,7 +19,9 @@
             </thead>
 
             <tbody>
-                <tr editable-td row="{{$index}}"  ng-repeat="informe in misInformes" style="background-color:#3B4A95; color:#ffffff;" onmouseover='this.style.backgroundColor="#B4C7E6"'  onmouseout='this.style.backgroundColor="#3B4A95"'>
+                <tr editable-td row="{{$index}}"
+                    dir-paginate="informe in misInformes|itemsPerPage:cantidadElementos"
+                    current-page="paginaActual">
                     <td>{{informe.v_actividad}}</td>
                     <td>{{informe.v_area}}</td>
                     <td>{{informe.v_fechainicio.slice(0,10)}}</td>
@@ -33,3 +35,9 @@
         </table>
     </div>
 </div>
+
+<dir-pagination-controls
+        max-size="maximoElementos"
+        direction-links="true"
+        boundary-links="true" >
+</dir-pagination-controls>

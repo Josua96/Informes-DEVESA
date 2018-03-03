@@ -1,4 +1,4 @@
-angular.module('profesorModule',["ngRoute","ngResource"])
+angular.module('profesorModule',["ngRoute","ngResource","angularUtils.directives.dirPagination"])
     .config(['$routeProvider',function($routeProvider)
     {
         $routeProvider

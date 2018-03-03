@@ -6,6 +6,10 @@ angular.module('profesorModule')
         var sede=localStorage.getItem("sede");
         $scope.misInformes;
 
+        $scope.paginaActual=1;
+        $scope.cantidadElementos=elementosPorPagina;
+        $scope.maximoElementos= maxSize;
+
         // Modifica la variable "misInformes", con los informes que ha enviado un determinado profesor.
         $scope.obtenerInformes = function()
         {
@@ -35,10 +39,12 @@ angular.module('profesorModule')
 
         // Redirige al usuario a la seccion "Editar informe", pero antes carga los datos en un factory que almacena los
         // datos temporalmente.
-        $scope.editarInformes = function(indice)
+        $scope.editarInformes = function(indiceFila)
         {
+            //el indice real, la posicion en la que se encuentra el elemento dentro del arreglo
+            var indice= getRealIndex(indiceFila,$scope.cantidadElementos,$scope.paginaActual);
             var informe = $scope.misInformes[indice];
-            
+
             datosInforme.idFuncionario = informe["v_funcionarioid"];
             datosInforme.idInforme = informe["v_idinforme"];
             datosInforme.area = informe["v_area"];

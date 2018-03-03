@@ -10,7 +10,10 @@ angular.module('adminModule')
         $scope.informesArea=[];
         $scope.opciones= AREAS;
 
-
+        $scope.paginaActual=1;
+        $scope.cantidadElementos=elementosPorPagina;
+        $scope.maximoElementos= maxSize;
+        
         /** Retornar a partir de la aberviatura del area, el texto correspondiente para la misma
          * 
          * @param area (String) : Abreviatura que representa a un area
@@ -65,9 +68,10 @@ angular.module('adminModule')
          * 
          * @param indice (Int): representa la fila de la tabla que fué seleccionada
          */
-        $scope.verMas=function (indice)
+        $scope.verMas=function (indiceFila)
         {
-            alert("indice "+ indice+" idInforme: "+$scope.informesArea[indice]["v_idinforme"]);
+            //el indice real, la posicion en la que se encuentra el elemento dentro del arreglo
+            var indice= getRealIndex(indiceFila,$scope.cantidadElementos,$scope.paginaActual);
             idInformeEnCurso.numeroInforme =$scope.informesArea[indice]["v_idinforme"];
             idInformeEnCurso.departamento=$scope.informesArea[indice]["v_area"];
             window.location.href=("#/imagenesInforme");

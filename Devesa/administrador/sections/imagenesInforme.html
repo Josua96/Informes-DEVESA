@@ -1,68 +1,66 @@
 <div class="container-fluid fondo">
 <h2 style="text-align: center"> Visualización de Informes </h2>
-<div class="container-fluid justificado" id="informe">
+<br>
+<div class="container-fluid justificado  word-content" id="informe">
+        <h1 class="align-center">{{informe[0]["v_actividad"]}}</h1>
+        <br>
+        <h4>  Identificación del profesor </h4>
+        <span class="exhibidores">{{informe[0]["v_funcionarioid"]}}</span>
+        <br>
+        <h4> Objetivo </h4>
+        <span class="exhibidores"> {{informe[0]["v_objetivo"]}}</span>
+        <br>
+        <h4> Cantidad de estudiantes  </h4>
+        <span class="exhibidores"> {{informe[0]["v_cantestudiantes"]}} </span>
+        <br>
+        <h4> Area</h4>
+        <span class="exhibidores">{{informe[0]["v_area"]}} </span>
+        <br>
+        <h4> Fecha de Inicio </h4>
+        <span class="exhibidores">{{informe[0]["v_fechainicio"]}}</span>
+        <br>
+        <h4> Fecha de Final </h4>
+        <span class="exhibidores">{{informe[0]["v_fechafinal"]}}</span>
+        <br>
+        <h4> Programa  </h4>
+        <span class="exhibidores">{{informe[0]["v_programa"]}}</span>
         <br>
         <br>
-        <h4 class="align-center" >  Identificación del profesor </h4>
-        <span class="exhibidores align-center">{{informe[0]["v_funcionarioid"]}}</span>
+        <div class="container">
+            <a ng-repeat="imagen in imagenes" href="http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}" target="_blank">
+                    <!--<img ng-src="files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">-->
+                <img ng-src = "http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}" width="400px" height="auto" style="margin-bottom: 20px;" >
+                <br>
+                <br>
+            </a>
 
-        <br>
-        <br>
-        <h4 class="align-center"> Actividad </h4>
-        <span class="exhibidores align-center ">{{informe[0]["v_actividad"]}}</span>
-        <br>
-        <br>
-        <h4 class="align-center" > Objetivo </h4>
-        <span class="exhibidores align-center"> {{informe[0]["v_objetivo"]}}</span>
-        <br>
-        <br>
-        <h4 class="align-center"> Cantidad de estudiantes  </h4>
-        <span class="exhibidores align-center"> {{informe[0]["v_cantestudiantes"]}} </span>
-        <br>
-        <br>
-        <h4 class="align-center"> Area</h4>
-        <span class="exhibidores align-center ">{{informe[0]["v_area"]}} </span>
-        <br>
-        <br>
-        <h4 class="align-center"> Fecha de Inicio </h4>
-        <span class="exhibidores align-center">{{informe[0]["v_fechainicio"]}}</span>
-        <br>
-        <br>
-        <h4 class="align-center"> Fecha de Final </h4>
-        <span class="exhibidores align-center">{{informe[0]["v_fechafinal"]}}</span>
-        <br>
-        <br>
-        <h4 class="align-center"> Programa  </h4>
-        <span class="exhibidores align-center">{{informe[0]["v_programa"]}}</span>
-        <br>
-        <br>
-
+        </div>
 
 </div>
-<div class="container-fluid">
+
+<div class="container-fluid justificado">
     <br> <br>
-    <button type="button" class="btn-danger"  ng-click="retroceder()"> Atrás </button>
-    <button type="button" class="btn-primary"  ng-click="cargarImagenes()" > Ver Imágenes </button>
+    <button type="button" class="btn btn-danger"  ng-click="retroceder()"> Atrás </button>
+    <button type="button" class="btn btn-primary"  ng-click="cargarImagenes()" >Ver Imágenes</button>
     <br>
 </div>
 
-<div class="container-fluid">
-    <br><br>
-      <ul ng-repeat="imagen in imagenes" style="display: inline-block;">
-        <li>
-            <img  ng-src ="http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">
-        </li>
-
-
-    </ul>
-
+<div class="container-fluid justificado">
     <div class="form-group">
-        <button type="button" class="btn-primary"  ng-click="descargarImagenes()" >Descargar Imágenes <i class="material-icons right">file_download</i> </button>
-        <button type="button" class="btn-primary"> Descargar Informe Completo <i class="material-icons right">file_download</i> </button>
+        <button type="button" class="btn btn-primary"  ng-click="descargarImagenes()" >Descargar Imágenes <i class="material-icons right">file_download</i> </button>
+        <button type="button" class="btn btn-primary word-export"> Descargar Informe Completo <i class="material-icons right">file_download</i> </button>
     </div>
-
-
 </div>
 
 
 </div>
+
+<script>
+
+    jQuery(document).ready(function ($) {
+        $(".word-export").click(function (events) {
+            $(".word-content").wordExport("nuevo");
+        });
+    });
+
+</script>

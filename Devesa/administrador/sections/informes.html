@@ -6,7 +6,7 @@
     <div class="menuEmergente" >
         <h3  class="textInformes"> Seleccione el área para visualizar los informes</h3>
         <br>
-        <select  id="selector" style="font-size: medium; " ng-click="mostrarInformes()" ng-model="seleccionado" ng-options="x for x in opciones"> </select>
+        <select class="form-control"  id="selector" style="font-size: medium; " ng-click="mostrarInformes()" ng-model="seleccionado" ng-options="x for x in opciones"> </select>
     </div>
 
     </center>
@@ -22,7 +22,9 @@
             </thead>
 
             <tbody>
-            <tr ng-repeat="informes in informesArea">
+            <tr editable-td row="{{$index}}"
+                dir-paginate="informes  in informesArea|itemsPerPage:cantidadElementos"
+                current-page="paginaActual">
 
                 <td>{{informes["v_actividad"]}}</td>
                 <td> {{getTextoArea(informes["v_area"])}}</td>
@@ -45,7 +47,7 @@
         <br>
 
         <button type="button"
-                class="btn-info"
+                class="btn btn-info"
                 onmouseout=this.style.backgroundColor="#E1E5E8"
                 style="color:black;"
                 ng-click="descargar($index)"
@@ -58,4 +60,8 @@
 
 </div>
 
-
+<dir-pagination-controls
+        max-size="maximoElementos"
+        direction-links="true"
+        boundary-links="true" >
+</dir-pagination-controls>
