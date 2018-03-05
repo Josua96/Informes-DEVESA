@@ -4,32 +4,32 @@
 <div class="container-fluid justificado  word-content" id="informe">
         <h1 class="align-center">{{informe[0]["v_actividad"]}}</h1>
         <br>
-        <h4>  Identificación del profesor </h4>
+        <h3> Persona encargada: </h3>
         <span class="exhibidores">{{informe[0]["v_funcionarioid"]}}</span>
         <br>
-        <h4> Objetivo </h4>
-        <span class="exhibidores"> {{informe[0]["v_objetivo"]}}</span>
+        <h3> Objetivo: </h3>
+        <span class="exhibidores">{{informe[0]["v_objetivo"]}}</span>
         <br>
-        <h4> Cantidad de estudiantes  </h4>
-        <span class="exhibidores"> {{informe[0]["v_cantestudiantes"]}} </span>
+        <h3> Cantidad de estudiantes: </h3>
+        <span class="exhibidores">{{informe[0]["v_cantestudiantes"]}} </span>
         <br>
-        <h4> Area</h4>
+        <h3> Area: </h3>
         <span class="exhibidores">{{informe[0]["v_area"]}} </span>
         <br>
-        <h4> Fecha de Inicio </h4>
+        <h3> Programa: </h3>
+        <span class="exhibidores">{{informe[0]["v_programa"]}}</span>
+        <br>
+        <h3> Fecha de Inicio: </h3>
         <span class="exhibidores">{{informe[0]["v_fechainicio"]}}</span>
         <br>
-        <h4> Fecha de Final </h4>
+        <h3> Fecha de Final: </h3>
         <span class="exhibidores">{{informe[0]["v_fechafinal"]}}</span>
-        <br>
-        <h4> Programa  </h4>
-        <span class="exhibidores">{{informe[0]["v_programa"]}}</span>
         <br>
         <br>
         <div class="container">
             <a ng-repeat="imagen in imagenes" href="http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}" target="_blank">
                     <!--<img ng-src="files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">-->
-                <img ng-src = "http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}" width="400px" height="auto" style="margin-bottom: 20px;" >
+                <img ng-src = "http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}" width="500px" height="500px" style="margin-bottom: 20px;" >
                 <br>
                 <br>
             </a>
@@ -48,7 +48,7 @@
 <div class="container-fluid justificado">
     <div class="form-group">
         <button type="button" class="btn btn-primary"  ng-click="descargarImagenes()" >Descargar Imágenes <i class="material-icons right">file_download</i> </button>
-        <button type="button" class="btn btn-primary word-export"> Descargar Informe Completo <i class="material-icons right">file_download</i> </button>
+        <button type="button" id="informeCompleto" value="{{informe[0]['v_actividad']}}" class="btn btn-primary word-export"> Descargar Informe Completo <i class="material-icons right">file_download</i> </button>
     </div>
 </div>
 
@@ -59,7 +59,8 @@
 
     jQuery(document).ready(function ($) {
         $(".word-export").click(function (events) {
-            $(".word-content").wordExport("nuevo");
+            var fileName= document.getElementById("informeCompleto").value;
+            $(".word-content").wordExport(fileName);
         });
     });
 

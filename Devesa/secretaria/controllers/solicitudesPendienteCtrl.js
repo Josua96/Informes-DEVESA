@@ -4,7 +4,7 @@ angular.module('secretariaModule')
         $scope.codigo=localStorage.getItem("sessionToken");
         $scope.id=localStorage.getItem("userId");
         $scope.sede=localStorage.getItem("sede");
-        $scope.paginaActual=1;
+        $scope.paginaActual;
         $scope.cantidadElementos=elementosPorPagina;
         $scope.maximoElementos= maxSize;
 
@@ -26,9 +26,11 @@ angular.module('secretariaModule')
                     if (response.data.length >0 ){
                         $scope.solicitudes=response.data;  //it does not need a conversion to json
                         $scope.solicitudes=setTextSolicitudes($scope.solicitudes);
+                        $scope.paginaActual=1;
                     }
                     else{
                         mostrarNotificacion("No hay solicitudes de cartas pendientes",3);
+                        $scope.paginaActual=0;
                     }
                 },function (response) {
                     manageErrorResponse(response,"");

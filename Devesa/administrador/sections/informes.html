@@ -3,10 +3,12 @@
     <h2 style="margin-top: 2%;"> Informes organizados por área </h2>
     <br>
 
-    <div class="menuEmergente" >
+    <div class="container-fluid" >
         <h3  class="textInformes"> Seleccione el área para visualizar los informes</h3>
         <br>
-        <select class="form-control"  id="selector" style="font-size: medium; " ng-click="mostrarInformes()" ng-model="seleccionado" ng-options="x for x in opciones"> </select>
+        <select class="form-control"  id="selector" ng-model="seleccionado" ng-options="opcion for opcion in opciones" ng-change="mostrarInformes()">
+
+        </select>
     </div>
 
     </center>

@@ -266,9 +266,10 @@ function manageErrorResponse(response, errorMessage) {
         mostrarNotificacion("Ocurrió un error al verificar su código de acceso, usted no posee un código válido",1);
 
         //esperar 5 segundos para redirigir al usuario a la página de inicio
-        $timeout( function(){
-            window.location.href = ('../index.html');
-        },4000 );
+        setTimeout(function()
+            { window.location.href = ('../index.html');
+        }, 5000);
+        
     }
     else if (response.data.message==0){
         mostrarNotificacion(errorMessage,1);

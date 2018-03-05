@@ -38,29 +38,22 @@ angular.module('adminModule')
          * 
          */
         $scope.mostrarInformes= function() {
-            var indice = document.getElementById("selector").selectedIndex;
-            if(indice===-1)
-            {
-                indice=0;
-            }
+            var indice = $scope.opciones.indexOf($scope.seleccionado);
             
-            if (indice !== undefined) {
-                {
-                    peticionesAdministrador.obtenerInformesArea($scope.tipoInformes[indice],$scope.id,$scope.codigo,$scope.sede)
-                        .then(function(response){
-                            if (response.data.length > 0 ){
-                                $scope.informesArea = response.data;
-                            }
-                            else{
-                                mostrarNotificacion("No existen informes registrados para esta área",3);
-                            }
-                        },function (response) {
-                            manageErrorResponse(response,"");
-                        });
-                        areaInforme.informeArea= $scope.tipoInformes[indice];
-                    
-                }
-            }
+            peticionesAdministrador.obtenerInformesArea($scope.tipoInformes[indice],$scope.id,$scope.codigo,$scope.sede)
+                .then(function(response){
+                    if (response.data.length === 0){
+                        mostrarNotificacion("No existen informes registrados para esta área",3);
+                    }
+                    $scope.informesArea = response.data;
+                    areaInforme.informeArea= $scope.tipoInformes[indice];
+
+                },function (response) {
+                    manageErrorResponse(response,"");
+                });
+
+
+
         };
 
 
@@ -82,8 +75,7 @@ angular.module('adminModule')
          */
         $scope.descargar=function () {
             //validar que se haya seleccionado un area de informmes y que de ese informe se tenga aunque sea un registro
-            if ((document.getElementById("selector").selectedIndex.value===undefined)&&
-                (document.getElementById("tablaInforme").rows.length>0))  
+            if ($scope.informesArea.length>0)
             {
                 window.location.href=("#/descargables");
             }

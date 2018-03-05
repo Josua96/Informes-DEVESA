@@ -61,6 +61,13 @@ angular.module('adminModule')
              * 
              */
             $scope.descargarImagenes=function () {
+
+                //verificar que hayan imágenes cargadas
+                if ($scope.imagenes.length === 0 ){
+                    mostrarNotificacion("Las imágenes aún no han sido desplegadas",1);
+                    return;
+                }
+                
                 var zip = new JSZip();
                 var count = 0;
                 var zipFilename = $scope.informe[0]["v_actividad"];

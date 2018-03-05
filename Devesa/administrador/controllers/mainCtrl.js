@@ -7,7 +7,7 @@ function($scope,$location)
         $scope.email = "correo@administrador";           
         $scope.fechaInicio;
         $scope.fechaFin;   
-        window.location.href = ('#/solicitudes');
+        window.location.href = ('#/informes');
         /*
          obtener token utilizado por el usuario
          */
