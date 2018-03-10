@@ -8,18 +8,19 @@ angular.module('userModule')
     $scope.tiposSolicitudes=solicitudesDisponibles;
     $scope.opcionesSedes=sedes;
     $scope.carnet="2016254066";
-    $scope.tramite="";
-    $scope.indiceEliminar = -1;            
+    $scope.tramite="";    
     $scope.solicitudes;
     
-    /** Registra una nueva solicitud en la tabla solicitudes
+    /** Registra una nueva solicitud en la tabla solicitudes con los datos obtenidos del form
      * 
+     * @param none
+     * @returns none
      */
     $scope.realizarSolicitud=function()
     {
         var indiceSede=document.getElementById("sel2").selectedIndex;
         var indiceSolicitud=document.getElementById("sel1").selectedIndex;
-        if (indiceSede!= undefined && indiceSolicitud!= undefined){
+        if (indiceSede!==undefined && indiceSolicitud!== undefined){
             peticionesEstudiantes.registrarSolicitud($scope.carnet,$scope.tiposSolicitudes[indiceSolicitud]["abreviatura"],$scope.id,
                 $scope.codigo,$scope.opcionesSedes[indiceSede]["abreviatura"])
                 .then(function(response){
@@ -39,64 +40,59 @@ angular.module('userModule')
 
     };
 
-    /** Obtiene las solicitudes realizadas por los estudiante
+    /** 
+     * Obtiene las solicitudes realizadas por los estudiante y las almacena en una variable global
      *
+     * @param none
+     * @returns none
      */ 
     
     $scope.cargarSolicitudes =function()
     {
         peticionesEstudiantes.obtenerPendientes($scope.carnet,$scope.codigo,$scope.id)
-            .then(function(response){
+            .then(function(response)
+            {
                 $scope.solicitudes=response.data;
                 manageSolicitudesSuccessResponse($scope.solicitudes);
 
-            },function (response) {
-                manageErrorResponse(response,"");
-
+            },function (response) 
+            {
+                manageErrorResponse(response, "");
             });
     };
+   
 
-    /** Elimina una solicitud del sistema
-     * 
-     * @param indice: Representa la posición de la solicitud a eliminarConfirmacion del arreglo de solictudes
-     */
-    $scope.completarEliminado = function(indice) //elimina una solicitud
-    {
-        peticionesEstudiantes.eliminarSolicitud(+$scope.solicitudes[indice]["v_idsolicitud"]
-            ,$scope.id,$scope.codigo)
-            .then(function(response){
-                mostrarNotificacion("La solicitud se eliminó con éxito",2);
-                //Eliminar la solicitud de la lista de solicitudes
-                $scope.solicitudes.splice(indice,1);
-            },function (response) {
-                manageErrorResponse(response,"");
-
-            });
-
-    };
-    /** Solicita al usuario qu confirme la acción
+     /** Solicita al usuario qu confirme la acción y si la acepta elimina la solicitud permanentemente.
      * 
      * @param indice: Posicion dentro del arreglo solicitudes de la solicitud seleccionada
+     * @returns none | undefined
      */
 
     $scope.eliminarConfirmacion= function (indice)
     {
+        swal({ //mostrar cuadro de dialogo para confirmacion del proceso de eliminado
+            title: "Eliminar la solicitud?",
+            text: "Una vez eliminada no habrá forma de recuperarla!",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Sí eliminarla!",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+        function()
+        {
+            peticionesEstudiantes.eliminarSolicitud(+$scope.solicitudes[indice]["v_idsolicitud"]
+            ,$scope.id,$scope.codigo)
+            .then(function(response){
+                mostrarNotificacion("La solicitud se eliminó con éxito",2);                
+                $scope.solicitudes.splice(indice,1);
+            },function (response) {
+                manageErrorResponse(response,"No se puede eliminar");
 
-    $scope.indiceEliminar = indice;
-    swal({ //mostrar cuadro de dialogo para confirmacion del proceso de eliminado
-    title: "Eliminar la solicitud?",
-    text: "Una vez eliminada no habrá forma de recuperarla!",
-    type: "warning",
-    showCancelButton: true,
-    cancelButtonText: "Cancelar",
-    confirmButtonClass: "btn-danger",
-    confirmButtonText: "Sí eliminarla!",
-    closeOnConfirm: true,
-    closeOnCancel: true
-    },
-    function(){
-    $scope.completarEliminado($scope.indiceEliminar);
-    });
+            });
+        });
     };
 
     $scope.cargarSolicitudes();

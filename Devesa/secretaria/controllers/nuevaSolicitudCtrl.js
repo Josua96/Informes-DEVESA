@@ -1,19 +1,15 @@
 angular.module('secretariaModule')
 .controller('nuevaSolicitudCtrl', function($scope,$location, datosEstudiante)
-{ 
-    
-	numeroInforme=-1;
-    departamento="";
-
-    $scope.tipoSolicitud;
+{     
+    $scope.tipoSolicitud=solicitudesDisponibles[0];
     $scope.carnetEstudiante;
-
+    $scope.tiposSolicitudes=solicitudesDisponibles;
 
     /** Conexion con el endpoint que provee los datos universitarios del estudiante
      * 
      */
-    $scope.informacionEstudiante=function () {
-        
+    $scope.informacionEstudiante=function () 
+    {        
     };
 
     /** Almacena en un factory los datos del estudiante para luego utilizarlos en la carta
@@ -24,7 +20,7 @@ angular.module('secretariaModule')
         if (noNulos([$scope.tipoSolicitud,$scope.carnetEstudiante]) ==true){
         
         datosEstudiante.carnet=$scope.carnetEstudiante;
-        var datos =getTextoEspecial(document.getElementById("sel1").selectedIndex);
+        var datos = $scope.tiposSolicitudes[document.getElementById("sel1").selectedIndex].abreviatura;
         datosEstudiante.tipoTramite= datos[0];
         datosEstudiante.textoResidencia= datos[1];
         

@@ -18,7 +18,15 @@ Este apartado permite crear un informe.
                 </div>
             </li>
 
-            <li class="formInputs" >
+            <li class="formInputs">
+                <div class="form-group">
+                    <label for="sel1">Seleccione la sede</label>
+                    <select class="form-control" id="sedes" ng-model="sedeSeleccionada"  ng-options="opcion.nombre for opcion in nombreSedes">
+                    </select>
+                </div>
+            </li>
+
+            <li class="formInputs">
                 <div class="form-group">
                     <label for="i1">Nombre de la actividad</label>
                     <input  required id="i1" name="datos" class="form-control">
@@ -66,7 +74,7 @@ Este apartado permite crear un informe.
             <li class="formInputs" >
                 <div class="form-group">
                     <label for="numeroEstudiantes">Cantidad personas</label>
-                    <input name="datos" required id="numeroEstudiantes" ng-model='cantidadEstudiantes' onkeypress="return event.charCode >= 48 && event.charCode<= 57"  class="form-control" placeholder="Cantidad de estudiantes">
+                    <input name="datos" required id="numeroEstudiantes" ng-model='cantidadEstudiantes' onkeypress="return event.charCode >= 48 && event.charCode<= 57"  class="form-control" placeholder="Cantidad de personas">
                 </div>
             </li>
 

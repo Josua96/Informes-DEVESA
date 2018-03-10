@@ -13,7 +13,12 @@ angular.module('userModule')
         console.log($scope.user);
         console.log($scope.email);
         window.location.href =('#/students/misSolicitudes');
-        
+        /** 
+         * Permite....
+         * 
+         * @param none
+         * @returns none;
+         */
         $scope.borrarToken=function () {
             $http({
                 method : "DELETE",

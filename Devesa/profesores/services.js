@@ -51,8 +51,8 @@ angular.module('profesorModule')
                 "&iden="+ idFuncionario + "&codigo="+ codigo+"&tipo="+ tipo})
         };
 
-        this.modificarInforme=function (codigoArea,actividad,fechaInicio,fechaFinal,
-                                        objetivoActividad,programa,cantidadEstudiantes,idFuncionario,codigo,idInforme) {
+        this.modificarInforme=function (codigoArea,actividad,fechaInicio,fechaFinal, objetivoActividad,programa,cantidadEstudiantes,idFuncionario,codigo,idInforme,sede)
+        {
             return $http(
                 {
                     method: "POST",
@@ -60,7 +60,7 @@ angular.module('profesorModule')
                     "&actividad="+ actividad+"&fechaInicio="+ fechaInicio +
                     "&fechaFinal="+ fechaFinal + "&objetivo="+objetivoActividad
                     +"&programa="+ programa+ "&cantidadEstudiantes="+ cantidadEstudiantes +
-                    "&iden="+ idFuncionario + "&codigo=" + codigo + "&id="+idInforme
+                    "&iden="+ idFuncionario + "&codigo=" + codigo + "&id="+idInforme+"&sede="+sede
                 })
         }
 

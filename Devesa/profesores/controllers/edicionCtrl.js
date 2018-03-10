@@ -6,19 +6,36 @@ angular.module('profesorModule')
         var idFuncionario=localStorage.getItem("userId");
         var sede=localStorage.getItem("sede");
 
-        $scope.opcion;
+        $scope.opcion= $scope.informe.area;
         $scope.imagenes=[];
         $scope.opciones = AREAS;
+        $scope.nombreSedes = sedes;
+        $scope.sedeSeleccionada;
 
-        
+        /** 
+         * Permite ubicar el select de las sedes en la  posicion que trae el informe.
+         * 
+         * @param none
+         * @return none     
+        */
+        function ubicarSede()
+        {
+            for(i=0; i<$scope.nombreSedes.length; i++)
+            {
+                if($scope.nombreSedes[i].nombre === $scope.informe.sede)
+                {
+                    $scope.sedeSeleccionada = $scope.nombreSedes[i];
+                    break;
+                }
+            }
+        };
 
         /**
          * Permite eliminarConfirmacion una imagen del la base de datos
          *
-         * @param {any} nombreImagen es un String
+         * @param {String} nombreImagen
          * @returns none
          */
-
         $scope.eliminarFoto = function(nombreImagen)
         {
             var respuesta = peticiones.eliminarFoto($scope.informe.idInforme,nombreImagen,idFuncionario,codigo);
@@ -52,7 +69,7 @@ angular.module('profesorModule')
         $scope.borrarImagenServidor = function (nombre)
         {
             $.ajax(
-                {url:API_ROOT+':8080/DEVESA/eliminar.php?archivo='+nombre, type:'GET'}
+                {url:API_ROOT+':/DEVESA/eliminar.php?archivo='+nombre, type:'GET'}
             )
                 .done(function(msg)
                 {
@@ -64,6 +81,7 @@ angular.module('profesorModule')
                     else{mostrarNotificacion(msg, 1);}
                 });
         };
+        
 
         /**
          * Permite cargar los nombres de las imagenes
@@ -106,7 +124,7 @@ angular.module('profesorModule')
                 archivos.append('archivo'+i,archivo[i]);
             }
 
-            $.ajax({url:API_ROOT+':8080/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false}).done(
+            $.ajax({url:API_ROOT+'/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false}).done(
                 function(msg)
                 {
                     if(msg !== "ERROR")
@@ -141,13 +159,21 @@ angular.module('profesorModule')
          */
         $scope.guardarInforme = function ()
         {
-            $scope.fechaActividad = document.getElementById("date2").value;
-            if(noNulos([AREAS[document.getElementById("sel1").selectedIndex], $scope.informe.area, $scope.informe.actividad,
-                    $scope.informe.fechaFinal, $scope.informe.fechaInicio,$scope.informe.objetivo,
-                    $scope.informe.programa,   $scope.informe.numeroEstudiantes])===true)
+            var fechas = document.getElementsByName("fechas");            
+            var fechaInicio=$scope.informe.fechaInicio;
+            var fechaFinal = $scope.informe.fechaFinal;
+
+            if(noNulos([fechas[0].value, fechas[1].value]))
+            {
+                fechaInicio = fechas[0].value;
+                fechaFinal = fechas[1].value;
+            }            
+
+            if(noNulos([AREAS[document.getElementById("sel1").selectedIndex], $scope.informe.area, $scope.informe.actividad,$scope.informe.objetivo,$scope.informe.programa,   $scope.informe.numeroEstudiantes])===true)
             {
                 var codigoArea = CODIGOS_AREAS[document.getElementById("sel1").selectedIndex];
-                var respuesta = peticiones.modificarInforme(codigoArea, $scope.informe.actividad, $scope.informe.fechaInicio, $scope.informe.fechaFinal, $scope.informe.objetivo, $scope.informe.programa, $scope.informe.numeroEstudiantes,idFuncionario,codigo, $scope.informe.idInforme);
+                var sedeInforme = document.getElementById("sedes").selectedIndex;
+                var respuesta = peticiones.modificarInforme(codigoArea, $scope.informe.actividad, fechaInicio,fechaFinal, $scope.informe.objetivo, $scope.informe.programa, $scope.informe.numeroEstudiantes,idFuncionario,codigo, $scope.informe.idInforme,$scope.nombreSedes[sedeInforme].abreviatura);
                 respuesta.then
                 (   function exito(response)
                     {
@@ -165,8 +191,7 @@ angular.module('profesorModule')
                 mostrarNotificacion("Asegurése de ingresar datos en cada uno de los campos requeridos",1);
             }
         };
-
-        $scope.opcion = ubicarDepartamento($scope.informe.area);
+        ubicarSede();
         $scope.cargarFotos();
 
     });

@@ -10,7 +10,15 @@ angular.module('profesorModule')
         $scope.cantidadElementos=elementosPorPagina;
         $scope.maximoElementos= maxSize;
 
-        // Modifica la variable "misInformes", con los informes que ha enviado un determinado profesor.
+        
+        /**
+         * Realiza un request y modifica la varable "misInformes", con los informes que ha enviado 
+         * un determinado profesor.
+         *
+         * @param none
+         * @returns none
+         */
+
         $scope.obtenerInformes = function()
         {
             var datos = peticiones.informesFuncionario(idFuncionario, codigo);
@@ -37,8 +45,14 @@ angular.module('profesorModule')
             );
         };
 
-        // Redirige al usuario a la seccion "Editar informe", pero antes carga los datos en un factory que almacena los
-        // datos temporalmente.
+
+        /**         
+         * Redirige al usuario a la seccion "Editar informe", pero antes carga los datos en un factory que almacena los
+         * datos temporalmente. Se necesita conocer el informe que se quiere editar por eso debe proporcionarce el indice. 
+         * 
+         * @param {number} indiceFila 
+         * @return 
+         */
         $scope.editarInformes = function(indiceFila)
         {
             //el indice real, la posicion en la que se encuentra el elemento dentro del arreglo
@@ -54,6 +68,7 @@ angular.module('profesorModule')
             datosInforme.objetivo= informe["v_objetivo"];
             datosInforme.programa= informe["v_programa"];
             datosInforme.numeroEstudiantes= informe["v_cantestudiantes"];
+            datosInforme.sede = informe["v_sede"];
             window.location.href = ('#/profesores/Ver-Editar');
         };
         $scope.obtenerInformes();

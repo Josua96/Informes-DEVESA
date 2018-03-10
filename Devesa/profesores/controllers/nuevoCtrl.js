@@ -5,22 +5,31 @@ angular.module('profesorModule')
         var idProfesor = localStorage.getItem("userId");
         var sede = localStorage.getItem("sede");
         $scope.opciones = AREAS;
-        $scope.opcion="Dirección";
+        $scope.opcion ="Dirección";
+        $scope.nombreSedes = sedes;
+        $scope.sedeSeleccionada = $scope.nombreSedes[0];
 
-        // Recolecta los datos del formulario, los verifica y los envia a la BD
+        /**
+         * Envia un informe a la base de datos
+         * @param none
+         *
+         * */
         $scope.enviarInforme = function ()
         {
             // Tiene una lista con los nodos del html
             var datos  = document.getElementsByName("datos");
-            if(noNulos([CODIGOS_AREAS[datos[0].selectedIndex], datos[1].value,datos[2].value, datos[3].value,datos[4].value,datos[5].value, datos[6].value]))
+            var sedeInforme = document.getElementById("sedes").selectedIndex;
+            if(noNulos([CODIGOS_AREAS[datos[0].selectedIndex], datos[1].value,datos[2].value, datos[3].value,datos[4].value,datos[5].value, datos[6].value, sedeInforme]))
             {
-                var resp = peticiones.nuevoInforme(idProfesor,CODIGOS_AREAS[datos[0].selectedIndex],datos[1].value,datos[2].value,datos[4].value,datos[5].value,datos[6].value,datos[3].value,sede,codigo);
-                resp.then(function(response){
+                var resp = peticiones.nuevoInforme(idProfesor,CODIGOS_AREAS[datos[0].selectedIndex],datos[1].value,datos[2].value,datos[4].value,datos[5].value,datos[6].value,datos[3].value,$scope.nombreSedes[sedeInforme].abreviatura,codigo);
+                resp.then(
+                    function(response)
+                    {
                         mostrarNotificacion("El informe se generó con éxito",2);
-                        //Eliminar la solicitud de la lista de solicitudes
-                    },function (response) {
-                        manageErrorResponse(response,"");
-
+                    },
+                    function (response) 
+                    {   
+                        manageErrorResponse(response,"No se pudo generar el informe");
                     });
             }
             else

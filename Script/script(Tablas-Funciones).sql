@@ -514,16 +514,17 @@ CREATE OR REPLACE FUNCTION sp_modificarInforme
     IN v_fechaFinal DATE,
     IN v_objetivo VARCHAR(400),
     IN v_programa VARCHAR(400),
-    IN v_cantEstudiantes INT
+    IN v_cantEstudiantes INT,
+    IN v_sede t_sede
 ) RETURNS BOOLEAN AS
 $BODY$
 DECLARE 
     p_fechaInicio TIMESTAMP;
 
 BEGIN
-	p_fechaInicio= v_fechaInicio+(SELECT CURRENT_TIME);
-	UPDATE informes SET(area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes) = 
-			   (v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes) 
+	p_fechaInicio = v_fechaInicio+(SELECT CURRENT_TIME);
+	UPDATE informes SET(area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede) = 
+			   (v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes, v_sede) 
 			   WHERE id = v_idInforme;	
 	RETURN TRUE; 
 	

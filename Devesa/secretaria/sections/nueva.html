@@ -1,28 +1,24 @@
 <!--Esta seccion permite realizar una nueva solicitud-->
 <div class="container-fluid">    
-    <FORM>
-        <ul class="menu2" style="display:flex;justify-content:center; list-style: none" >
-        <center>
-        <br>		
-        <br>
-            <h3> Nueva Solicitud</h3>
-        <br>	
-        <br>	
+    <FORM style="display:flex;justify-content:center;">
+        <ul class="menu2" style="display:flex;justify-content:center;width: 50%; list-style: none; background-color:#BDC1C1">
+        <center>        
+            <br>
+            <h3> Nueva Solicitud</h3>        	        
             <li style="display:flex; justify-content:center;background-color:#BDC1C1; ">
                 <input id="carnet"  onkeypress="return event.charCode >= 48 && event.charCode<= 57"  style="display:flex; justify-content:center;width: 200px"
-                       class="form-control" name="carnet" placeholder="Carnet estudiante" ng-model="carnetEstudiante">
+                class="form-control" name="carnet" placeholder="Carnet estudiante" ng-model="carnetEstudiante">
             </li>
             <br>	
             <li><span>Tipo de tramite</span></li>
             
+
             <li style="display:flex; justify-content:center;">               
-                    <select class="form-control" ng-model= "tipoSolicitud" id="sel1" style="width:200px;border-color:#B4B5B5">
-                        <option id="1">Solicitud de carnet CCSS</option>
-                        <option>Tramite de pensiones</option>
-                        <option>Tramite de visa</option>
-                        <option>Estudiante regular</option>
-                        <option>CCSS con residencia</option>
-                    </select>                
+                    <div class="form-group">                            
+                            <select style="border: #2F9EE2" class="form-control form-control-lg" id="sel1" >
+                                <option  ng-repeat="tipoSolicitud in tiposSolicitudes">{{tipoSolicitud.nombre}} </option>
+                            </select>
+                    </div>                              
                 </li>                      
             <br>	
             <li style="display:flex; justify-content:center;">
@@ -34,8 +30,10 @@
                     style="background-color:#2F9EE2;color:black;" 
                     ng-click="cargarDatos()">
                     Imprimir
-                </button>                  
+                </button>                             
             </li>	
+            <br>       
+            <br>     
         </center>			
         </ul>
     </FORM>        
