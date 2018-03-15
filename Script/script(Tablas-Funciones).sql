@@ -27,6 +27,13 @@ CREATE INDEX informes_fechaIncio_fecha_index ON informes((fechaInicio::DATE));
 --------------------------------------------------- CARTAS DEVESA  -------------------------------------------------
 
 
+--===========================================================================
+--Propósito: Mantener el registro de las solicitudes que realizan los estudiantes
+
+--Atributos :
+	--fechaSolicitud: fecha en la que el estudiante indicó el registro de una nueva solicitud
+	--fechaImpresion: fecha en la que la persona encargada en la secretaría de DEVESA imprime una carta
+--===========================================================================
 
 CREATE TABLE solicitudes
 (
@@ -36,11 +43,14 @@ CREATE TABLE solicitudes
     tramite t_tramite,
     estado BOOLEAN NOT NULL DEFAULT FALSE,
     fechaImpresion TIMESTAMP,
-    notificado BOOLEAN DEFAULT (FALSE),
     sede t_sede
 );
 
 ------------------------------------------------- INFORMES ---------------------------------------------------------
+
+--===========================================================================
+--Propósito: Mantener el registro de las imágenes que se relacionan con los informes registrados
+--===========================================================================
 
 create table informes
 (
@@ -57,7 +67,7 @@ create table informes
 );
 
 --===========================================================================
---Propósito: Mantener un registro
+--Propósito: Mantener el registro de las imágenes que se relacionan con los informes registrados
 --===========================================================================
 create table imagenes
 (
@@ -246,15 +256,10 @@ CREATE OR REPLACE FUNCTION sp_obtenerSolicitudesCarnet
     OUT v_sede t_sede
 ) RETURNS SETOF RECORD AS
 $BODY$
-DECLARE
-
-	cursorSolicitudes CURSOR FOR
-	SELECT idSolicitud,carne,tramite,fechaSolicitud,estado,sede FROM solicitudes WHERE notificado=FALSE AND carne LIKE v_carnet
-	ORDER BY fechaSolicitud ASC;
 BEGIN
-	OPEN cursorSolicitudes;
-	UPDATE solicitudes SET notificado=TRUE WHERE estado=true and carne=v_carnet;
-	RETURN query FETCH ALL FROM cursorSolicitudes;
+	
+	RETURN query SELECT idSolicitud,carne,tramite,fechaSolicitud,estado,sede FROM solicitudes WHERE carne LIKE v_carnet
+	ORDER BY fechaSolicitud ASC;
 
 END;
 $BODY$
