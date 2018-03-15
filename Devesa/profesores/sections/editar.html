@@ -15,6 +15,15 @@
 
             <li class="formInputs">
                 <div class="form-group">
+                    <label for="sel1">Seleccione la sede</label>
+                    <select class="form-control" id="sedes" ng-model="sedeSeleccionada"  ng-options="opcion.nombre for opcion in nombreSedes">
+                    </select>
+                </div>
+            </li>
+
+
+            <li class="formInputs">
+                <div class="form-group">
                     <label for="i1">Nombre de la actividad</label>
                     <input  id="i1" class="form-control" ng-model="informe.actividad">
                 </div>
@@ -23,14 +32,20 @@
             <li class="formInputs">
                 <div class="form-group">
                     <label for="date2">Inicio de la actividad</label>
-                    <input class="form-control" id="date2" ng-model="informe.fechaInicio" name="date2"/>
+                    <br>
+                    <label for="date2">Actual: {{informe.fechaInicio}}</label>
+                    <!--<input class="form-control" id="date2" ng-model="informe.fechaInicio" name="date2"/>-->
+                    <input required class="form-control" id="date2"  name="fechas" type="date"/>
                 </div>
             </li>
 
             <li class="formInputs">
                 <div class="form-group">
                     <label for="date3">Fin de la actividad</label>
-                    <input class="form-control" id="date3" ng-model ="informe.fechaFinal" name="date2"/>
+                    <br>
+                    <label for="date2">Actual: {{informe.fechaFinal}}</label>
+                    <!--<input class="form-control" id="date3" ng-model ="informe.fechaFinal" name="date2"/>-->
+                    <input required class="form-control" id="date3"  name="fechas" type="date"/>
                 </div>
             </li>
 
@@ -51,7 +66,7 @@
             <li class="formInputs">
                 <div class="form-group">
                     <label for="numeroEstudiantes">Cantidad personas</label>
-                    <input id="numeroEstudiantes" ng-model='informe.numeroEstudiantes' onkeypress="return event.charCode >= 48 && event.charCode<= 57"  class="form-control" placeholder="Cantidad de estudiantes">
+                    <input id="numeroEstudiantes" ng-model='informe.numeroEstudiantes' onkeypress="return event.charCode >= 48 && event.charCode<= 57"  class="form-control" placeholder="Cantidad personas">
                 </div>
             </li>
 
@@ -73,7 +88,7 @@
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                             <!--<img ng-src="files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">-->
-                            <img ng-src = "http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">
+                            <img ng-src = "http://localhost/DEVESA/files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">
                         </li>
                     </ul>
 

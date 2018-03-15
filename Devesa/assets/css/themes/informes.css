@@ -95,9 +95,13 @@
 
     text-decoration: none;
 }
-@media (max-width: 400px) {
+@media (max-width: 000px) {
     .textInformes {
         margin-top:-10%;
+    }
+    .menu2
+    {
+        width: 100%;
     }
 }
 

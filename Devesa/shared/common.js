@@ -64,10 +64,10 @@ const API_ROOT = "http://localhost";//"http://transportec-api.azurewebsites.net"
 
 const sedes=[
     {nombre:"Sede Regional San Carlos",abreviatura:"SC"},
-    {nombre:"Sede Central Cartago",abreviatura:"SCC"},
-    {nombre:"Centro académico de Limón",abreviatura:"CAL"},
-    {nombre:"Centro académico de Alajuela",abreviatura:"CAA"},
-    {nombre:"Centro acádemico de San José",abreviatura:"CAS"}
+    {nombre:"Sede Central Cartago",abreviatura:"C"},
+    {nombre:"Centro académico de Limón",abreviatura:"L"},
+    {nombre:"Centro académico de Alajuela",abreviatura:"IA"},
+    {nombre:"Centro acádemico de San José",abreviatura:"S"}
 ];
 
 /**
@@ -185,7 +185,7 @@ function ubicarDepartamento(codigoArea)
     var tam = CODIGOS_AREAS.length;
     for(var i=0 ; i<tam; i++)
     {
-        if(CODIGOS_AREAS[i]===  codigoArea)
+        if(CODIGOS_AREAS[i] ===  codigoArea)
         {
             return AREAS[i];
         }

@@ -4,7 +4,7 @@ var client;
 var express = require('express');
 var app = express();
 var pgp = require('pg-promise')();
-var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: 'postgresql2017'};
 var db = pgp(cn);
 
 
@@ -463,7 +463,7 @@ app.post('/ModificarInforme', (req, res, next) => {
     	console.log("result= " + result);
     	if (result===true){
     			
-    			db.func('sp_modificarInforme',[req.query.id,req.query.area, req.query.actividad, req.query.fechaInicio, req.query.fechaFinal, req.query.objetivo, req.query.programa, req.query.cantidadEstudiantes])
+    			db.func('sp_modificarInforme',[req.query.id,req.query.area, req.query.actividad, req.query.fechaInicio, req.query.fechaFinal, req.query.objetivo, req.query.programa, req.query.cantidadEstudiantes,req.query.sede])
 					.then(data => {
 						res.end(JSON.stringify(data));})
 
