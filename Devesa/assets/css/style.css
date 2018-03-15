@@ -7,6 +7,25 @@
   font-size: 3em;
 }
 
+.dateGetter{
+  -webkit-border-radius: 5px 10px;  /* Safari  */
+  -moz-border-radius: 5px 10px;     /* Firefox */
+  border-width: 1.3px;
+  padding: 5px;
+}
+
+.dateConfig{
+  width: 50%;
+  background-color: #EFF5FB;
+}
+
+@media only screen and (max-width: 600px) {
+  .dateConfig {
+    width: 90%;
+    background-color: #EFF5FB;
+  }
+}
+
 .galleryContainer {
   margin: 5px;
   border: 1px solid #ccc;

@@ -26,6 +26,8 @@ CREATE INDEX informes_fechaIncio_fecha_index ON informes((fechaInicio::DATE));
 
 --------------------------------------------------- CARTAS DEVESA  -------------------------------------------------
 
+
+
 CREATE TABLE solicitudes
 (
     idSolicitud SERIAL NOT NULL PRIMARY KEY,
@@ -54,6 +56,9 @@ create table informes
     sede t_sede
 );
 
+--===========================================================================
+--Propósito: Mantener un registro
+--===========================================================================
 create table imagenes
 (
     placa VARCHAR PRIMARY KEY NOT NULL,
@@ -63,6 +68,9 @@ create table imagenes
 
 ------------------------------------------------ SEGURIDAD ---------------------------------------------------------
 
+--=============================================================================
+--Propósito: Mantener un registro de los usuarios que tienen sesiones abiertas  
+--=============================================================================
 CREATE TABLE autorizacion
 (
 	idUsuario t_cedula,
@@ -71,13 +79,9 @@ CREATE TABLE autorizacion
 	CONSTRAINT PK_idUsuario_autorizacion PRIMARY KEY(idUsuario)
 );
 
-
-
-
 --- ===========================================================
 --- SEGURIDAD
 --- ===========================================================
-
 
 -- Validacion del token
 

@@ -10,6 +10,7 @@ angular.module('userModule')
     $scope.carnet="2016254066";
     $scope.tramite="";    
     $scope.solicitudes;
+    $scope.opcionSolicitud;
     
     /** Registra una nueva solicitud en la tabla solicitudes con los datos obtenidos del form
      * 
