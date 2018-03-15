@@ -3,6 +3,7 @@ angular.module('profesorModule')
     .service('peticiones',['$http',function($http)
     {
 
+
         this.nuevoInforme=function(idFuncionario,codigoArea,actividad,fechaInicio,objetivo,programa,cantidadEstudiantes,fechaFin,sede,codigo)
         {
             return $http(
@@ -23,7 +24,6 @@ angular.module('profesorModule')
                 url :API_ROOT+":8081/ObtenerInformesFuncionario?funcionarioID="+idFuncionario + "&iden="+ idFuncionario+"&codigo="+codigo
             })
         };
-
 
         this.eliminarFoto=function (idInforme,param,idFuncionario,codigo,tipo)
         {

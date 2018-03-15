@@ -26,7 +26,7 @@
                     <b>{{solicitud["v_estado"]===true ? 'Atendida' : 'Pendiente' }}</b></span></td>
                 <!--cuando se presiona el boton, la funcion eliminarConfirmacion recibe el indice de la fila que está siendo editada -->
                 <td>
-                    <button ng-hide=solicitud["v_estado"]
+                    <button
                              type="button" 
                              class="btn bagTecEliminar" 
                              onmouseout='this.style.backgroundColor="#E1E5E8"'
@@ -67,12 +67,12 @@
                 <div class="form-group">
                     <label for="sel1">Seleccione el tipo de trámite para la carta </label>
 
-                    <select  class="form-control" id="sel1" >
+                    <select  class="form-control" style="border-bottom-color: #0D47A1;" id="sel1" >
                        <option  ng-repeat="tipoSolicitud in tiposSolicitudes">{{tipoSolicitud.nombre}} </option>                       
                     </select>
 
                     <label for="sel2">Seleccione una de las siguientes sedes </label>            
-                    <select  class="form-control" id="sel2" >
+                    <select  class="form-control" style="border-bottom-color: #0D47A1;" id="sel2" >
                         <option  ng-repeat="opcion in opcionesSedes">{{opcion.nombre}} </option>                      
                     </select>
                 </div>
