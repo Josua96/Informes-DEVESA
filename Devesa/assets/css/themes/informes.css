@@ -3,6 +3,12 @@
     display: block;
 }
 
+.galleryImages{
+    width:500px;
+    height:500px;
+    margin-bottom: 20px;
+}
+
 .contenido{
     display: none;
     position: absolute;

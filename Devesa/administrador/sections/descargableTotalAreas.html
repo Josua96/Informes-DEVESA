@@ -1,27 +1,34 @@
-
-<div class="container-fluid"  style="height:100%; width: 100%">
-    <center>
-        <span>Fecha de inicio</span>
-        <div class="input-group" >
-            <div class="input-group-addon">
-                <i class="fa fa-calendar">
-                </i>
+<div class="container-fluid align-center">
+    <div class="container-fluid dateConfig">
+        <div class="container-fluid align-center">
+            <h3>Inicio semestre</h3>
+            <br>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar">
+                    </i>
+                </div>
+                <input class="dateInput dateGetter"  id="date1"  ng-model="fecha_uno" type="date"/>
+                <br>
             </div>
-
-            <input class="form-control"  id="date1"  ng-model="fecha_uno" type="date"/>
+            <h3>Fin semestre</h3>
+            <br>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input class="dateInput dateGetter" id="date2"  ng-model="fecha_dos"  type="date"/>
+                <br>
+            </div>
         </div>
-        <span>Fecha final</span>
         <div class="input-group">
-            <div class="input-group-addon">
-                <i class="fa fa-calendar"></i>
-            </div>
-            <input class="form-control" id="date2"  ng-model="fecha_dos"  type="date"/>
+            <button type="button" class="btn btn-primary btn-lg"
+                    ng-click="obtenerInformesPorFechas()" >Aceptar </button>
         </div>
-        <button type="button" class="btn btn-primary btn-sm"
-                ng-click="obtenerInformesPorFechas()" >Aceptar </button>
-    </center>
+    </div>
 
 </div>
+
 
 
 <div class="container-fluid" id="desc">
@@ -40,7 +47,7 @@
                 <td> </td>
 
             </tr>
-            <tr ng-repeat="encargado in encargados |filter:{area: dep }:true" style="background-color: #7B7FB3;
+            <tr ng-repeat="encargado in encargados |filter:{area: dep }:true" style="background-color:  #CED8F6;
             border-color: black; border: 1px solid; border-collapse:collapse;">
                 <td >  <h4>{{encargado["id"]}}</h4></td> <!-- aqui se realizaria la consulta para obtener
                                                                                           el nombre del funcionario en funcion del id-->
@@ -53,7 +60,7 @@
 
             </tr >
 
-            <tr style="background-color: #83829A; border-color: black; border: solid; border-collapse:collapse;">
+            <tr style="background-color: #58ACFA; border-color: black; border: solid; border-collapse:collapse;">
                 <td style="text-align: center;"><h3>Área</h3></td>
                 <td style="text-align: center;"><h3>Actividad</h3></td>
                 <td style="text-align: center;"><h3>Fecha de Inicio</h3></td>
@@ -64,7 +71,7 @@
             </tr>
 
 
-            <tr ng-repeat="actividad in actividades |filter:{v_area: dep }:true" style="background-color: #E6F5FA;font-family:'Times New Roman',Arial;
+            <tr ng-repeat="actividad in actividades |filter:{v_area: dep }:true" style="background-color: white;font-family:'Times New Roman',Arial;
             font-size: small;border-color: black; border: solid; border-collapse:collapse;">
 
                 <td style="text-align:left;padding-left: 10px;">{{textoArea(actividad["v_area"])}}</td>
@@ -84,4 +91,3 @@
 
     </div>
 </div>
-

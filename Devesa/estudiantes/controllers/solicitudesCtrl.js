@@ -11,6 +11,7 @@ angular.module('userModule')
     $scope.tramite="";
     $scope.indiceEliminar = -1;            
     $scope.solicitudes;
+    $scope.opcionSolicitud;
     
     /** Registra una nueva solicitud en la tabla solicitudes
      * 
