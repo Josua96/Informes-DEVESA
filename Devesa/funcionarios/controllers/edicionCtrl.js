@@ -1,4 +1,4 @@
-angular.module('profesorModule')
+angular.module('funcionarioModule')
     .controller('edicionCtrl', function($scope,$location,$http, datosInforme, peticiones)
     {
         $scope.informe = datosInforme;

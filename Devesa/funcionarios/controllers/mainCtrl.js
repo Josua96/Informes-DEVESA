@@ -1,4 +1,4 @@
-angular.module('profesorModule')
+angular.module('funcionarioModule')
     .controller('mainCtrl', function($scope,$location)
         {
             $scope.codigo=localStorage.getItem("sessionToken");

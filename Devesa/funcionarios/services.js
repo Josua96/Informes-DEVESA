@@ -1,4 +1,4 @@
-angular.module('profesorModule')
+angular.module('funcionarioModule')
     /**
      * Este service permite hacer las diferentes consultas
      * al web service.
@@ -8,10 +8,20 @@ angular.module('profesorModule')
     .service('peticiones',['$http',function($http)
     {
 
-        /*
-        * Permite a los funcionarios crear un nuevo informe
-        *
-        * */
+       /**
+        * Permite a un funcinoario crear un informe 
+        * 
+        * @param {number} idFuncionario 
+        * @param {String} codigoArea 
+        * @param {String} actividad 
+        * @param {String} fechaInicio 
+        * @param {String} objetivo 
+        * @param {String} programa 
+        * @param {number} cantidadEstudiantes 
+        * @param {String} fechaFin 
+        * @param {String} sede 
+        * @param {String} codigo 
+        */
         this.nuevoInforme=function(idFuncionario,codigoArea,actividad,fechaInicio,objetivo,programa,cantidadEstudiantes,fechaFin,sede,codigo)
         {
             return $http(
@@ -25,6 +35,13 @@ angular.module('profesorModule')
                 })
         };
 
+        /**
+         * Permite obtener todos los informes de un determinado profesor
+         * 
+         * @param {String} idFuncionario 
+         * @param {String} codigo 
+         */
+
         this.informesFuncionario = function(idFuncionario,codigo)
         {
             return $http({
@@ -33,15 +50,32 @@ angular.module('profesorModule')
             })
         };
 
-        this.eliminarFoto=function (idInforme,param,idFuncionario,codigo,tipo)
+        /**
+         * Permite eliminar una fotografia de base de datos (la ruta)
+         * 
+         * @param {number} idInforme 
+         * @param {String} param 
+         * @param {String} idFuncionario 
+         * @param {String} codigo 
+         * @param {String} tipo 
+         */
+        this.eliminarFoto=function (idInforme,nombreFoto,idFuncionario,codigo,tipo)
         {
             return $http({
                 method : "DELETE",
-                url :API_ROOT+":8081/EliminarImagen?idInforme="+idInforme+ "&nombre="+param +
+                url :API_ROOT+":8081/EliminarImagen?idInforme="+idInforme+ "&nombre="+nombreFoto +
                 "&iden="+idFuncionario+"&codigo="+codigo+"&tipo="+tipo
             });
         };
 
+        /**
+         * Permite obtener las rutas de las imagenes de un informe en especifico 
+         * 
+         * @param {number} idInforme 
+         * @param {String} idFuncionario 
+         * @param {String} tipo 
+         * @param {String} codigo 
+         */
         this.obtenermagenesInforme=function (idInforme,idFuncionario,tipo,codigo) {
             return $http(
                 {
@@ -51,6 +85,15 @@ angular.module('profesorModule')
                 })
         };
 
+        /**
+         * Permite registrar imagenes en la base de datos. 
+         * 
+         * @param {number} idInforme 
+         * @param {String} nombreImagen 
+         * @param {String} idFuncionario 
+         * @param {String} codigo 
+         * @param {String} tipo 
+         */
         this.registrarImagenes=function (idInforme,nombreImagen,idFuncionario,codigo,tipo)
         {
             console.log(nombreImagen);
@@ -59,6 +102,21 @@ angular.module('profesorModule')
                 "&iden="+ idFuncionario + "&codigo="+ codigo+"&tipo="+ tipo})
         };
 
+        /**
+         * Permite modificar un informe en la base de datos. 
+         * 
+         * @param {String} codigoArea 
+         * @param {String} actividad 
+         * @param {String} fechaInicio 
+         * @param {String} fechaFinal 
+         * @param {String} objetivoActividad 
+         * @param {String} programa 
+         * @param {number} cantidadEstudiantes 
+         * @param {String} idFuncionario 
+         * @param {String} codigo 
+         * @param {number} idInforme 
+         * @param {String} sede 
+         */
         this.modificarInforme=function (codigoArea,actividad,fechaInicio,fechaFinal, objetivoActividad,programa,cantidadEstudiantes,idFuncionario,codigo,idInforme,sede)
         {
             return $http(
@@ -73,16 +131,20 @@ angular.module('profesorModule')
         }
 
 
-    }])
-
-    .factory('datosProfesor',function()
+    }])    
+    /**
+     * Crea un objeto donde se guardan los datos del profesor, para mantener comunicacion entre controladores. 
+     */
+    .factory('datosProfesor',function()      
     {
         var factory ={};
         factory.nombre= "Nombre del profesor";
         factory.idProfesor = "1234567890";
         return factory;
     })
-
+    /**
+    *  Crea un objeto donde guarda los datos de un informe en especifico. Para comunicacion entre controladores.
+    */
     .factory('datosInforme',function()
     {
         var datosInforme ={};
