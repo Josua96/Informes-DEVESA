@@ -7,11 +7,11 @@ app.controller('loginController', function($scope, $http)
     localStorage.removeItem("userType");
     localStorage.removeItem("sede");
     /* PARA PRUEBAS USAMOS ESE USUARIO,CON ESE ID Y ESE TOKEN*/
-    $scope.username = "s";
+    $scope.username = "Julio Adan Montano Hernandez";
     $scope.password = "";
-    $scope.id="2-1122-1222";
-    $scope.codigo="wer33";
-    $scope.carnet="2016254066";
+    $scope.id="2-0283-0995";
+    $scope.codigo="wer3332";
+    $scope.carnet="2015018474";
     //$scope.codigo="wer3";
     $scope.sede="SC";
     $scope.sol="CCSS";

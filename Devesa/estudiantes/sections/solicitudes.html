@@ -1,3 +1,10 @@
+<style>
+    .conBorde
+    {
+        border-color: #0D47A1;
+    }
+</style>
+
 <div class="fondo">
     <br>
     <div class="centrado">
@@ -66,15 +73,20 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="sel1">Seleccione el tipo de trámite para la carta </label>
+                    <div class="form-control">
+                        <select   id="sel1" >
+                            <option  ng-repeat="tipoSolicitud in tiposSolicitudes">{{tipoSolicitud.nombre}} </option>
+                        </select>
+                    </div>
 
-                    <select  class="form-control" style="border-bottom-color: #0D47A1;" id="sel1" >
-                       <option  ng-repeat="tipoSolicitud in tiposSolicitudes">{{tipoSolicitud.nombre}} </option>                       
-                    </select>
 
-                    <label for="sel2">Seleccione una de las siguientes sedes </label>            
-                    <select  class="form-control" style="border-bottom-color: #0D47A1;" id="sel2" >
-                        <option  ng-repeat="opcion in opcionesSedes">{{opcion.nombre}} </option>                      
-                    </select>
+                    <label for="sel2">Seleccione una de las siguientes sedes </label>
+                    <div class="conBorde form-control">
+                        <select  id="sel2" >
+                            <option  ng-repeat="opcion in opcionesSedes">{{opcion.nombre}} </option>
+                        </select>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">

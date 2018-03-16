@@ -7,7 +7,7 @@ angular.module('userModule')
 
     $scope.tiposSolicitudes=solicitudesDisponibles;
     $scope.opcionesSedes=sedes;
-    $scope.carnet="2016254066";
+    $scope.carnet="2015018474";
     $scope.tramite="";    
     $scope.solicitudes;
     $scope.opcionSolicitud;

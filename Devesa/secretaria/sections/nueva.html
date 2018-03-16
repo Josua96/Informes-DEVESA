@@ -1,13 +1,14 @@
 <!--Esta seccion permite realizar una nueva solicitud-->
-<div class="container-fluid">    
-    <FORM style="display:flex;justify-content:center;">
-        <ul class="menu2" style="display:flex;justify-content:center;width: 50%; list-style: none; background-color:#BDC1C1">
+<div class="container-fluid alingn-center">
+
+    <FORM class="container-fluid dateConfig align-center">
+        <ul class="menu2" style="list-style: none;">
         <center>        
             <br>
             <h3> Nueva Solicitud</h3>        	        
-            <li style="display:flex; justify-content:center;background-color:#BDC1C1; ">
-                <input id="carnet"  onkeypress="return event.charCode >= 48 && event.charCode<= 57"  style="display:flex; justify-content:center;width: 200px"
-                class="form-control" name="carnet" placeholder="Carnet estudiante" ng-model="carnetEstudiante">
+            <li style="display:flex; justify-content:center;">
+                <input id="carnet"  onkeypress="return event.charCode >= 48 && event.charCode<= 57"  style="display:flex; justify-content:center;width: 50%;"
+                class="form-control dateGetter" name="carnet" placeholder="Carnet estudiante" ng-model="carnetEstudiante">
             </li>
             <br>	
             <li><span>Tipo de tramite</span></li>
@@ -15,7 +16,7 @@
 
             <li style="display:flex; justify-content:center;">               
                     <div class="form-group">                            
-                            <select style="border: #2F9EE2" class="form-control form-control-lg" id="sel1" >
+                            <select style="border: #2F9EE2;width: 50%; " class="dateGetter form-control form-control-lg" id="sel1" >
                                 <option  ng-repeat="tipoSolicitud in tiposSolicitudes">{{tipoSolicitud.nombre}} </option>
                             </select>
                     </div>                              
