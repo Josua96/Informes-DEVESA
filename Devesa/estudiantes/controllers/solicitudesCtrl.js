@@ -54,7 +54,13 @@ angular.module('userModule')
             .then(function(response)
             {
                 $scope.solicitudes=response.data;
-                manageSolicitudesSuccessResponse($scope.solicitudes);
+                if ($scope.solicitudes.length > 0 ){
+                    $scope.solicitudes=setTextSolicitudes($scope.solicitudes);
+                }
+                else
+                {
+                mostrarNotificacion("Usted no posee solicitudes pendientes",3);
+                 }
 
             },function (response) 
             {
