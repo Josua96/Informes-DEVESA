@@ -75,7 +75,7 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
                 $scope.sede)
                 .then(function(response){
                     $scope.actividades = response.data;
-                    if ($scope.actividades.length > 0) { // validacion de que existan informes a mostrar
+                    if ($scope.actividades.length > 0) { // si existen informes a mostrar
                         $scope.asignarEncargados(); //ir a asignar encargados a la lista de diccionarios de id's de encargados
                         $scope.confirmacion(); //solicitar confirmación para generar el descargable
                     }

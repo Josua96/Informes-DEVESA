@@ -69,7 +69,7 @@ angular.module('profesorModule')
         $scope.borrarImagenServidor = function (nombre)
         {
             $.ajax(
-                {url:API_ROOT+':/DEVESA/eliminar.php?archivo='+nombre, type:'GET'}
+                {url:API_ROOT+':8080/DEVESA/eliminar.php?archivo='+nombre, type:'GET'}
             )
                 .done(function(msg)
                 {
@@ -124,7 +124,7 @@ angular.module('profesorModule')
                 archivos.append('archivo'+i,archivo[i]);
             }
 
-            $.ajax({url:API_ROOT+'/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false}).done(
+            $.ajax({url:API_ROOT+':8080/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false}).done(
                 function(msg)
                 {
                     if(msg !== "ERROR")
@@ -182,7 +182,7 @@ angular.module('profesorModule')
                     },
                     function error(response)
                     {
-                        mostrarNotificacion("Ocurrió un error y no fue editar el informe",1);
+                        mostrarNotificacion("Ocurrió un error y no fue posible editar el informe",1);
                     }
                 );
             }

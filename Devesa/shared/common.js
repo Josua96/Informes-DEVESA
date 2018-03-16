@@ -279,6 +279,9 @@ function manageErrorResponse(response, errorMessage) {
     }
 }
 
+
+
+
 //funcion para mostrar al usuario de manera bien escrita el tipo de carta solicitada 
 function setTextSolicitudes(solicitudes ){
     var size=solicitudesDisponibles.length;
