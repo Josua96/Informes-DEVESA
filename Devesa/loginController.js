@@ -36,7 +36,7 @@ app.controller('loginController', function($scope, $http)
         {
             localStorage.setItem("user001", $scope.username);
             localStorage.setItem("password001", $scope.password);
-            window.location.href = ('profesores/MainView.html');
+            window.location.href = ('funcionarios/MainView.html');
         }
         else if($scope.username === "s")
         {

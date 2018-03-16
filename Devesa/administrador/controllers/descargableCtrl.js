@@ -10,7 +10,7 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
 
     //variable para almacenar el area de la actividad
     $scope.area="Area "+ textoInforme(areaInforme.informeArea);
-    //lista de profesores encargados de las actividades del area
+    //lista de funcionarios encargados de las actividades del area
     $scope.encargados=[];
     //lista de actividades del area
     $scope.actividades=[];

@@ -148,7 +148,7 @@ angular.module('profesorModule')
                 });
 
                 mostrarNotificacion("Guardado",2);
-                window.location.href =('#/profesores/informesEnviados');
+                window.location.href =('#/funcionarios/informesEnviados');
         };
 
 

@@ -69,7 +69,7 @@ angular.module('profesorModule')
             datosInforme.programa= informe["v_programa"];
             datosInforme.numeroEstudiantes= informe["v_cantestudiantes"];
             datosInforme.sede = informe["v_sede"];
-            window.location.href = ('#/profesores/Ver-Editar');
+            window.location.href = ('#/funcionarios/Ver-Editar');
         };
         $scope.obtenerInformes();
     });

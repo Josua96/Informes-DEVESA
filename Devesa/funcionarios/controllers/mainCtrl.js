@@ -9,6 +9,6 @@ angular.module('profesorModule')
             $scope.email = "ejemplo@email.com";
             console.log($scope.user);
             console.log($scope.email);
-            window.location.href =('#/profesores/inicio');
+            window.location.href =('#/funcionarios/inicio');
         }
     );

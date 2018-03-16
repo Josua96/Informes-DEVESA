@@ -1,9 +1,17 @@
 angular.module('profesorModule')
-    //consumo de endpoints relacionados con los profesores
+    /**
+     * Este service permite hacer las diferentes consultas
+     * al web service.
+     *
+     * */
+
     .service('peticiones',['$http',function($http)
     {
 
-
+        /*
+        * Permite a los funcionarios crear un nuevo informe
+        *
+        * */
         this.nuevoInforme=function(idFuncionario,codigoArea,actividad,fechaInicio,objetivo,programa,cantidadEstudiantes,fechaFin,sede,codigo)
         {
             return $http(
