@@ -297,22 +297,6 @@ function setTextSolicitudes(solicitudes ){
     return solicitudes;
 }
 
-/**
- *
- * @param solicitudes: arreglo que contiene las solicitudes a mostrar al usuario
- * @param message: mensaje a exhibir en caso de que el arreglo esté vacío
- * Retorna: un array
- */
-function manageSolicitudesSuccessResponse(solicitudes,message) {
-    if (solicitudes.length===0)
-    {
-        mostrarNotificacion(message,3);
-        return solicitudes;
-    }
-    else{
-        return setTextSolicitudes(solicitudes);
-    }
-}
 
 
 
