@@ -13,7 +13,7 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
     
     //areas a recorrer
     $scope.areas=CODIGOS_AREAS;
-    //lista de profesores encargados de las actividades del area
+    //lista de funcionarios encargados de las actividades del area
     $scope.encargados=[];
     //lista de actividades del area
     $scope.actividades=[];

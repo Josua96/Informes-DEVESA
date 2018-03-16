@@ -1,4 +1,4 @@
-angular.module('profesorModule')
+angular.module('funcionarioModule')
     .controller('edicionCtrl', function($scope,$location,$http, datosInforme, peticiones)
     {
         $scope.informe = datosInforme;
@@ -148,7 +148,7 @@ angular.module('profesorModule')
                 });
 
                 mostrarNotificacion("Guardado",2);
-                window.location.href =('#/profesores/informesEnviados');
+                window.location.href =('#/funcionarios/informesEnviados');
         };
 
 

@@ -95,7 +95,7 @@
 
     text-decoration: none;
 }
-@media (max-width: 000px) {
+@media (max-width: 800px) {
     .textInformes {
         margin-top:-10%;
     }

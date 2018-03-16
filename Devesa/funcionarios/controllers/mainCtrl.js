@@ -1,4 +1,4 @@
-angular.module('profesorModule')
+angular.module('funcionarioModule')
     .controller('mainCtrl', function($scope,$location)
         {
             $scope.codigo=localStorage.getItem("sessionToken");
@@ -9,6 +9,6 @@ angular.module('profesorModule')
             $scope.email = "ejemplo@email.com";
             console.log($scope.user);
             console.log($scope.email);
-            window.location.href =('#/profesores/inicio');
+            window.location.href =('#/funcionarios/inicio');
         }
     );
