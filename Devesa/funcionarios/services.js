@@ -130,7 +130,6 @@ angular.module('funcionarioModule')
                 })
         }
 
-
     }])    
     /**
      * Crea un objeto donde se guardan los datos del profesor, para mantener comunicacion entre controladores. 
