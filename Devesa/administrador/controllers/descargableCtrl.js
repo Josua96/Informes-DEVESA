@@ -30,6 +30,19 @@ angular.module('adminModule').controller('descargableCtrl', function($scope,$loc
      *
      */
     $scope.asignarEncargados=function () {
+
+
+        /*
+        boceto de la funcion a implementar para cargar la informacion
+
+        lista.forEach(
+            validacion de si el funcionario no se encontraba ya en la lista //función que estará en el common
+            realizar peticion
+                aumentar contador
+                    validacion de si ya se cargó la información de todos los funcionarios para hacer el callback
+        )
+         */
+
         var limite= $scope.actividades.length;
         var i=0;
         for(i=0;i <limite;i++){

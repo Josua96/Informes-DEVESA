@@ -42,7 +42,7 @@ angular.module('userModule')
     };
 
     /** 
-     * Obtiene las solicitudes realizadas por los estudiante y las almacena en una variable global
+     * Obtiene las solicitudes realizadas por el estudiante y las almacena en una variable global
      *
      * @param none
      * @returns none
