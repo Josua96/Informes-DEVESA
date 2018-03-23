@@ -15,10 +15,11 @@
                     <td><h4>Fecha de finalización</h4> </td>
                     <td><h4>Sede</h4> </td>
                     <td><h4>Acción</h4></td>
+                    <td><h4></h4></td>
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody style="background-color: white;">
                 <tr editable-td row="{{$index}}"
                     dir-paginate="informe in misInformes|itemsPerPage:cantidadElementos"
                     current-page="paginaActual">
@@ -29,6 +30,20 @@
                     <td>{{informe.v_sede}} </td>
 
                     <td><button type="button" class="btn" ng-click="editarInformes($index)"  onmouseout='this.style.backgroundColor="#E1E5E8"' onmouseover='this.style.backgroundColor="#2F9EE2"' style="color:black;">Ver/Editar</button></td>
+                    <td>
+                        <button
+                                type="button"
+                                class="btn bagTecEliminar"
+                                onmouseout='this.style.backgroundColor="#E1E5E8"'
+                                style="color:black;"
+                                onmouseover='this.style.backgroundColor="#2F9EE2"'
+                                data-toggle="tooltip"
+                                title="Eliminar"
+                                ng-click="eliminarConfirmacion($index)">
+                            <i class="material-icons right">delete</i>
+
+                        </button>
+                    </td>
                 </tr>
             </tbody>
 

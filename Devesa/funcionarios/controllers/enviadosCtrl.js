@@ -45,6 +45,38 @@ angular.module('funcionarioModule')
             );
         };
 
+        /**
+         * Permite eliminar un informe, pero antes le pide la confirmacion al usuarion.
+         *
+         * @param {number} ind  // recive un indice
+         * */
+
+        $scope.eliminarConfirmacion= function (ind)
+        {
+            swal({ //mostrar cuadro de dialogo para confirmacion del proceso de eliminado
+                    title: "Eliminar informe?",
+                    text: "Una vez eliminada no habrá forma de recuperarlo!",
+                    type: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: "Cancelar",
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Continuar",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                function()
+                {
+                    var indice= getRealIndex(ind,$scope.cantidadElementos,$scope.paginaActual);
+
+                    peticiones.eliminarInforme(+$scope.misInformes[indice]["v_idinforme"],idFuncionario,codigo)
+                        .then(function(response){
+                            mostrarNotificacion("Eliminado",2);
+                            $scope.solicitudes.splice(indice,1);
+                        },function (response) {
+                            manageErrorResponse(response,"Ocurrio un error");
+                        });
+                });
+        };
 
         /**         
          * Redirige al usuario a la seccion "Editar informe", pero antes carga los datos en un factory que almacena los

@@ -233,6 +233,30 @@ app.delete('/EliminarSolicitud', function(req, res) {
 
     	);
 });
+//Lista!
+app.delete('/EliminarInforme', function(req, res) {
+
+	validarToken(req.query.iden,"P",req.query.codigo,function(result){
+
+    	if (result===true){
+
+    			db.func('sp_eliminiarInforme',[req.query.idInforme])
+    				.then(data => {
+    					console.log(data.sp_eliminarInforme);
+    					res.end(JSON.stringify(data.sp_eliminarInforme));})
+    			.catch(error=>
+					{
+            			console.log("ERROR: ",error);
+        				res.status(400).send(
+            			{message:0});
+    				})
+    	}
+
+    	else{
+    		res.status(400).send({message:-1});
+    		}
+	});
+});
 
 
 //Lista!
