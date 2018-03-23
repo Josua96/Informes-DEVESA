@@ -11,7 +11,7 @@ app.controller('loginController', function($scope, $http)
     $scope.password = "";
     $scope.id="2-0283-0995";
     $scope.codigo="wer3332";
-    $scope.carnet="2015018474";
+    $scope.carnet="2016254066";
     //$scope.codigo="wer3";
     $scope.sede="SC";
     $scope.sol="CCSS";

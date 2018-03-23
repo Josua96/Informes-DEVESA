@@ -72,21 +72,9 @@ angular.module('adminModule')
 
     }])
 
-    .factory('datosEstudiante',function()
-    {
-        var factory ={};
-        factory.carnet = "2345678987";
-        factory.tipoTramite = "Tipo de solicitud";
-        factory.elLa = "El";
-        factory.nombre = "Jesus Andrez Alvarado";
-        factory.cedulaEstudiante ="123456789";
-        factory.AO = "o";
-        factory.carrera= "Agronomia";
-        factory.idCosulta= "0";
-        factory.textoResidencia="";
-        return factory;
-    })
-
+    /**
+     *  Objeto factory para almacenar el id del informe del que se debe obtener más información
+     */
     .factory('idInformeEnCurso',function () {
         var factory={};
         factory.numeroInforme=-1;
@@ -95,6 +83,10 @@ angular.module('adminModule')
         return factory;
     })
 
+
+    /**
+     * El área de la que se desean obtener los informes.
+     */
     .factory('areaInforme',function () {
         var factory={};
         factory.informeArea="CU";

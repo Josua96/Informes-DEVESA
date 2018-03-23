@@ -17,14 +17,14 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
     $scope.encargados=[];
     //lista de actividades del area
     $scope.actividades=[];
-    $scope.desde=""; //fecha de inidcio para busqueda de los informes
+    $scope.desde=""; //fecha de inicio para busqueda de los informes
     $scope.hasta=""; //fecha final para busqueda de los informes
 
 
     /** Da formato a la fecha del informe
      *
      * @param fecha (DATE): fecha del informe
-     * @returns {string}
+     * @returns {string} fecha con formato
      */
     $scope.formatearFecha=function (fecha) {
         return fecha.slice(8,10)+"-"+fecha.slice(5,8)+fecha.slice(0,4);
@@ -71,22 +71,27 @@ angular.module('adminModule').controller('descargableTotalAreasCtrl', function($
         //verificar que no existan datos nulos
         if (noNulos([$scope.desde,$scope.hasta]) == true)
         {
-            peticionesAdministrador.obtenerInformesEntreFechas($scope.desde,$scope.hasta,$scope.id,$scope.codigo,
-                $scope.sede)
-                .then(function(response){
-                    $scope.actividades = response.data;
-                    if ($scope.actividades.length > 0) { // si existen informes a mostrar
-                        $scope.asignarEncargados(); //ir a asignar encargados a la lista de diccionarios de id's de encargados
-                        $scope.confirmacion(); //solicitar confirmación para generar el descargable
-                    }
-                    else {
-                        mostrarNotificacion("No se encontraron informes disponibles en ese rango de fechas", 1);
+            if ($scope.desde < $scope.hasta) {
+                peticionesAdministrador.obtenerInformesEntreFechas($scope.desde, $scope.hasta, $scope.id, $scope.codigo,
+                    $scope.sede)
+                    .then(function (response) {
+                        $scope.actividades = response.data;
+                        if ($scope.actividades.length > 0) { // si existen informes a mostrar
+                            $scope.asignarEncargados(); //ir a asignar encargados a la lista de diccionarios de id's de encargados
+                            $scope.confirmacion(); //solicitar confirmación para generar el descargable
+                        }
+                        else {
+                            mostrarNotificacion("No se encontraron informes disponibles en ese rango de fechas", 1);
 
-                    }
-                },function (response) {
-                    manageErrorResponse(response,"");
+                        }
+                    }, function (response) {
+                        manageErrorResponse(response, "");
 
-                });
+                    });
+            }
+            else{
+                mostrarNotificacion("Error en el rango de fechas, la primera fecha debe ser menor que la segunda",1)
+            }
          }
         else{
             mostrarNotificacion("Debe especificar el rango de fechas para buscar los informes", 1);
