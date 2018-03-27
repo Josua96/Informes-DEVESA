@@ -98,14 +98,6 @@ angular.module('adminModule')
                     });
                 });  
             };
-
-            /** Redireccionar al usuario a la vista de informes
-             * 
-             */
-            $scope.retroceder=function () {
-                
-                window.location.href="#/informes";
-            };
             
             $scope.cargarInforme();
     

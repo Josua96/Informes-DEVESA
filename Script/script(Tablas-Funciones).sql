@@ -73,7 +73,7 @@ create table imagenes
 (
     placa VARCHAR PRIMARY KEY NOT NULL,
     id_informe INT NOT NULL,
-    CONSTRAINT FK_idInforme_imagenes FOREIGN KEY (id_informe) REFERENCES informes ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT FK_idInforme_imagenes FOREIGN KEY (id_informe) REFERENCES informes(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 ------------------------------------------------ SEGURIDAD ---------------------------------------------------------
@@ -173,10 +173,6 @@ CREATE OR REPLACE FUNCTION sp_crearSolicitud(IN v_carne t_carne,IN v_tramite t_t
 RETURNS BOOLEAN AS
 $BODY$
 BEGIN
-		/** Definir límite de solicitudes del mismo tipo que puede realizar un estudiante */
-    	IF ((SELECT COUNT(*) FROM solicitudes WHERE v_carne=carne AND v_tramite=tramite AND v_sede=sede AND estado=true)>4) THEN
-    		RAISE EXCEPTION 'limite';
-    	END IF;
 
     	IF ((SELECT COUNT(*) FROM solicitudes WHERE v_carne=carne AND v_tramite=tramite AND v_sede=sede AND estado=FALSE)) THEN
     		RAISE EXCEPTION 'registrada';
@@ -344,6 +340,25 @@ BEGIN
 END;
 $BODY$
   LANGUAGE plpgsql;
+
+--===============================================================
+--AUTHOR: Julio Montano Hernández
+--CREATE DATE: 
+--DESCRIPTION: Elimina un informe de la tabla informes
+--   : Retorna true si el proceso fue exitoso, de lo contrario levanta una excepción.
+--===============================================================
+CREATE OR REPLACE FUNCTION sp_eliminarInforme
+(
+    IN v_idInforme INT
+) RETURNS BOOLEAN AS
+$BODY$
+BEGIN
+    DELETE FROM informes WHERE id=v_idInforme;
+    RETURN TRUE;
+END;
+$BODY$
+  LANGUAGE plpgsql;
+
 
 
 --===============================================================
