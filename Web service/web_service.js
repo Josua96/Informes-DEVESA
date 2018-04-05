@@ -95,13 +95,11 @@ app.post('/CrearSolicitud', function(req, res) {
     				})
     	}
 
-    	else{
-    			res.status(400).send(
-            				{message:-1});
+		else
+		{
+    			res.status(400).send({message:-1});
     	}
-
     	}
-
     	);
 
 });
@@ -232,24 +230,24 @@ app.delete('/EliminarSolicitud', function(req, res) {
     	);
 });
 //Lista!
-app.delete('/EliminarInforme', function(req, res) {
-
+app.delete('/EliminarInforme', function(req, res) 
+{
 	validarToken(req.query.iden,"P",req.query.codigo,function(result){
 
-    	if (result===true){
-
+		if (result===true)
+		{
     			db.func('sp_eliminiarInforme',[req.query.idInforme])
-    				.then(data => {
+					.then(data => 
+					{
     					console.log(data.sp_eliminarInforme);
-    					res.end(JSON.stringify(data.sp_eliminarInforme));})
-    			.catch(error=>
+						res.end(JSON.stringify(data.sp_eliminarInforme));
+					})
+    				.catch(error=>
 					{
             			console.log("ERROR: ",error);
-        				res.status(400).send(
-            			{message:0});
-    				})
+        				res.status(400).send({message:0});
+    				}); 
     	}
-
     	else{
     		res.status(400).send({message:-1});
     		}
