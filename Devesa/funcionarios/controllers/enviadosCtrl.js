@@ -68,11 +68,12 @@ angular.module('funcionarioModule')
                 {
                     var indice= getRealIndex(ind,$scope.cantidadElementos,$scope.paginaActual);
 
-                    peticiones.eliminarInforme(+$scope.misInformes[indice]["v_idinforme"],idFuncionario,codigo)
+                    peticiones.eliminarInforme($scope.misInformes[indice]["v_idinforme"],idFuncionario,codigo)
                         .then(function(response){
-                            mostrarNotificacion("Eliminado",2);
                             $scope.misInformes.splice(indice,1);
+                            mostrarNotificacion("Eliminado",2);
                         },function (response) {
+
                             manageErrorResponse(response,"Ocurrio un error");
                         });
                 });
