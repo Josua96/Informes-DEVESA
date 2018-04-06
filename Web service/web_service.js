@@ -247,7 +247,8 @@ app.delete('/EliminarInforme', function(req, res)
         				res.status(400).send({message:0});
     				}); 
     	}
-    	else{
+    	else
+    		{
     		res.status(400).send({message:-1});
     		}
 	});
@@ -335,14 +336,13 @@ app.get('/ObtenerInformesFuncionario', function(req, res) {
       					res.end(JSON.stringify(data));
     			
     				})
-
-    				.catch(error=> {
+    				.catch(error=>
+                    {
             			console.log("ERROR: ",error);
         				res.status(400).send(
             			{message:0});
-    				})
+    				});
     	}
-
     	else{
     			res.status(400).send(
             				{message:-1});

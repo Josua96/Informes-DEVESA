@@ -14,9 +14,6 @@ angular.module('funcionarioModule')
 
         /** 
          * Permite ubicar el select de las sedes en la  posicion que trae el informe.
-         * 
-         * @param none
-         * @return none     
         */
         function ubicarSede()
         {
