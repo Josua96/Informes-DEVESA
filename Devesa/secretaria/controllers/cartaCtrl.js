@@ -6,13 +6,14 @@ angular.module('secretariaModule').controller('cartaCtrl', function($scope,$loca
     $scope.codigo=localStorage.getItem("sessionToken");
     $scope.id=localStorage.getItem("userId");
 
-
     $scope.fechas;
     $scope.mesInicio;
     $scope.mesFin;
     $scope.mesActual;
     $scope.fechaCarta;
-    
+    $scope.directora_devesa = "Noidy Salazar Arrieta";
+    $scope.sede = "sede regional San Carlos";
+
     $scope.carnet = datosEstudiante.carnet;
     $scope.elLa = datosEstudiante.elLa;
     $scope.nombreEstudiante = datosEstudiante.nombre;
@@ -70,10 +71,6 @@ angular.module('secretariaModule').controller('cartaCtrl', function($scope,$loca
      *  de cancelar la impresión de la carta
      * 
      */
-    $scope.cancelar = function()
-    {
-        window.location.href =('#/solicitudes');  
-    };
 
     /*
     ** Funcion para envar a impresión el contenido de un DIV

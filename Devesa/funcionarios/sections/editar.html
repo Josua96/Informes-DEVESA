@@ -1,6 +1,6 @@
-<div class="container-fluid" id="edicionDiv" style="padding:0;background-color:#E6E6E6;">
-    <FORM>
-        <ul class="menu2" style="justify-content:center; list-style: none;">
+<div class="container-fluid body" id="edicionDiv" style="padding:0;background-color:#FFF;">
+    <FORM style="background-color: #FFFFFF;">
+        <ul class="menu2 body"  style="justify-content:center; list-style: none;">
             <li>
                 <h3>Editar informe</h3>
             </li>
@@ -8,7 +8,7 @@
             <li class="formInputs">
                 <div class="form-group">
                     <label for="sel1">Area</label>
-                    <select class="form-control" id="sel1" ng-model="opcion"  ng-options="opcion for opcion in opciones">
+                    <select class="form-control" id="sel1" ng-model="opcion" style="border:1px solid #ADAFAE;"  ng-options="opcion for opcion in opciones">
                     </select>
                 </div>
             </li>
@@ -16,7 +16,7 @@
             <li class="formInputs">
                 <div class="form-group">
                     <label for="sel1">Seleccione la sede</label>
-                    <select class="form-control" id="sedes" ng-model="sedeSeleccionada"  ng-options="opcion.nombre for opcion in nombreSedes">
+                    <select class="form-control" id="sedes" ng-model="sedeSeleccionada" style="border:1px solid #ADAFAE;"  ng-options="opcion.nombre for opcion in nombreSedes">
                     </select>
                 </div>
             </li>
@@ -25,7 +25,7 @@
             <li class="formInputs">
                 <div class="form-group">
                     <label for="i1">Nombre de la actividad</label>
-                    <input  id="i1" class="form-control" ng-model="informe.actividad">
+                    <input  id="i1" class="form-control" style="border:1px solid #ADAFAE;" ng-model="informe.actividad">
                 </div>
             </li>
 
@@ -35,7 +35,7 @@
                     <br>
                     <label for="date2">Actual: {{informe.fechaInicio}}</label>
                     <!--<input class="form-control" id="date2" ng-model="informe.fechaInicio" name="date2"/>-->
-                    <input required class="form-control" id="date2"  name="fechas" type="date"/>
+                    <input required class="form-control" id="date2" style="border:1px solid #ADAFAE;" name="fechas" type="date"/>
                 </div>
             </li>
 
@@ -45,28 +45,28 @@
                     <br>
                     <label for="date2">Actual: {{informe.fechaFinal}}</label>
                     <!--<input class="form-control" id="date3" ng-model ="informe.fechaFinal" name="date2"/>-->
-                    <input required class="form-control" id="date3"  name="fechas" type="date"/>
+                    <input required class="form-control" id="date3" style="border:1px solid #ADAFAE;" name="fechas" type="date"/>
                 </div>
             </li>
 
             <li class="formInputs">
                 <div class="form-group">
                     <label for="comment1">Objetivo de la actividad</label>
-                    <textarea class="form-control" rows="5" ng-model="informe.objetivo" id="comment1"></textarea>
+                    <textarea class="form-control" rows="5" style="border:1px solid #ADAFAE;" ng-model="informe.objetivo" id="comment1"></textarea>
                 </div>
             </li>
 
             <li class="formInputs">
                 <div class="form-group">
                     <label for="comment2">Programa</label>
-                    <input class="form-control" ng-model="informe.programa" id="comment2">
+                    <input class="form-control" style="border:1px solid #ADAFAE;" ng-model="informe.programa" id="comment2">
                 </div>
             </li>
 
             <li class="formInputs">
                 <div class="form-group">
                     <label for="numeroEstudiantes">Cantidad personas</label>
-                    <input id="numeroEstudiantes" ng-model='informe.numeroEstudiantes' onkeypress="return event.charCode >= 48 && event.charCode<= 57"  class="form-control" placeholder="Cantidad personas">
+                    <input id="numeroEstudiantes" style="border:1px solid #ADAFAE;" ng-model='informe.numeroEstudiantes' onkeypress="return event.charCode >= 48 && event.charCode<= 57"  class="form-control" placeholder="Cantidad personas">
                 </div>
             </li>
 

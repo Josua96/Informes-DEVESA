@@ -7,6 +7,12 @@
   font-size: 3em;
 }
 
+.whitBorder
+{
+    border:1px solid #ADAFAE;
+}
+
+
 .dateGetter{
   -webkit-border-radius: 5px 10px;  /* Safari  */
   -moz-border-radius: 5px 10px;     /* Firefox */
@@ -2434,7 +2440,7 @@
 
 /* General ===================================== */
 body {
-  background-color:#E6E6E6;
+  background-color: #ffffff;
   -moz-transition: all 0.5s;
   -o-transition: all 0.5s;
   -webkit-transition: all 0.5s;

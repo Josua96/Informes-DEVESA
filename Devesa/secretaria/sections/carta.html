@@ -22,18 +22,17 @@
     
 <div >
     <p class="justificado">		
-        La suscrita  MSc. Noidy Salazar Arrieta, Directora de Departamento de Vida
-        Estudiantil y Servicios Académicos(DEVESA) del Instituto Tegnológico  de Costa Rica,
-        Sede Regional San Carlos, hace constar que:		        
+        La suscrita   {{directora_devesa}}, Directora de Departamento de Vida
+        Estudiantil y Servicios Académicos(DEVESA) del Instituto Tecnológico  de Costa Rica,
+        {{sede}}, hace constar que:
     </p>
     <p class="justificado">
         {{elLa}}  estudiante: <b> {{nombreEstudiante}}</b>, carné N°.<b>{{carnet}}</b> ,
-        cédula N°.<b>{{cedulaEstudiante}}</b> ,es alumn{{AO}} regular de esta institucion en la carrera de:
+        cédula N°.<b>{{cedulaEstudiante}}</b> ,es alumn{{AO}} regular de esta institución en la carrera de:
         <b>{{carrera}}</b> , matriculad{{AO}} en el presente curso lectivo que va desde {{periodoActual}}        
     </p>
     <p id="textResidencia" class="justificado" >{{textoResidencia}}</p>
-    
-    
+
     <p class="justificado">
         El actual documento se encuentra exento de timbres, de conformidad con la Ley número 
         mil tresientos veintiuno del veintisiete  de abril del año mil novecientos setenta y nueve.
@@ -50,7 +49,8 @@
 					Atentamente 
 				<br> <br><br>
 				<b>
-			         MSC.NOIDY SALAZAR ARRIETA 
+                    {{directora_devesa}}
+			          <!--Hay que agregar una variable-->
 					           <br>
 			             DIRECTORA-DEVESA
 				</b>	
@@ -58,6 +58,6 @@
 	</div>
     <button id="botnImp" ng-click="imprimir('imprimir')" data-toggle="tooltip" title="Imprimir" > <i class="medium material-icons right">print</i>
         </button>
-    <button id="botnCancel" ng-click="cancelar()" data-toggle="tooltip" title="Cancelar" > <i class="medium material-icons right">cancel</i></button>
+    <button id="botnCancel" onclick="window.location.href =('#/solicitudes');" data-toggle="tooltip" title="Cancelar" > <i class="medium material-icons right">cancel</i></button>
 
 </div>

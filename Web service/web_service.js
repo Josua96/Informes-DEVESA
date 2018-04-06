@@ -1,10 +1,10 @@
 var pg = require('pg');
-var conString = "postgres://postgres:12345@localhost:5432/devesa_app";
+var conString = "postgres://postgres:postgresql2017@localhost:5432/devesa_app";
 var client;
 var express = require('express');
 var app = express();
 var pgp = require('pg-promise')();
-var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: 'postgresql2017'};
 var db = pgp(cn);
 
 app.use(function(req, res, next) {
@@ -94,13 +94,11 @@ app.post('/CrearSolicitud', function(req, res) {
     				})
     	}
 
-    	else{
-    			res.status(400).send(
-            				{message:-1});
+		else
+		{
+    			res.status(400).send({message:-1});
     	}
-
     	}
-
     	);
 
 });
@@ -229,6 +227,30 @@ app.delete('/EliminarSolicitud', function(req, res) {
     	}
 
     	);
+});
+//Lista!
+app.delete('/EliminarInforme', function(req, res) 
+{
+	validarToken(req.query.iden,"P",req.query.codigo,function(result){
+
+		if (result===true)
+		{
+    			db.func('sp_eliminarInforme',[req.query.idInforme])
+					.then(data => 
+					{
+    					console.log(data);
+						res.end(JSON.stringify(data[0].sp_eliminarInforme));
+					})
+    				.catch(error=>
+					{
+            			console.log("ERROR: ",error);
+        				res.status(400).send({message:0});
+    				}); 
+    	}
+    	else{
+    		res.status(400).send({message:-1});
+    		}
+	});
 });
 
 

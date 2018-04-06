@@ -102,6 +102,10 @@ angular.module('funcionarioModule')
                 "&iden="+ idFuncionario + "&codigo="+ codigo+"&tipo="+ tipo})
         };
 
+        this.eliminarInforme=function (idInforme,idFuncionario,codigo)
+        {
+            return $http({method: "DELETE", url:API_ROOT+":8081/EliminarInforme?idInforme="+idInforme+ "&iden="+ idFuncionario + "&codigo="+ codigo});};
+
         /**
          * Permite modificar un informe en la base de datos. 
          * 
@@ -129,7 +133,6 @@ angular.module('funcionarioModule')
                     "&iden="+ idFuncionario + "&codigo=" + codigo + "&id="+idInforme+"&sede="+sede
                 })
         }
-
 
     }])    
     /**
