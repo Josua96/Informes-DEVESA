@@ -55,7 +55,7 @@ angular.module('funcionarioModule')
         {
             swal({ //mostrar cuadro de dialogo para confirmacion del proceso de eliminado
                     title: "Eliminar informe?",
-                    text: "Una vez eliminada no habrá forma de recuperarlo!",
+                    text: "Una vez eliminado no habrá forma de recuperarlo!",
                     type: "warning",
                     showCancelButton: true,
                     cancelButtonText: "Cancelar",
@@ -71,7 +71,7 @@ angular.module('funcionarioModule')
                     peticiones.eliminarInforme(+$scope.misInformes[indice]["v_idinforme"],idFuncionario,codigo)
                         .then(function(response){
                             mostrarNotificacion("Eliminado",2);
-                            $scope.solicitudes.splice(indice,1);
+                            $scope.misInformes.splice(indice,1);
                         },function (response) {
                             manageErrorResponse(response,"Ocurrio un error");
                         });
