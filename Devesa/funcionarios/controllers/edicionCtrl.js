@@ -15,9 +15,6 @@ angular.module('funcionarioModule')
 
         /** 
          * Permite ubicar el select de las sedes en la  posicion que trae el informe.
-         * 
-         * @param none
-         * @return none     
         */
         function ubicarSede()
         {
@@ -70,7 +67,7 @@ angular.module('funcionarioModule')
         $scope.borrarImagenServidor = function (nombre)
         {
             $.ajax(
-                {url:API_ROOT+':8080/DEVESA/eliminar.php?archivo='+nombre, type:'GET'}
+                {url:API_ROOT+':80/DEVESA/eliminar.php?archivo='+nombre, type:'GET'}
             )
                 .done(function(msg)
                 {
@@ -125,7 +122,8 @@ angular.module('funcionarioModule')
                 archivos.append('archivo'+i,archivo[i]);
             }
 
-            $.ajax({url:API_ROOT+':8080/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false}).done(
+            $.ajax({url:API_ROOT+':80/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false})
+            .done(
                 function(msg)
                 {
                     if(msg !== "ERROR")
@@ -164,11 +162,15 @@ angular.module('funcionarioModule')
             var fechaInicio=$scope.informe.fechaInicio;
             var fechaFinal = $scope.informe.fechaFinal;
 
-            if(noNulos([fechas[0].value, fechas[1].value]))
+            if (noNulos([fechas[0].value]))
             {
                 fechaInicio = fechas[0].value;
+            }
+
+            if (noNulos([fechas[1].value]))
+            {
                 fechaFinal = fechas[1].value;
-            }            
+            }
 
             if(noNulos([AREAS[document.getElementById("sel1").selectedIndex], $scope.informe.area, $scope.informe.actividad,$scope.informe.objetivo,$scope.informe.programa,   $scope.informe.numeroEstudiantes])===true)
             {

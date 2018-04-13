@@ -70,13 +70,13 @@ angular.module('funcionarioModule')
 
                     peticiones.eliminarInforme($scope.misInformes[indice]["v_idinforme"],idFuncionario,codigo)
                         .then(function(response){
-                            $scope.misInformes.splice(indice,1);
                             mostrarNotificacion("Eliminado",2);
-                        },function (response) {
-
+                            $scope.misInformes.splice(indice,1);
+                        },function (response)
+                        {
                             manageErrorResponse(response,"Ocurrio un error");
                         });
-                });
+        });
         };
 
         /**         

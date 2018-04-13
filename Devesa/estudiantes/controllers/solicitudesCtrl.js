@@ -28,9 +28,8 @@ angular.module('userModule')
                     mostrarNotificacion("La solicitud ha sido agregada",2);
                     $scope.cargarSolicitudes();
                 },function (response) {
-                    manageErrorResponse(response,"La solicitud no fue aceptada debido a " +
-                        "que usted alcanzó el límite de solictudes que puede realizar para este tipo de carta"+
-                        " o existe una solicitud del mismo tipo que aún no ha sido atendida");
+                    manageErrorResponse(response,"La solicitud no fue aceptada debido a " +                       
+                        "que existe una solicitud del mismo tipo que aún no ha sido atendida");
 
                 });
         }

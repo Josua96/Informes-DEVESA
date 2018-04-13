@@ -4,7 +4,7 @@ var client;
 var express = require('express');
 var app = express();
 var pgp = require('pg-promise')();
-var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: 'postgresql2017'};
 var db = pgp(cn);
 
 app.use(function(req, res, next) {
@@ -249,7 +249,8 @@ app.delete('/EliminarInforme', function(req, res)
         				res.status(400).send({message:0});
     				}); 
     	}
-    	else{
+    	else
+    		{
     		res.status(400).send({message:-1});
     		}
 	});
@@ -337,14 +338,13 @@ app.get('/ObtenerInformesFuncionario', function(req, res) {
       					res.end(JSON.stringify(data));
     			
     				})
-
-    				.catch(error=> {
+    				.catch(error=>
+                    {
             			console.log("ERROR: ",error);
         				res.status(400).send(
             			{message:0});
-    				})
+    				});
     	}
-
     	else{
     			res.status(400).send(
             				{message:-1});
