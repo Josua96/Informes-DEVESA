@@ -22,7 +22,7 @@ angular.module('adminModule')
              *  
              */
             $scope.cargarInforme=function () {
-                alert("numero de informe "+ idInformeEnCurso.numeroInforme);
+                
                 peticionesAdministrador.obtenerInformacionInforme(idInformeEnCurso.numeroInforme,$scope.id,$scope.codigo)
                     .then(function(response){
                         $scope.informe=response.data;
