@@ -66,7 +66,9 @@ app.delete('/eliminarToken',function(req,res)
 app.post('/registrarToken',function(req,res)
 {
 	db.proc('sp_almacenarToken',[req.query.iden,req.query.tipo,req.query.codigo])
-	.then(data => {res.end(JSON.stringify(true));})
+	.then(data => {
+            console.log("se esuchó la petición");
+            res.end(JSON.stringify(true));})
 	.catch(error => {console.log("ERROR: ",error);res.status(400).send({message:"Eror en registro"});})
 });
 

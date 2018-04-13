@@ -6,6 +6,7 @@ angular.module('funcionarioModule')
         var idFuncionario=localStorage.getItem("userId");
         var sede=localStorage.getItem("sede");
 
+        $scope.url=IMAGES_STORAGE_DIRECTION;
         $scope.opcion= $scope.informe.area;
         $scope.imagenes=[];
         $scope.opciones = AREAS;
