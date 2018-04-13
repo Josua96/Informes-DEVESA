@@ -109,13 +109,13 @@ app.controller('loginController', function($scope, $http)
         /* CON ESTA PETICION SE REGISTRARIA EL TOKEN DE UN USUARIO  */
         $http({
             method : "POST",
-            url :"http://localhost:8081/registrarToken?iden="+$scope.id+"&tipo="+$scope.tipoUsuario+
+            url :API_ROOT+":8081/registrarToken?iden="+$scope.id+"&tipo="+$scope.tipoUsuario+
             "&codigo="+$scope.codigo
         }).then(function (response) {
                 console.log("token_registrado");
                 $scope.redirigirUsuario();
             }, function (response) {
-                console.log(response.data.message);
+                
                 $scope.status ="Error de conexion";
             });
 
