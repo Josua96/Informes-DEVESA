@@ -335,8 +335,7 @@ app.get('/ObtenerInformesFuncionario', function(req, res) {
     				.then(data =>
                 	{
                         console.log(data);
-      					res.end(JSON.stringify(data));
-    			
+      					res.end(JSON.stringify(data));    			
     				})
     				.catch(error=>
                     {
@@ -481,13 +480,14 @@ app.get('/ObtenerInformeId', function(req, res) {
 app.post('/ModificarInforme', (req, res, next) => {
 
 	validarToken(req.query.iden,"P",req.query.codigo,function(result){
-    	console.log("result= " + result);
+		console.log("result= " + result);
+		console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+		console.log(req.query.fechaInicio);
     	if (result===true){
     			
     			db.func('sp_modificarInforme',[req.query.id,req.query.area, req.query.actividad, req.query.fechaInicio, req.query.fechaFinal, req.query.objetivo, req.query.programa, req.query.cantidadEstudiantes,req.query.sede])
 					.then(data => {
 						res.end(JSON.stringify(data));})
-
     				.catch(error=> {
             			console.log("ERROR: ",error);
         				res.status(400).send(

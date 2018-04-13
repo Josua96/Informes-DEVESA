@@ -341,6 +341,8 @@ END;
 $BODY$
   LANGUAGE plpgsql;
 
+ 
+
 --===============================================================
 --AUTHOR: Julio Montano Hernández
 --CREATE DATE: 
@@ -375,7 +377,7 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes_funcionario
     OUT v_funcionarioID t_cedula,
     OUT v_area t_area,
     OUT v_actividad VARCHAR(400),
-    OUT v_fechaInicio TIMESTAMP,
+    OUT v_fechaInicio DATE,
     OUT v_fechaFinal DATE,
     OUT v_objetivo VARCHAR(400),
     OUT v_programa VARCHAR(400),
@@ -385,11 +387,12 @@ CREATE OR REPLACE FUNCTION sp_obtenerInformes_funcionario
 ) RETURNS SETOF record AS
 $BODY$
 BEGIN
-	RETURN query SELECT id,funcionarioId,area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede
+	RETURN query SELECT id,funcionarioId,area,actividad,fechaInicio::DATE,fechaFinal,objetivo,programa,cantEstudiantes,sede
 	 FROM informes WHERE funcionarioID = ve_funcionarioID ORDER BY fechaInicio DESC;
 END;
 $BODY$
   LANGUAGE plpgsql;
+
 
 
 --===============================================================
@@ -546,9 +549,8 @@ DECLARE
     p_fechaInicio TIMESTAMP;
 
 BEGIN
-	p_fechaInicio = v_fechaInicio+(SELECT CURRENT_TIME);
 
-	raise notice 'valor de la fecha: % ',p_fechaInicio;
+	p_fechaInicio = v_fechaInicio+ (SELECT CURRENT_TIME);
 	UPDATE informes SET(area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede) = 
 			   (v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes, v_sede) 
 			   WHERE id = v_idInforme;	
@@ -557,6 +559,8 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql;
+
+select * from informes
 
 --===============================================================
 --AUTHOR: Andrey Murillo

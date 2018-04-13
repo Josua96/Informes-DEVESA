@@ -21,6 +21,12 @@ angular.module('funcionarioModule')
             var sedeInforme = document.getElementById("sedes").selectedIndex;
             if(noNulos([CODIGOS_AREAS[datos[0].selectedIndex], datos[1].value,datos[2].value, datos[3].value,datos[4].value,datos[5].value, datos[6].value, sedeInforme]))
             {
+                if(datos[2].value> datos[3].value)
+                {
+                    mostrarNotificacion("La fecha de inicio debe ser menor que la fecha final",1);
+                    return;
+                }
+    
                 var resp = peticiones.nuevoInforme(idProfesor,CODIGOS_AREAS[datos[0].selectedIndex],datos[1].value,datos[2].value,datos[4].value,datos[5].value,datos[6].value,datos[3].value,$scope.nombreSedes[sedeInforme].abreviatura,codigo);
                 resp.then(
                     function(response)
