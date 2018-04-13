@@ -547,6 +547,8 @@ DECLARE
 
 BEGIN
 	p_fechaInicio = v_fechaInicio+(SELECT CURRENT_TIME);
+
+	raise notice 'valor de la fecha: % ',p_fechaInicio;
 	UPDATE informes SET(area,actividad,fechaInicio,fechaFinal,objetivo,programa,cantEstudiantes,sede) = 
 			   (v_area,v_actividad,p_fechaInicio,v_fechaFinal,v_objetivo,v_programa,v_cantEstudiantes, v_sede) 
 			   WHERE id = v_idInforme;	
