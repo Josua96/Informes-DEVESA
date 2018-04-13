@@ -5,7 +5,7 @@ angular.module('adminModule')
             $scope.codigo=localStorage.getItem("sessionToken");
             $scope.id=localStorage.getItem("userId");
             $scope.tipoUsuario=localStorage.getItem("userType");
-
+            $scope.url_images = IMAGES_STORAGE_DIRECTION;
             $scope.informe;
             $scope.imagenes=[];
             
@@ -22,7 +22,6 @@ angular.module('adminModule')
              *  
              */
             $scope.cargarInforme=function () {
-                alert("numero de informe "+ idInformeEnCurso.numeroInforme);
                 peticionesAdministrador.obtenerInformacionInforme(idInformeEnCurso.numeroInforme,$scope.id,$scope.codigo)
                     .then(function(response){
                         $scope.informe=response.data;
@@ -64,7 +63,7 @@ angular.module('adminModule')
 
                 //verificar que hayan imágenes cargadas
                 if ($scope.imagenes.length === 0 ){
-                    mostrarNotificacion("Las imágenes aún no han sido desplegadas",1);
+                    mostrarNotificacion("Las imágenes aún no han sido desplegadas o no existen imagenes asociadas a este",1);
                     return;
                 }
                 

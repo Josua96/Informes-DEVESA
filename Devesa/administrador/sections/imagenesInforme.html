@@ -26,9 +26,9 @@
         <span class="exhibidores">{{informe[0]["v_fechafinal"]}}</span>
         <br>
         <div class="container">
-            <a ng-repeat="imagen in imagenes" href="http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}" target="_blank">
+            <a ng-repeat="imagen in imagenes" href="{{url_images+imagen.v_nombre}}" target="_blank">
                     <!--<img ng-src="files/{{imagen.v_nombre}}" width="350px" height="auto" style="padding-left: 8px;">-->
-                <img class="galleryImages" ng-src = "http://localhost:8080/DEVESA/files/{{imagen.v_nombre}}">
+                <img class="galleryImages" ng-src = "{{url_images+imagen.v_nombre}}">
                 <br>
                 <br>
             </a>
