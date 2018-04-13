@@ -48,7 +48,7 @@ const AREAS = ["Dirección", "Secretaría", "Admisión y Registro", "Trabajo Soc
 
 const CODIGOS_AREAS = ['DI','SE','AYR','TSR','TSB','PS','BI','DE','CU','SOD','SME','SEN'];
 
-const IMAGES_STORAGE_DIRECTION= "http://172.24.160.220:8080/DEVESA/files/";
+const IMAGES_STORAGE_DIRECTION= "http://172.24.160.220:80/DEVESA/files/";
 
 // =========================================================
 

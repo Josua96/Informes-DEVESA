@@ -158,18 +158,25 @@ angular.module('funcionarioModule')
          */
         $scope.guardarInforme = function ()
         {
-            var fechas = document.getElementsByName("fechas");            
+            var fechas = document.getElementsByName("fechas");
+
             var fechaInicio=$scope.informe.fechaInicio;
             var fechaFinal = $scope.informe.fechaFinal;
 
             if (noNulos([fechas[0].value]))
             {
+                console.log(fechas[0].value);
                 fechaInicio = fechas[0].value;
             }
 
             if (noNulos([fechas[1].value]))
             {
                 fechaFinal = fechas[1].value;
+            }
+            if(fechaInicio> fechaFinal)
+            {
+                mostrarNotificacion("La fecha de inicio debe ser menor que la fecha final",1);
+                return;
             }
 
             if(noNulos([AREAS[document.getElementById("sel1").selectedIndex], $scope.informe.area, $scope.informe.actividad,$scope.informe.objetivo,$scope.informe.programa,   $scope.informe.numeroEstudiantes])===true)
