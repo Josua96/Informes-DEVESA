@@ -40,7 +40,7 @@ angular.module('funcionarioModule')
                 },
                 function error(response)
                 {
-                    mostrarNotificacion("Error de conexion",1);
+                    manageErrorResponse(response,"Ocurrio un error");
                 }
             );
         };
