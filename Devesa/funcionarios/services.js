@@ -123,8 +123,7 @@ angular.module('funcionarioModule')
          */
         this.modificarInforme=function (codigoArea,actividad,fechaInicio,fechaFinal, objetivoActividad,programa,cantidadEstudiantes,idFuncionario,codigo,idInforme,sede)
         {
-            console.log("EEEEEEEEEEEEEEEEEEEEEEEEE");
-            console.log(fechaInicio);
+            
             return $http(
                 {
                     method: "POST",

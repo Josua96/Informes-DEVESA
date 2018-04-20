@@ -173,7 +173,7 @@ angular.module('funcionarioModule')
             {
                 fechaFinal = fechas[1].value;
             }
-            if(fechaInicio> fechaFinal)
+            if(fechaInicio > fechaFinal)
             {
                 mostrarNotificacion("La fecha de inicio debe ser menor que la fecha final",1);
                 return;

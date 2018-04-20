@@ -4,7 +4,7 @@ var client;
 var express = require('express');
 var app = express();
 var pgp = require('pg-promise')();
-var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: 'postgresql2017'};
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
 var db = pgp(cn);
 
 app.use(function(req, res, next) {
@@ -480,8 +480,7 @@ app.get('/ObtenerInformeId', function(req, res) {
 app.post('/ModificarInforme', (req, res, next) => {
 
 	validarToken(req.query.iden,"P",req.query.codigo,function(result){
-		console.log("result= " + result);
-		console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+		
 		console.log(req.query.fechaInicio);
     	if (result===true){
     			
