@@ -64,7 +64,7 @@ angular.module('adminModule')
 
                 //verificar que hayan imágenes cargadas
                 if ($scope.imagenes.length === 0 ){
-                    mostrarNotificacion("Las imágenes aún no han sido desplegadas o no existen imagenes asociadas a este",1);
+                    mostrarNotificacion("Las imágenes aún no han sido desplegadas o no existen imagenes asociadas a este informe",1);
                     return;
                 }
                 

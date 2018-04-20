@@ -67,7 +67,7 @@ angular.module('funcionarioModule')
         $scope.borrarImagenServidor = function (nombre)
         {
             $.ajax(
-                {url:API_ROOT+':80/DEVESA/eliminar.php?archivo='+nombre, type:'GET'}
+                {url:API_ROOT+':89/DEVESA/eliminar.php?archivo='+nombre, type:'GET'}
             )
                 .done(function(msg)
                 {
@@ -122,7 +122,7 @@ angular.module('funcionarioModule')
                 archivos.append('archivo'+i,archivo[i]);
             }
 
-            $.ajax({url:API_ROOT+':80/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false})
+            $.ajax({url:API_ROOT+':89/DEVESA/subir.php', type:'POST', contentType:false, data:archivos, processData:false, cache:false})
             .done(
                 function(msg)
                 {

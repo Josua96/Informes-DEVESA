@@ -48,7 +48,7 @@ const AREAS = ["Dirección", "Secretaría", "Admisión y Registro", "Trabajo Soc
 
 const CODIGOS_AREAS = ['DI','SE','AYR','TSR','TSB','PS','BI','DE','CU','SOD','SME','SEN'];
 
-const IMAGES_STORAGE_DIRECTION= "http://172.24.160.220:80/DEVESA/files/";
+const IMAGES_STORAGE_DIRECTION= "http://172.24.4.41:89/DEVESA/files/";
 
 // =========================================================
 
@@ -56,7 +56,7 @@ const IMAGES_STORAGE_DIRECTION= "http://172.24.160.220:80/DEVESA/files/";
  * Dirección raíz del API.
  * @type {string}
  */
-const API_ROOT = "http://172.24.160.220";//"http://transportec-api.azurewebsites.net";
+const API_ROOT = "http://172.24.4.41";//"http://transportec-api.azurewebsites.net";
 
 /**
  * CONSTANTE DE SEDES EN EL SISTEMA
