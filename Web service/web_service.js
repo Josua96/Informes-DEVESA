@@ -4,7 +4,11 @@ var client;
 var express = require('express');
 var app = express();
 var pgp = require('pg-promise')();
+<<<<<<< HEAD
 var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: '12345'};
+=======
+var cn = {host: 'localhost', port: 5432, database: 'devesa_app', user: 'postgres', password: 'cm2015cdamid'};
+>>>>>>> 2ee35d059a8400e151b9d36f1f7b79be36c30fa5
 var db = pgp(cn);
 
 app.use(function(req, res, next) {
@@ -65,6 +69,7 @@ app.delete('/eliminarToken',function(req,res)
 
 app.post('/registrarToken',function(req,res)
 {
+	console.log("Consulta entrante");
 	db.proc('sp_almacenarToken',[req.query.iden,req.query.tipo,req.query.codigo])
 	.then(data => {
             console.log("se esuchó la petición");

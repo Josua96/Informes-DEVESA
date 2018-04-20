@@ -48,7 +48,8 @@ const AREAS = ["Dirección", "Secretaría", "Admisión y Registro", "Trabajo Soc
 
 const CODIGOS_AREAS = ['DI','SE','AYR','TSR','TSB','PS','BI','DE','CU','SOD','SME','SEN'];
 
-const IMAGES_STORAGE_DIRECTION= "http://172.24.113.114:80/DEVESA/files/";
+const IMAGES_STORAGE_DIRECTION= "http://172.24.4.41:89/DEVESA/files/";
+
 
 // =========================================================
 
@@ -56,7 +57,9 @@ const IMAGES_STORAGE_DIRECTION= "http://172.24.113.114:80/DEVESA/files/";
  * Dirección raíz del API.
  * @type {string}
  */
-const API_ROOT = "http://172.24.113.114";//"http://transportec-api.azurewebsites.net";
+
+const API_ROOT = "http://172.24.4.41";//"http://transportec-api.azurewebsites.net";
+
 
 /**
  * CONSTANTE DE SEDES EN EL SISTEMA
@@ -261,22 +264,33 @@ function mostrarNotificacion(texto,num)
  * @param response: variable que contiene un codigo con el se identifica si el error es de autorización o por alguna validación
  * @param errorMessage: mensaje en caso de que el error fue debido a una validación
  */
-function manageErrorResponse(response, errorMessage) {
-    if (response.data.message==-1){
-        mostrarNotificacion("Ocurrió un error al verificar su código de acceso, usted no posee un código válido",1);
+function manageErrorResponse(response, errorMessage) 
+{
+    try 
+    {
+        if (response.data.message==-1)
+        {
+            mostrarNotificacion("Ocurrió un error al verificar su código de acceso, usted no posee un código válido",1);
 
-        //esperar 5 segundos para redirigir al usuario a la página de inicio
-        setTimeout(function()
+            //esperar 5 segundos para redirigir al usuario a la página de inicio
+            setTimeout(function()
             { window.location.href = ('../index.html');
-        }, 5000);
-        
+            }, 5000);
+
+        }
+        else if (response.data.message==0)
+        {
+            mostrarNotificacion(errorMessage,1);
+        }
+        else{
+        mostrarNotificacion("Ocurrió un error asegurese de tener conexión a internet",1);
+        }
     }
-    else if (response.data.message==0){
-        mostrarNotificacion(errorMessage,1);
-    }
-    else{
+    catch(e)
+    {
         mostrarNotificacion("Ocurrió un error asegurese de tener conexión a internet",1);
     }
+ 
 }
 
 
